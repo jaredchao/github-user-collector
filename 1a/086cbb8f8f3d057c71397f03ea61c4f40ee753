@@ -1,0 +1,25 @@
+.gitignore
+  s_0e486e3dbb8350::t_8c01d934e65d9d 6
+README.md
+  s_0e486e3dbb8350::t_64d39d3dc9644a 65,89-112,116-119,122-124
+src/app.ts
+  s_0e486e3dbb8350::t_8a585ff742fed5 2,9-17,20-29
+tests/cors.test.ts
+  s_0e486e3dbb8350::t_f5e2eddba39017 1-75
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "1a086cbb8f8f3d057c71397f03ea61c4f40ee753",
+  "prompts": {},
+  "sessions": {
+    "s_0e486e3dbb8350": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "a226d532-d057-44c8-9f9e-6d5c82d03cd3",
+        "model": "unknown"
+      },
+      "human_author": "muluo <mengchao1027@gmail.com>"
+    }
+  }
+}
