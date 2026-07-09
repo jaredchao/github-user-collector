@@ -1,0 +1,21 @@
+.gitignore
+  s_0e486e3dbb8350::t_1310d133f7f969 7-9
+template.yaml
+  s_0e486e3dbb8350::t_3228c6bb6d416c 1-92
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "cb9f30ea68dbc48661259cc501f0f8cd42a611d5",
+  "prompts": {},
+  "sessions": {
+    "s_0e486e3dbb8350": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "a226d532-d057-44c8-9f9e-6d5c82d03cd3",
+        "model": "unknown"
+      },
+      "human_author": "muluo <mengchao1027@gmail.com>"
+    }
+  }
+}
