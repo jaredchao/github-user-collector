@@ -11,3 +11,4 @@ samconfig.toml
 .env.local
 .env.aws
 .env.deploy
+.cf-token

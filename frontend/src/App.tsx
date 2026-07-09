@@ -34,7 +34,7 @@ export function App() {
   return (
     <main>
       <h1>GitHub 用户查询</h1>
-      <p className="subtitle">输入用户名，抓取信息并存入数据库</p>
+      <p className="subtitle">输入 GitHub 用户名，抓取信息并存入数据库</p>
 
       <form onSubmit={handleSubmit}>
         <input
