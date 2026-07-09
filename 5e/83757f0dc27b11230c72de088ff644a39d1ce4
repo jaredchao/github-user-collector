@@ -1,0 +1,19 @@
+backend/package.json
+  s_0e486e3dbb8350::t_ef4d977a305c1b 12
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "5e83757f0dc27b11230c72de088ff644a39d1ce4",
+  "prompts": {},
+  "sessions": {
+    "s_0e486e3dbb8350": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "a226d532-d057-44c8-9f9e-6d5c82d03cd3",
+        "model": "unknown"
+      },
+      "human_author": "muluo <mengchao1027@gmail.com>"
+    }
+  }
+}
