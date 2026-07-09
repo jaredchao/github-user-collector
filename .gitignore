@@ -1,9 +1,13 @@
 node_modules/
 dist/
+.aws-sam/
 lambda.zip
-.env
+samconfig.toml
 *.log
+
+# Secrets. frontend/.env.production is committed on purpose: it holds only the
+# public API URL, and frontend code is public anyway.
+.env
+.env.local
 .env.aws
 .env.deploy
-samconfig.toml
-.aws-sam/

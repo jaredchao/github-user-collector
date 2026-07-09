@@ -1,6 +1,31 @@
 # GitHub User Collector
 
-抓取 GitHub 用户信息并存入 PostgreSQL。本地以 Hono HTTP 服务运行，部署到 AWS Lambda + API Gateway，数据库使用 VPC 私有子网中的 RDS。
+抓取 GitHub 用户信息并存入 PostgreSQL。后端以 Hono 运行于 AWS Lambda，经 API Gateway 对外；数据库为 VPC 私有子网中的 RDS。前端为 React 单页应用，部署在 Cloudflare Pages。
+
+## 仓库结构
+
+```
+backend/    Hono API，SAM 模板，数据库迁移
+frontend/   Vite + React 单页应用
+.github/    GitHub Actions 工作流
+```
+
+后端命令在 `backend/` 下执行，前端命令在 `frontend/` 下执行。
+
+## 架构
+
+```
+Cloudflare Pages (前端)
+      │ HTTPS + CORS
+      ▼
+API Gateway ──► Lambda (VPC 私有子网)
+                  ├──► NAT Gateway ──► GitHub API
+                  └──► RDS PostgreSQL (VPC 私有子网, TLS)
+
+跳板机 (私有子网, 无公网 IP) ◄── SSM 隧道 ── 本地，用于数据库迁移
+```
+
+Lambda、RDS、跳板机均无公网 IP。RDS 的 5432 端口仅对 Lambda 与跳板机所属的安全组开放。
 
 ## 接口
 
@@ -26,7 +51,10 @@
 
 前置：Node.js 22+、Docker。
 
+后端：
+
 ```bash
+cd backend
 npm install
 cp .env.example .env
 docker compose up -d     # 启动 PostgreSQL
@@ -42,11 +70,21 @@ curl -X POST localhost:3100/users \
   -d '{"username":"torvalds"}'
 ```
 
+前端：
+
+```bash
+cd frontend
+npm install
+npm run dev              # 监听 localhost:5173
+```
+
+`VITE_API_URL` 在 `.env.development` 与 `.env.production` 中配置。它是公开的 API 地址而非密钥，故纳入版本控制。
+
 ## 测试
 
 ```bash
-npm test         # 全部用例
-npm run typecheck
+cd backend  && npm test && npm run typecheck
+cd frontend && npm test && npm run typecheck
 ```
 
 `db.test.ts` 连接 Docker 中的真实 PostgreSQL 运行——`ON CONFLICT` 是数据库特有行为，mock 掉就失去了测试意义。运行前需先 `docker compose up -d`。
