@@ -2,6 +2,8 @@
 
 抓取 GitHub 用户信息并存入 PostgreSQL。后端以 Hono 运行于 AWS Lambda，经 API Gateway 对外；数据库为 VPC 私有子网中的 RDS。前端为 React 单页应用，部署在 Cloudflare Pages。
 
+> 完整的搭建过程、43 个踩坑记录与验证方法见 [docs/学习笔记.md](docs/学习笔记.md)。
+
 ## 仓库结构
 
 ```
