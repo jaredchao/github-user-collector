@@ -1,0 +1,59 @@
+.env.example
+  s_0e486e3dbb8350::t_42af54b08ef15a 1-2
+.gitignore
+  s_0e486e3dbb8350::t_ff94df0c5e1625 1-5
+README.md
+  s_0e486e3dbb8350::t_7e6e1c28b643fd 1-96
+docker-compose.yml
+  s_0e486e3dbb8350::t_95f1fb3a55301b 1-20
+migrations/001_init.sql
+  s_0e486e3dbb8350::t_5ba53b69a2a997 1-16
+package-lock.json
+  s_0e486e3dbb8350::t_e76b7e0c74ab81 1-2611
+package.json
+  s_0e486e3dbb8350::t_14477bd83ea1bf 1-28
+scripts/migrate.ts
+  s_0e486e3dbb8350::t_68422b402af923 1-23
+src/app.ts
+  s_0e486e3dbb8350::t_c21151cef117a7 1-41
+src/db.ts
+  s_0e486e3dbb8350::t_c2ddf8466549c9 1-98
+src/errors.ts
+  s_0e486e3dbb8350::t_e9f7fe94049731 1-20
+src/github.ts
+  s_0e486e3dbb8350::t_51fcda080fc0a0 1-81
+src/lambda.ts
+  s_0e486e3dbb8350::t_eeab60c8ba7f0d 1-4
+src/local.ts
+  s_0e486e3dbb8350::t_7eeb54af0c531b 1-8
+src/service.ts
+  s_0e486e3dbb8350::t_0df9e02acbceec 1-7
+tests/app.test.ts
+  s_0e486e3dbb8350::t_0e89bf0f6f817f 1-104
+tests/db.test.ts
+  s_0e486e3dbb8350::t_101d60a6253047 1-68
+tests/github.test.ts
+  s_0e486e3dbb8350::t_81760b36d4838f 1-87
+tests/service.test.ts
+  s_0e486e3dbb8350::t_f5c20d75ade7a3 1-37
+tsconfig.json
+  s_0e486e3dbb8350::t_2c63f5cddd5804 1-16
+vitest.config.ts
+  s_0e486e3dbb8350::t_37f600a7fc7235 1-11
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "53c77ad4727a8f2750553163cbafbfe1033705db",
+  "prompts": {},
+  "sessions": {
+    "s_0e486e3dbb8350": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "a226d532-d057-44c8-9f9e-6d5c82d03cd3",
+        "model": "unknown"
+      },
+      "human_author": "muluo <mengchao1027@gmail.com>"
+    }
+  }
+}
