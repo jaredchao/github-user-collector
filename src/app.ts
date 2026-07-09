@@ -1,11 +1,31 @@
 import { Hono } from "hono";
+import { cors } from "hono/cors";
 import { RateLimitError, UpstreamError, UserNotFoundError } from "./errors.js";
 import { fetchAndStore } from "./service.js";
 
 // GitHub allows alphanumerics and single inner hyphens, up to 39 characters.
 const USERNAME_PATTERN = /^[a-zA-Z0-9](?:[a-zA-Z0-9]|-(?=[a-zA-Z0-9])){0,38}$/;
 
+// Unset means "any origin", which suits local development. Production sets the
+// Cloudflare Pages domain here.
+function allowedOrigins(): string[] | "*" {
+  const configured = process.env.CORS_ORIGINS?.split(",")
+    .map((o) => o.trim())
+    .filter(Boolean);
+  return configured?.length ? configured : "*";
+}
+
 export const app = new Hono();
+
+app.use(
+  "/*",
+  cors({
+    origin: allowedOrigins(),
+    allowMethods: ["GET", "POST", "OPTIONS"],
+    allowHeaders: ["Content-Type"],
+    maxAge: 86400,
+  }),
+);
 
 app.get("/health", (c) => c.json({ status: "ok" }));
 

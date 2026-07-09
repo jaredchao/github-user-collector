@@ -62,6 +62,7 @@ esbuild 将全部依赖打进一个文件，因此无需上传 `node_modules`。
 - 运行时 `nodejs22.x`
 - 处理程序 `index.handler`
 - 环境变量 `DATABASE_URL` 指向 RDS 端点
+- 环境变量 `CORS_ORIGINS` 填前端域名，多个用逗号分隔；不设置则放行所有来源
 
 ## 结构
 
@@ -85,12 +86,40 @@ src/
 
 **GitHub 请求设 5 秒超时。** 否则上游无响应时 Lambda 会一直挂到自身超时。
 
-**数据库密码目前存于环境变量。** 生产环境应迁移至 AWS Secrets Manager，由 Lambda 在运行时读取。
+**数据库密码目前存于环境变量。** 生产环境应迁移至 AWS Secrets Manager，由 Lambda 在运行时读取。本项目出于成本考虑（Secrets Manager 按密钥每月计费）保留环境变量方案，这是一个有意识的权衡。
+
+**RDS 强制 SSL。** 参数组中 `rds.force_ssl = 1`，明文连接会被拒绝，报错信息是 `no pg_hba.conf entry ... no encryption`。连接串需带 `sslmode`。
+
+**本地经 SSM 隧道连库时用 `sslmode=no-verify`。** 隧道的本地端是 `localhost`，与 RDS 证书上的域名不符，严格校验必然失败。Lambda 在 VPC 内直连真实端点，主机名匹配，应改用 `verify-full` 并配置 AWS RDS CA 证书包。
+
+## 连接数据库
+
+RDS 位于私有子网且未开放公网访问，本地须经跳板机的 SSM 端口转发：
+
+```bash
+aws ssm start-session \
+  --target <bastion-instance-id> \
+  --document-name AWS-StartPortForwardingSessionToRemoteHost \
+  --parameters '{"host":["<rds-endpoint>"],"portNumber":["5432"],"localPortNumber":["5433"]}'
+```
+
+隧道开启后，用 `.env.aws` 中的连接串（指向 `localhost:5433`）运行迁移：
+
+```bash
+npx tsx --env-file=.env.aws scripts/migrate.ts
+```
+
+`.env.aws` 不纳入版本控制。注意 Lambda 使用的连接串指向 RDS 真实端点，与此不同。
 
 ## 待办
 
-- [ ] 搭建 VPC（公有／私有子网、Internet Gateway、NAT Gateway、路由表）
-- [ ] 创建 RDS PostgreSQL 实例于私有子网
+- [x] 搭建 VPC（公有／私有子网、Internet Gateway、NAT Gateway、路由表）
+- [x] 创建 RDS PostgreSQL 实例于私有子网
+- [x] 私有子网跳板机，经 SSM 运行数据库迁移
+- [x] CORS 中间件
 - [ ] 部署 Lambda 并接入 VPC
 - [ ] 配置 API Gateway
+- [ ] GitHub Actions OIDC 自动部署
+- [ ] 前端（Cloudflare Pages）
+- [ ] 连接串改用 `sslmode=verify-full` 并附 RDS CA 证书
 - [ ] 将数据库密码迁移到 Secrets Manager

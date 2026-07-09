@@ -3,3 +3,4 @@ dist/
 lambda.zip
 .env
 *.log
+.env.aws
