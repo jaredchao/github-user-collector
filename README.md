@@ -149,15 +149,49 @@ npx tsx --env-file=.env.aws scripts/migrate.ts
 
 `.env.aws` 不纳入版本控制。注意 Lambda 使用的连接串指向 RDS 真实端点，与此不同。
 
+## 线上地址
+
+- 前端：https://zuoye-frontend.pages.dev
+- API：https://qsmyj6l2q1.execute-api.us-east-2.amazonaws.com
+
+## 部署
+
+前端由 GitHub Actions 在推送到 `main` 时自动构建并发布到 Cloudflare Pages，见 `.github/workflows/frontend.yml`。所需的仓库 Secret 为 `CLOUDFLARE_API_TOKEN`（仅授予 `Cloudflare Pages: Edit` 权限）与 `CLOUDFLARE_ACCOUNT_ID`。
+
+后端目前手动部署：
+
+```bash
+cd backend
+npm run build
+sam deploy --stack-name zuoye-collector --region us-east-2 --resolve-s3 \
+  --capabilities CAPABILITY_IAM \
+  --parameter-overrides \
+    SubnetIdA=<private-subnet-a> SubnetIdB=<private-subnet-b> \
+    LambdaSecurityGroupId=<lambda-sg> \
+    DatabaseUrl="<postgres-url>" \
+    CorsOrigins=https://zuoye-frontend.pages.dev
+```
+
+VPC、子网、路由表、NAT Gateway、安全组、RDS、跳板机均为手动创建，不由 SAM 管理。模板通过参数引用它们。
+
 ## 待办
 
 - [x] 搭建 VPC（公有／私有子网、Internet Gateway、NAT Gateway、路由表）
 - [x] 创建 RDS PostgreSQL 实例于私有子网
 - [x] 私有子网跳板机，经 SSM 运行数据库迁移
-- [x] CORS 中间件
-- [ ] 部署 Lambda 并接入 VPC
-- [ ] 配置 API Gateway
-- [ ] GitHub Actions OIDC 自动部署
-- [ ] 前端（Cloudflare Pages）
+- [x] CORS 中间件，白名单限定前端域名
+- [x] 部署 Lambda 并接入 VPC
+- [x] 配置 API Gateway
+- [x] 前端（Cloudflare Pages），GitHub Actions 自动部署
+- [ ] 后端 GitHub Actions OIDC 自动部署
 - [ ] 连接串改用 `sslmode=verify-full` 并附 RDS CA 证书
 - [ ] 将数据库密码迁移到 Secrets Manager
+- [ ] 演示结束后销毁全部 AWS 资源，并摘除 `ai_user` 的 `IAMFullAccess`
+
+## 已知的简化
+
+**部署身份持有 `IAMFullAccess`。** SAM 需要 `iam:CreateRole` 来创建 Lambda 执行角色，而 `PowerUserAccess` 禁止一切 IAM 写操作。更安全的做法是把 IAM 权限限定在 `arn:aws:iam::<account>:role/zuoye-*` 前缀内，或预先手动创建执行角色由模板引用。生产环境应改用 GitHub Actions OIDC 联合身份，彻底去除长期访问密钥。
+
+**数据库密码存于 Lambda 环境变量。** 在控制台明文可见。应迁移至 AWS Secrets Manager。
+
+**NAT Gateway 按小时计费。** 约 $33/月，闲置也收费。演示完毕应销毁整套资源。
