@@ -1,0 +1,19 @@
+README.md
+  s_0e486e3dbb8350::t_276dcdd424bd1f 152-176,182-186,189-197
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "871eb734bb10d16c1adc9e2585c0621685d2f05f",
+  "prompts": {},
+  "sessions": {
+    "s_0e486e3dbb8350": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "a226d532-d057-44c8-9f9e-6d5c82d03cd3",
+        "model": "unknown"
+      },
+      "human_author": "muluo <mengchao1027@gmail.com>"
+    }
+  }
+}
