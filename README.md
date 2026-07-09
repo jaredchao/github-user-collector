@@ -156,13 +156,35 @@ npx tsx --env-file=.env.aws scripts/migrate.ts
 
 ## 部署
 
-前端由 GitHub Actions 在推送到 `main` 时自动构建并发布到 Cloudflare Pages，见 `.github/workflows/frontend.yml`。所需的仓库 Secret 为 `CLOUDFLARE_API_TOKEN`（仅授予 `Cloudflare Pages: Edit` 权限）与 `CLOUDFLARE_ACCOUNT_ID`。
+推送到 `main` 时按改动路径自动部署：`frontend/**` 触发 Cloudflare Pages 发布，`backend/**` 触发 SAM 部署并对线上 API 做冒烟测试。
 
-后端目前手动部署：
+VPC、子网、路由表、NAT Gateway、安全组、RDS、跳板机均为手动创建，不由 SAM 管理。模板通过参数引用它们。
+
+### 后端凭证：GitHub Actions OIDC
+
+CI 不持有长期 AWS 密钥。它向 GitHub 索取一个 OIDC 令牌，交给 AWS STS 换取有效期 1 小时的临时凭证，扮演 `zuoye-github-actions-deploy` 角色。
+
+该角色的信任策略把 `sub` 限定为 `repo:jaredchao/github-user-collector:ref:refs/heads/main`。**缺少这个条件，任何 GitHub 仓库的 Actions 都能扮演此角色。** 条件用 `StringEquals` 而非 `StringLike`：通配符会让 fork 后的仓库同样获得权限。
+
+角色权限为 `PowerUserAccess`，外加一条内联策略把 IAM 操作限定在 `arn:aws:iam::<account>:role/zuoye-collector-*` 前缀内——SAM 需要创建 Lambda 执行角色，但不该能碰其他角色。
+
+workflow 中必须声明 `permissions: id-token: write`，否则 GitHub 不签发令牌。
+
+### 仓库 Secrets
+
+| 名称 | 用途 |
+|------|------|
+| `AWS_DEPLOY_ROLE_ARN` | 待扮演的 IAM 角色 |
+| `DATABASE_URL` | RDS 连接串（含密码） |
+| `SUBNET_ID_A` / `SUBNET_ID_B` | Lambda 所在私有子网 |
+| `LAMBDA_SECURITY_GROUP_ID` | Lambda 安全组 |
+| `CLOUDFLARE_API_TOKEN` | 仅授予 `Cloudflare Pages: Edit` |
+| `CLOUDFLARE_ACCOUNT_ID` | Cloudflare 账号标识 |
+
+### 手动部署后端
 
 ```bash
-cd backend
-npm run build
+cd backend && npm run build
 sam deploy --stack-name zuoye-collector --region us-east-2 --resolve-s3 \
   --capabilities CAPABILITY_IAM \
   --parameter-overrides \
@@ -171,8 +193,6 @@ sam deploy --stack-name zuoye-collector --region us-east-2 --resolve-s3 \
     DatabaseUrl="<postgres-url>" \
     CorsOrigins=https://zuoye-frontend.pages.dev
 ```
-
-VPC、子网、路由表、NAT Gateway、安全组、RDS、跳板机均为手动创建，不由 SAM 管理。模板通过参数引用它们。
 
 ## 待办
 
@@ -183,15 +203,16 @@ VPC、子网、路由表、NAT Gateway、安全组、RDS、跳板机均为手动
 - [x] 部署 Lambda 并接入 VPC
 - [x] 配置 API Gateway
 - [x] 前端（Cloudflare Pages），GitHub Actions 自动部署
-- [ ] 后端 GitHub Actions OIDC 自动部署
+- [x] 后端 GitHub Actions OIDC 自动部署
 - [ ] 连接串改用 `sslmode=verify-full` 并附 RDS CA 证书
 - [ ] 将数据库密码迁移到 Secrets Manager
-- [ ] 演示结束后销毁全部 AWS 资源，并摘除 `ai_user` 的 `IAMFullAccess`
+- [ ] 摘除本地 IAM 用户 `ai_user` 的 `IAMFullAccess`（CI 已改用 OIDC，不再需要）
+- [ ] 演示结束后销毁全部 AWS 资源
 
 ## 已知的简化
 
-**部署身份持有 `IAMFullAccess`。** SAM 需要 `iam:CreateRole` 来创建 Lambda 执行角色，而 `PowerUserAccess` 禁止一切 IAM 写操作。更安全的做法是把 IAM 权限限定在 `arn:aws:iam::<account>:role/zuoye-*` 前缀内，或预先手动创建执行角色由模板引用。生产环境应改用 GitHub Actions OIDC 联合身份，彻底去除长期访问密钥。
+**本地 IAM 用户仍持有 `IAMFullAccess`。** 手动部署时 SAM 需要 `iam:CreateRole` 创建 Lambda 执行角色，而 `PowerUserAccess` 禁止一切 IAM 写操作。CI 已改用 OIDC 且权限受限，此授权可以摘除。
 
-**数据库密码存于 Lambda 环境变量。** 在控制台明文可见。应迁移至 AWS Secrets Manager。
+**数据库密码存于 Lambda 环境变量与 GitHub Secrets。** 前者在 AWS 控制台明文可见。应迁移至 AWS Secrets Manager，由 Lambda 在运行时按 IAM 权限读取。
 
 **NAT Gateway 按小时计费。** 约 $33/月，闲置也收费。演示完毕应销毁整套资源。
