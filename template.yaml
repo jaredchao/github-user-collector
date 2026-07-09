@@ -1,0 +1,92 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: GitHub user collector - Lambda behind API Gateway, inside an existing VPC
+
+Parameters:
+  # Two scalar parameters rather than a List: a comma-separated list has to be
+  # escaped on the deploy command line, which is easy to get wrong.
+  SubnetIdA:
+    Type: AWS::EC2::Subnet::Id
+    Description: Private subnet in the first availability zone
+
+  SubnetIdB:
+    Type: AWS::EC2::Subnet::Id
+    Description: Private subnet in the second availability zone
+
+  LambdaSecurityGroupId:
+    Type: AWS::EC2::SecurityGroup::Id
+    Description: Security group allowed to reach RDS on 5432
+
+  DatabaseUrl:
+    Type: String
+    NoEcho: true
+    Description: postgres://user:password@rds-endpoint:5432/github_users?sslmode=no-verify
+
+  CorsOrigins:
+    Type: String
+    Default: ""
+    Description: Comma-separated allowed origins. Empty means any origin.
+
+Globals:
+  Function:
+    Runtime: nodejs22.x
+    Architectures: [arm64]
+    # GitHub fetch times out at 5s; leave room for a cold start plus the database write.
+    Timeout: 15
+    MemorySize: 512
+
+Resources:
+  CollectorFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: zuoye-collector
+      CodeUri: dist/
+      Handler: index.handler
+      Description: Fetches a GitHub user and upserts it into RDS
+      Environment:
+        Variables:
+          DATABASE_URL: !Ref DatabaseUrl
+          CORS_ORIGINS: !Ref CorsOrigins
+          # The pg pool lives at module scope; keep the container alive between calls.
+          NODE_OPTIONS: --enable-source-maps
+      VpcConfig:
+        SubnetIds: [!Ref SubnetIdA, !Ref SubnetIdB]
+        SecurityGroupIds: [!Ref LambdaSecurityGroupId]
+      # Grants the ENI permissions a VPC-attached function needs.
+      Policies:
+        - VPCAccessPolicy: {}
+      Events:
+        Root:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref HttpApi
+            Path: /
+            Method: ANY
+        Proxy:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref HttpApi
+            Path: /{proxy+}
+            Method: ANY
+
+  HttpApi:
+    Type: AWS::Serverless::HttpApi
+    Properties:
+      StageName: $default
+      # Hono owns CORS so that error responses carry the headers too.
+      Description: Public entry point for the collector
+
+  LogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub /aws/lambda/${CollectorFunction}
+      RetentionInDays: 7
+
+Outputs:
+  ApiUrl:
+    Description: Base URL of the HTTP API
+    Value: !Sub https://${HttpApi}.execute-api.${AWS::Region}.amazonaws.com
+
+  FunctionName:
+    Description: Lambda function name
+    Value: !Ref CollectorFunction

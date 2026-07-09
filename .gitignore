@@ -4,3 +4,6 @@ lambda.zip
 .env
 *.log
 .env.aws
+.env.deploy
+samconfig.toml
+.aws-sam/
