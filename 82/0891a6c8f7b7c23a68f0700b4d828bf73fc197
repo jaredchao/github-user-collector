@@ -1,0 +1,19 @@
+.github/workflows/backend.yml
+  s_0e486e3dbb8350::t_0f30e48e471c9f 1-102
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "820891a6c8f7b7c23a68f0700b4d828bf73fc197",
+  "prompts": {},
+  "sessions": {
+    "s_0e486e3dbb8350": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "a226d532-d057-44c8-9f9e-6d5c82d03cd3",
+        "model": "unknown"
+      },
+      "human_author": "muluo <mengchao1027@gmail.com>"
+    }
+  }
+}
