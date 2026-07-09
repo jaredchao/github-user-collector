@@ -1,0 +1,21 @@
+.gitignore
+  s_0e486e3dbb8350::t_f151bd44567c9e 14
+frontend/src/App.tsx
+  s_0e486e3dbb8350::t_9effa63df26605 37
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "1b5ae82787f7839339f0f343466f5d28da5b2608",
+  "prompts": {},
+  "sessions": {
+    "s_0e486e3dbb8350": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "a226d532-d057-44c8-9f9e-6d5c82d03cd3",
+        "model": "unknown"
+      },
+      "human_author": "muluo <mengchao1027@gmail.com>"
+    }
+  }
+}
