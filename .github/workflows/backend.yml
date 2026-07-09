@@ -1,0 +1,102 @@
+name: Deploy backend
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "backend/**"
+      - ".github/workflows/backend.yml"
+  pull_request:
+    paths:
+      - "backend/**"
+
+# Required for the OIDC token exchange. Without id-token: write, GitHub will not
+# mint a token and the AWS credential step fails with a confusing 400.
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: appuser
+          POSTGRES_PASSWORD: localdevpassword
+          POSTGRES_DB: github_users
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U appuser -d github_users"
+          --health-interval 3s
+          --health-timeout 3s
+          --health-retries 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: backend/package-lock.json
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm test
+        env:
+          DATABASE_URL: postgres://appuser:localdevpassword@localhost:5432/github_users
+      - run: npm run build
+
+  deploy:
+    needs: test
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: backend/package-lock.json
+      - run: npm ci
+      - run: npm run build
+
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_DEPLOY_ROLE_ARN }}
+          aws-region: us-east-2
+
+      - uses: aws-actions/setup-sam@v2
+        with:
+          use-installer: true
+
+      - name: Deploy the SAM stack
+        run: |
+          sam deploy \
+            --stack-name zuoye-collector \
+            --region us-east-2 \
+            --resolve-s3 \
+            --capabilities CAPABILITY_IAM \
+            --no-confirm-changeset \
+            --no-fail-on-empty-changeset \
+            --parameter-overrides \
+              SubnetIdA=${{ secrets.SUBNET_ID_A }} \
+              SubnetIdB=${{ secrets.SUBNET_ID_B }} \
+              LambdaSecurityGroupId=${{ secrets.LAMBDA_SECURITY_GROUP_ID }} \
+              DatabaseUrl='${{ secrets.DATABASE_URL }}' \
+              CorsOrigins=https://zuoye-frontend.pages.dev
+
+      - name: Smoke test the deployed API
+        run: |
+          API=$(aws cloudformation describe-stacks --stack-name zuoye-collector \
+            --region us-east-2 --query 'Stacks[0].Outputs[?OutputKey==`ApiUrl`].OutputValue' --output text)
+          echo "Testing $API"
+          test "$(curl -s -o /dev/null -w '%{http_code}' "$API/health")" = "200"
+          test "$(curl -s -o /dev/null -w '%{http_code}' -X POST "$API/users" \
+            -H 'Content-Type: application/json' -d '{"username":"torvalds"}')" = "201"
