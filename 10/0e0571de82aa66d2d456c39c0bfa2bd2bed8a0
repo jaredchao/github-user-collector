@@ -1,0 +1,21 @@
+docs/学习笔记.md
+  s_0e486e3dbb8350::t_85d43b2bdb04fb 1-1532
+README.md
+  s_0e486e3dbb8350::t_1cf11a52739ff7 5-6
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "100e0571de82aa66d2d456c39c0bfa2bd2bed8a0",
+  "prompts": {},
+  "sessions": {
+    "s_0e486e3dbb8350": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "a226d532-d057-44c8-9f9e-6d5c82d03cd3",
+        "model": "unknown"
+      },
+      "human_author": "muluo <mengchao1027@gmail.com>"
+    }
+  }
+}
