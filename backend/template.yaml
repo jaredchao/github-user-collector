@@ -34,8 +34,11 @@ Parameters:
 
   CloudMapNamespaceId:
     Type: String
-    Default: ns-5fkzrmwi3bzbrcx3
-    Description: The zuoye.internal Cloud Map namespace
+    Default: ns-m5syodpxwy3gzlo3
+    Description: >-
+      The zuoye.api HTTP namespace. DNS namespaces reject services without a
+      DnsConfig, and Lambda has no IP to put in one, so API-type
+      registrations live in an HTTP namespace instead.
 
   CloudMapServiceName:
     Type: String
