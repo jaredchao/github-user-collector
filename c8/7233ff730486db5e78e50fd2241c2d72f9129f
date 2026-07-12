@@ -1,0 +1,23 @@
+docs/学习笔记.md
+  s_e41a08a6891c43::t_28c1e45cf78be2 1533-1534
+.github/workflows/pr-env.yml
+  s_e41a08a6891c43::t_d68c149c837e17 70-87
+  s_e41a08a6891c43::t_20f93314c91ece 45,51
+  s_e41a08a6891c43::t_f2219bca1091a1 25-30
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.12",
+  "base_commit_sha": "c87233ff730486db5e78e50fd2241c2d72f9129f",
+  "prompts": {},
+  "sessions": {
+    "s_e41a08a6891c43": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "fe1c60df-e471-465e-a877-388c609e3b05",
+        "model": "claude-fable-5"
+      },
+      "human_author": "muluo <mengchao1027@gmail.com>"
+    }
+  }
+}
