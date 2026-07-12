@@ -1,0 +1,22 @@
+.github/workflows/backend.yml
+  s_e41a08a6891c43::t_a368e9296e64a9 116
+backend/template.yaml
+  s_e41a08a6891c43::t_4562d6ff3c4949 35-44
+  s_e41a08a6891c43::t_663195c757dd77 102-120
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.12",
+  "base_commit_sha": "3dc43d799035fce28bf0c1bcc5276366de4e8846",
+  "prompts": {},
+  "sessions": {
+    "s_e41a08a6891c43": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "fe1c60df-e471-465e-a877-388c609e3b05",
+        "model": "claude-fable-5"
+      },
+      "human_author": "muluo <mengchao1027@gmail.com>"
+    }
+  }
+}
