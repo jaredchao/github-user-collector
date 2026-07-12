@@ -1,6 +1,12 @@
 import { Hono } from "hono";
 import { cors } from "hono/cors";
-import { RateLimitError, UpstreamError, UserNotFoundError } from "./errors.js";
+import {
+  IntroUnavailableError,
+  RateLimitError,
+  UpstreamError,
+  UserNotFoundError,
+} from "./errors.js";
+import { fetchIntro } from "./introClient.js";
 import { fetchAndStore } from "./service.js";
 
 // GitHub allows alphanumerics and single inner hyphens, up to 39 characters.
@@ -46,6 +52,18 @@ app.post("/users", async (c) => {
   return c.json(stored, 201);
 });
 
+// Reached via Cloud Map: this Lambda calls the Go service in-VPC and returns
+// the intro it renders. Demonstrates service discovery (Lambda -> Go).
+app.get("/users/:username/intro", async (c) => {
+  const username = c.req.param("username");
+  if (!USERNAME_PATTERN.test(username)) {
+    return c.json({ error: "Invalid GitHub username" }, 400);
+  }
+
+  const intro = await fetchIntro(username);
+  return c.json({ username, intro });
+});
+
 app.onError((err, c) => {
   if (err instanceof UserNotFoundError) {
     return c.json({ error: err.message }, 404);
@@ -55,6 +73,9 @@ app.onError((err, c) => {
   }
   if (err instanceof UpstreamError) {
     return c.json({ error: err.message }, 502);
+  }
+  if (err instanceof IntroUnavailableError) {
+    return c.json({ error: "介绍服务暂时不可用，请稍后再试" }, 503);
   }
   console.error("Unhandled error", err);
   return c.json({ error: "Internal server error" }, 500);

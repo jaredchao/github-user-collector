@@ -1,9 +1,16 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { RateLimitError, UpstreamError, UserNotFoundError } from "../src/errors.js";
+import {
+  IntroUnavailableError,
+  RateLimitError,
+  UpstreamError,
+  UserNotFoundError,
+} from "../src/errors.js";
 
 vi.mock("../src/service.js", () => ({ fetchAndStore: vi.fn() }));
+vi.mock("../src/introClient.js", () => ({ fetchIntro: vi.fn() }));
 
 const { fetchAndStore } = await import("../src/service.js");
+const { fetchIntro } = await import("../src/introClient.js");
 const { app } = await import("../src/app.js");
 
 const stored = {
@@ -26,6 +33,42 @@ function post(body: unknown): Response | Promise<Response> {
 
 beforeEach(() => {
   vi.mocked(fetchAndStore).mockReset();
+  vi.mocked(fetchIntro).mockReset();
+});
+
+describe("GET /users/:username/intro", () => {
+  it("returns 200 with the intro from the Go service", async () => {
+    vi.mocked(fetchIntro).mockResolvedValue("Linus Torvalds ...");
+
+    const res = await app.request("/users/torvalds/intro");
+
+    expect(res.status).toBe(200);
+    await expect(res.json()).resolves.toEqual({
+      username: "torvalds",
+      intro: "Linus Torvalds ...",
+    });
+    expect(fetchIntro).toHaveBeenCalledWith("torvalds");
+  });
+
+  it("returns 400 for an invalid username", async () => {
+    const res = await app.request("/users/-bad-/intro");
+    expect(res.status).toBe(400);
+    expect(fetchIntro).not.toHaveBeenCalled();
+  });
+
+  it("maps UserNotFoundError onto 404", async () => {
+    vi.mocked(fetchIntro).mockRejectedValue(new UserNotFoundError("nobody"));
+
+    const res = await app.request("/users/nobody/intro");
+    expect(res.status).toBe(404);
+  });
+
+  it("maps IntroUnavailableError onto 503", async () => {
+    vi.mocked(fetchIntro).mockRejectedValue(new IntroUnavailableError("down"));
+
+    const res = await app.request("/users/torvalds/intro");
+    expect(res.status).toBe(503);
+  });
 });
 
 describe("POST /users", () => {

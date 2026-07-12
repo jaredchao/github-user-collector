@@ -18,3 +18,11 @@ export class UpstreamError extends Error {
     this.name = "UpstreamError";
   }
 }
+
+// The Go intro service (reached via Cloud Map) is down or unreachable.
+export class IntroUnavailableError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = "IntroUnavailableError";
+  }
+}
