@@ -1,0 +1,41 @@
+name: PR environment cleanup (go-service)
+
+# No paths filter: if the PR never created an environment, the teardown
+# script finds nothing and exits cleanly. Missing a cleanup costs money;
+# an extra no-op run costs nothing.
+on:
+  pull_request:
+    types: [closed]
+
+permissions:
+  id-token: write
+  contents: read
+  pull-requests: write
+
+concurrency:
+  group: pr-env-${{ github.event.number }}
+  cancel-in-progress: false
+
+jobs:
+  teardown:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::089783390738:role/zuoye-github-oidc-role
+          aws-region: us-east-2
+
+      - name: Tear down the PR environment
+        env:
+          PR_NUMBER: ${{ github.event.number }}
+        run: bash scripts/pr-env-down.sh
+
+      - name: Note the teardown on the PR
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh api "repos/${{ github.repository }}/issues/${{ github.event.number }}/comments" \
+            -f body="<!-- pr-env-cleanup -->
+          PR 环境已销毁，相关 AWS 资源（ECS 服务/目标组/ALB 规则/CloudMap/镜像）均已删除。"

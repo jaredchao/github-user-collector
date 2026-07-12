@@ -1,0 +1,83 @@
+name: PR environment (go-service)
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - "go-service/**"
+      - "scripts/pr-env-up.sh"
+      - ".github/workflows/pr-env.yml"
+
+permissions:
+  id-token: write
+  contents: read
+  pull-requests: write
+
+# One deploy at a time per PR; a second push waits instead of racing the first.
+concurrency:
+  group: pr-env-${{ github.event.number }}
+  cancel-in-progress: false
+
+env:
+  AWS_REGION: us-east-2
+  SOURCE_BUCKET: zuoye-codebuild-source-089783390738
+  CODEBUILD_PROJECT: zuoye-go-service
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          # Account id is not a secret; hardcoding keeps setup reproducible.
+          role-to-assume: arn:aws:iam::089783390738:role/zuoye-github-oidc-role
+          aws-region: us-east-2
+
+      - name: Upload source to S3
+        run: |
+          zip -qr source.zip go-service
+          aws s3 cp source.zip "s3://$SOURCE_BUCKET/pr-${{ github.event.number }}/source.zip"
+
+      - name: Build image on CodeBuild
+        run: |
+          BUILD_ID=$(aws codebuild start-build \
+            --project-name "$CODEBUILD_PROJECT" \
+            --source-location-override "$SOURCE_BUCKET/pr-${{ github.event.number }}/source.zip" \
+            --environment-variables-override "name=IMAGE_TAG,value=pr-${{ github.event.number }},type=PLAINTEXT" \
+            --query 'build.id' --output text)
+          echo "build: $BUILD_ID"
+          while true; do
+            STATUS=$(aws codebuild batch-get-builds --ids "$BUILD_ID" \
+              --query 'builds[0].buildStatus' --output text)
+            echo "  $STATUS"
+            case "$STATUS" in
+              SUCCEEDED) break ;;
+              IN_PROGRESS) sleep 15 ;;
+              *) echo "build ended with $STATUS"; exit 1 ;;
+            esac
+          done
+
+      - name: Create or refresh the PR environment
+        env:
+          PR_NUMBER: ${{ github.event.number }}
+        run: bash scripts/pr-env-up.sh
+
+      - name: Comment the environment URL on the PR
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          MARKER="<!-- pr-env -->"
+          BODY="$MARKER
+          PR 环境已就绪: https://pr-${{ github.event.number }}.go-api.jccode.cc
+
+          试一下: \`curl 'https://pr-${{ github.event.number }}.go-api.jccode.cc/intro?username=torvalds'\`
+          （PR 关闭时环境自动销毁）"
+          EXISTING=$(gh api "repos/${{ github.repository }}/issues/${{ github.event.number }}/comments" \
+            --jq ".[] | select(.body | startswith(\"$MARKER\")) | .id" | head -1)
+          if [ -n "$EXISTING" ]; then
+            gh api -X PATCH "repos/${{ github.repository }}/issues/comments/$EXISTING" -f body="$BODY"
+          else
+            gh api "repos/${{ github.repository }}/issues/${{ github.event.number }}/comments" -f body="$BODY"
+          fi
