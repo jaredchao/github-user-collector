@@ -40,6 +40,34 @@ jobs:
             -f body="<!-- pr-env-cleanup -->
           PR 环境已销毁，相关 AWS 资源（ECS 服务/目标组/ALB 规则/CloudMap/镜像）均已删除。"
 
+  # The Pages preview outlives its backends otherwise: the page still loads
+  # but every request hits a deleted pr-N environment (ERR_CONNECTION_CLOSED).
+  # Deleting the preview deployments closes that gap.
+  teardown-frontend-preview:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Delete the Pages preview deployments for this PR
+        env:
+          CF_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CF_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          BRANCH: pr-${{ github.event.number }}
+        run: |
+          BASE="https://api.cloudflare.com/client/v4/accounts/$CF_ACCOUNT_ID/pages/projects/zuoye-frontend"
+          for PAGE in 1 2 3; do
+            IDS=$(curl -s -H "Authorization: Bearer $CF_API_TOKEN" \
+              "$BASE/deployments?page=$PAGE&per_page=25" \
+              | jq -r --arg b "$BRANCH" \
+                '.result[] | select(.deployment_trigger.metadata.branch == $b) | .id')
+            [ -z "$IDS" ] && continue
+            for ID in $IDS; do
+              # force=true is needed because the branch-alias URL points at it.
+              OK=$(curl -s -X DELETE -H "Authorization: Bearer $CF_API_TOKEN" \
+                "$BASE/deployments/$ID?force=true" | jq -r '.success')
+              echo "delete $ID: $OK"
+            done
+          done
+          echo "preview deployments for $BRANCH removed"
+
   # Deleting a CloudFormation stack needs permissions on everything inside it,
   # which only the SAM deploy role has — hence a separate job and role.
   teardown-api:
