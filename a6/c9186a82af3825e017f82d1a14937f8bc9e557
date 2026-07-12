@@ -1,0 +1,19 @@
+.github/workflows/frontend.yml
+  s_e41a08a6891c43::t_ef2e6e50281e6c 47-49
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.12",
+  "base_commit_sha": "a6c9186a82af3825e017f82d1a14937f8bc9e557",
+  "prompts": {},
+  "sessions": {
+    "s_e41a08a6891c43": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "fe1c60df-e471-465e-a877-388c609e3b05",
+        "model": "claude-fable-5"
+      },
+      "human_author": "muluo <mengchao1027@gmail.com>"
+    }
+  }
+}
