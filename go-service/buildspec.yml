@@ -1,0 +1,23 @@
+version: 0.2
+
+# CodeBuild runs this on an ARM64 host so the image matches the
+# Fargate task's runtimePlatform (ARM64) without cross-building.
+# IMAGE_TAG is injected per build by the caller (pr-N for PR envs).
+
+env:
+  variables:
+    ECR_REPO: zuoye-go-service
+
+phases:
+  pre_build:
+    commands:
+      - IMAGE_URI="$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$ECR_REPO"
+      - aws ecr get-login-password --region "$AWS_DEFAULT_REGION" |
+        docker login --username AWS --password-stdin "$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com"
+  build:
+    commands:
+      - docker build -t "$IMAGE_URI:$IMAGE_TAG" go-service
+  post_build:
+    commands:
+      - docker push "$IMAGE_URI:$IMAGE_TAG"
+      - echo "pushed $IMAGE_URI:$IMAGE_TAG"
