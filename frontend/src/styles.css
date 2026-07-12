@@ -173,3 +173,28 @@ button:disabled {
   font-size: 0.8125rem;
   color: var(--muted);
 }
+
+.intro {
+  margin-top: 1rem;
+  padding: 1.25rem 1.5rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+
+.intro h3 {
+  margin: 0 0 0.5rem;
+  font-size: 0.9375rem;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.intro-text {
+  margin: 0;
+  line-height: 1.7;
+}
+
+.intro-muted {
+  margin: 0;
+  color: var(--muted);
+}

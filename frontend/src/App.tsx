@@ -1,5 +1,6 @@
 import { useState, type FormEvent } from "react";
-import { ApiError, fetchUser } from "./api";
+import { ApiError, fetchIntro, fetchUser } from "./api";
+import { IntroCard, type IntroState } from "./IntroCard";
 import { UserCard } from "./UserCard";
 import type { GitHubUser } from "./types";
 
@@ -14,6 +15,19 @@ type State =
 export function App() {
   const [username, setUsername] = useState("");
   const [state, setState] = useState<State>({ status: "idle" });
+  // The intro is fetched separately (Lambda -> Cloud Map -> Go) so its failure
+  // never hides the user card, and vice versa.
+  const [intro, setIntro] = useState<IntroState | null>(null);
+
+  async function loadIntro(name: string) {
+    setIntro({ status: "loading" });
+    try {
+      setIntro({ status: "success", intro: await fetchIntro(name) });
+    } catch (error) {
+      const message = error instanceof ApiError ? error.message : "介绍生成失败";
+      setIntro({ status: "error", message });
+    }
+  }
 
   async function handleSubmit(event: FormEvent) {
     event.preventDefault();
@@ -22,8 +36,12 @@ export function App() {
     if (!trimmed) return;
 
     setState({ status: "loading" });
+    setIntro(null);
     try {
-      setState({ status: "success", user: await fetchUser(trimmed) });
+      const user = await fetchUser(trimmed);
+      setState({ status: "success", user });
+      // Fire the second request only after the user exists in the database.
+      void loadIntro(user.username);
     } catch (error) {
       const message =
         error instanceof ApiError ? error.message : "出了点问题，请稍后再试";
@@ -56,7 +74,12 @@ export function App() {
         </p>
       )}
 
-      {state.status === "success" && <UserCard user={state.user} />}
+      {state.status === "success" && (
+        <>
+          <UserCard user={state.user} />
+          {intro && <IntroCard state={intro} />}
+        </>
+      )}
     </main>
   );
 }

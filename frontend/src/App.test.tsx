@@ -5,10 +5,10 @@ import { ApiError } from "./api";
 
 vi.mock("./api", async () => {
   const actual = await vi.importActual<typeof import("./api")>("./api");
-  return { ...actual, fetchUser: vi.fn() };
+  return { ...actual, fetchUser: vi.fn(), fetchIntro: vi.fn() };
 });
 
-const { fetchUser } = await import("./api");
+const { fetchUser, fetchIntro } = await import("./api");
 const { App } = await import("./App");
 
 const user = {
@@ -40,6 +40,47 @@ function deferred<T>() {
 
 beforeEach(() => {
   vi.mocked(fetchUser).mockReset();
+  // Default: intro resolves, so existing user-card tests aren't affected by the
+  // second request that now fires after a successful search.
+  vi.mocked(fetchIntro).mockReset().mockResolvedValue("some intro");
+});
+
+describe("App intro section", () => {
+  it("shows the intro under the card after a successful search", async () => {
+    vi.mocked(fetchUser).mockResolvedValue(user as never);
+    vi.mocked(fetchIntro).mockResolvedValue("Linus 的个人介绍");
+
+    render(<App />);
+    await userEvent.type(screen.getByRole("textbox"), "torvalds");
+    await userEvent.click(screen.getByRole("button", { name: /搜索/ }));
+
+    expect(await screen.findByText("Linus 的个人介绍")).toBeInTheDocument();
+    expect(fetchIntro).toHaveBeenCalledWith("torvalds");
+  });
+
+  it("keeps the card when the intro fails", async () => {
+    vi.mocked(fetchUser).mockResolvedValue(user as never);
+    vi.mocked(fetchIntro).mockRejectedValue(new ApiError("介绍服务暂时不可用", 503));
+
+    render(<App />);
+    await userEvent.type(screen.getByRole("textbox"), "torvalds");
+    await userEvent.click(screen.getByRole("button", { name: /搜索/ }));
+
+    // Card still shows even though the intro errored.
+    expect(await screen.findByText("Linus Torvalds")).toBeInTheDocument();
+    expect(await screen.findByText("介绍服务暂时不可用")).toBeInTheDocument();
+  });
+
+  it("does not fetch intro when the search itself fails", async () => {
+    vi.mocked(fetchUser).mockRejectedValue(new ApiError("找不到这个 GitHub 用户", 404));
+
+    render(<App />);
+    await userEvent.type(screen.getByRole("textbox"), "nobody");
+    await userEvent.click(screen.getByRole("button", { name: /搜索/ }));
+
+    await screen.findByRole("alert");
+    expect(fetchIntro).not.toHaveBeenCalled();
+  });
 });
 
 describe("App", () => {

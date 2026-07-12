@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { ApiError, fetchUser } from "./api";
+import { ApiError, fetchIntro, fetchUser } from "./api";
 
 const user = {
   id: 1,
@@ -84,5 +84,39 @@ describe("fetchUser error messages", () => {
     vi.stubGlobal("fetch", vi.fn().mockRejectedValue(new TypeError("Failed to fetch")));
 
     await expect(fetchUser("torvalds")).rejects.toThrow("网络连接失败");
+  });
+});
+
+describe("fetchIntro", () => {
+  it("returns the intro text on 200", async () => {
+    mockResponse(200, { username: "torvalds", intro: "Linus Torvalds（@torvalds）..." });
+
+    await expect(fetchIntro("torvalds")).resolves.toBe("Linus Torvalds（@torvalds）...");
+  });
+
+  it("calls the intro endpoint with the username in the path", async () => {
+    const spy = vi
+      .fn()
+      .mockResolvedValue({ ok: true, status: 200, json: async () => ({ intro: "x" }) });
+    vi.stubGlobal("fetch", spy);
+
+    await fetchIntro("torvalds");
+
+    expect(spy.mock.calls[0]![0]).toBe("https://api.example.com/users/torvalds/intro");
+  });
+
+  it("maps 404 onto a readable message", async () => {
+    mockResponse(404);
+    await expect(fetchIntro("nobody")).rejects.toThrow("找不到");
+  });
+
+  it("maps 503 (Go service down) onto a readable message", async () => {
+    mockResponse(503);
+    await expect(fetchIntro("torvalds")).rejects.toThrow("介绍服务暂时不可用");
+  });
+
+  it("turns a network failure into a readable message", async () => {
+    vi.stubGlobal("fetch", vi.fn().mockRejectedValue(new TypeError("Failed to fetch")));
+    await expect(fetchIntro("torvalds")).rejects.toThrow("网络连接失败");
   });
 });

@@ -39,3 +39,31 @@ export async function fetchUser(username: string): Promise<GitHubUser> {
 
   return (await response.json()) as GitHubUser;
 }
+
+// Reached via Lambda -> Cloud Map -> Go. 503 means the Go service is down.
+const INTRO_MESSAGES: Record<number, string> = {
+  400: "用户名格式不对",
+  404: "找不到这个 GitHub 用户",
+  503: "介绍服务暂时不可用，请稍后再试",
+};
+
+export async function fetchIntro(username: string): Promise<string> {
+  const baseUrl = import.meta.env.VITE_API_URL;
+
+  let response: Response;
+  try {
+    response = await fetch(`${baseUrl}/users/${username}/intro`);
+  } catch {
+    throw new ApiError("网络连接失败，请检查网络后重试", null);
+  }
+
+  if (!response.ok) {
+    throw new ApiError(
+      INTRO_MESSAGES[response.status] ?? `请求失败（${response.status}）`,
+      response.status,
+    );
+  }
+
+  const body = (await response.json()) as { intro?: string };
+  return body.intro ?? "";
+}
