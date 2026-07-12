@@ -1,0 +1,581 @@
+go-service/Dockerfile
+  s_0e486e3dbb8350::t_696bcde1416f96 1-25
+go-service/.dockerignore
+  s_0e486e3dbb8350::t_381147d295f7b8 1-5
+go-service/vendor/github.com/jackc/pgpassfile/.travis.yml
+  s_0e486e3dbb8350::t_63c25bc09a39f1 1-9
+go-service/vendor/github.com/jackc/pgpassfile/LICENSE
+  s_0e486e3dbb8350::t_039451a8fd80a5 1-22
+go-service/vendor/github.com/jackc/pgpassfile/README.md
+  s_0e486e3dbb8350::t_ebb16c897406ae 1-8
+go-service/vendor/github.com/jackc/pgpassfile/pgpass.go
+  s_0e486e3dbb8350::t_2c6793d3ffb22e 1-110
+go-service/vendor/github.com/jackc/pgservicefile/LICENSE
+  s_0e486e3dbb8350::t_2ba4c8c6e268ae 1-22
+go-service/vendor/github.com/jackc/pgservicefile/README.md
+  s_0e486e3dbb8350::t_0223a03073852e 1-7
+go-service/vendor/github.com/jackc/pgservicefile/pgservicefile.go
+  s_0e486e3dbb8350::t_44a3e0d09092fe 1-81
+go-service/vendor/github.com/jackc/pgx/v5/.gitignore
+  s_0e486e3dbb8350::t_09891d4f8488de 1-27
+go-service/vendor/github.com/jackc/pgx/v5/.golangci.yml
+  s_0e486e3dbb8350::t_d1e849db62ba9d 1-28
+go-service/vendor/github.com/jackc/pgx/v5/CHANGELOG.md
+  s_0e486e3dbb8350::t_1a0a56a8787e2b 1-605
+go-service/vendor/github.com/jackc/pgx/v5/CLAUDE.md
+  s_0e486e3dbb8350::t_1058d2f2dbe1d7 1-73
+go-service/vendor/github.com/jackc/pgx/v5/CONTRIBUTING.md
+  s_0e486e3dbb8350::t_341ed4c83792bb 1-139
+go-service/vendor/github.com/jackc/pgx/v5/LICENSE
+  s_0e486e3dbb8350::t_3ec35ebea1ac9f 1-22
+go-service/vendor/github.com/jackc/pgx/v5/README.md
+  s_0e486e3dbb8350::t_7e643dedd37506 1-192
+go-service/vendor/github.com/jackc/pgx/v5/Rakefile
+  s_0e486e3dbb8350::t_869d0f36cb2a7c 1-18
+go-service/vendor/github.com/jackc/pgx/v5/batch.go
+  s_0e486e3dbb8350::t_fc192b7fa4bba3 1-537
+go-service/vendor/github.com/jackc/pgx/v5/conn.go
+  s_0e486e3dbb8350::t_dbc1e5a95fcf40 1-1472
+go-service/vendor/github.com/jackc/pgx/v5/copy_from.go
+  s_0e486e3dbb8350::t_73bc271013ce7a 1-276
+go-service/vendor/github.com/jackc/pgx/v5/derived_types.go
+  s_0e486e3dbb8350::t_e0c966dce4c8df 1-261
+go-service/vendor/github.com/jackc/pgx/v5/doc.go
+  s_0e486e3dbb8350::t_cb2b925986ccc8 1-220
+go-service/vendor/github.com/jackc/pgx/v5/extended_query_builder.go
+  s_0e486e3dbb8350::t_5c1b23b2afe3c0 1-146
+go-service/vendor/github.com/jackc/pgx/v5/internal/iobufpool/iobufpool.go
+  s_0e486e3dbb8350::t_a31bcab561299c 1-78
+go-service/vendor/github.com/jackc/pgx/v5/internal/pgio/README.md
+  s_0e486e3dbb8350::t_13939468719760 1-6
+go-service/vendor/github.com/jackc/pgx/v5/internal/pgio/doc.go
+  s_0e486e3dbb8350::t_907043de8e1b85 1-6
+go-service/vendor/github.com/jackc/pgx/v5/internal/pgio/write.go
+  s_0e486e3dbb8350::t_6ba49430cda30c 1-32
+go-service/vendor/github.com/jackc/pgx/v5/internal/sanitize/benchmark.sh
+  s_0e486e3dbb8350::t_55bf3cb472fc13 1-60
+go-service/vendor/github.com/jackc/pgx/v5/internal/sanitize/sanitize.go
+  s_0e486e3dbb8350::t_93e454df0219ba 1-541
+go-service/vendor/github.com/jackc/pgx/v5/internal/stmtcache/lru_cache.go
+  s_0e486e3dbb8350::t_b56ef06d0f7b58 1-187
+go-service/vendor/github.com/jackc/pgx/v5/internal/stmtcache/stmtcache.go
+  s_0e486e3dbb8350::t_60242ee0f2f9e8 1-45
+go-service/vendor/github.com/jackc/pgx/v5/large_objects.go
+  s_0e486e3dbb8350::t_27d354b3aaf7b3 1-161
+go-service/vendor/github.com/jackc/pgx/v5/mise.toml
+  s_0e486e3dbb8350::t_a30111e5a68dd7 1-8
+go-service/vendor/github.com/jackc/pgx/v5/named_args.go
+  s_0e486e3dbb8350::t_92d89bcd9ca375 1-410
+go-service/vendor/github.com/jackc/pgx/v5/pgconn/README.md
+  s_0e486e3dbb8350::t_31d7e190cf0c3d 1-29
+go-service/vendor/github.com/jackc/pgx/v5/pgconn/auth_oauth.go
+  s_0e486e3dbb8350::t_c5856bc5f2e8ad 1-67
+go-service/vendor/github.com/jackc/pgx/v5/pgconn/auth_scram.go
+  s_0e486e3dbb8350::t_4e2b6173d0f194 1-407
+go-service/vendor/github.com/jackc/pgx/v5/pgconn/config.go
+  s_0e486e3dbb8350::t_ba0e3b9b12fe15 1-1088
+go-service/vendor/github.com/jackc/pgx/v5/pgconn/ctxwatch/context_watcher.go
+  s_0e486e3dbb8350::t_4eea527e996c76 1-72
+go-service/vendor/github.com/jackc/pgx/v5/pgconn/defaults.go
+  s_0e486e3dbb8350::t_2c7f1dd9a69486 1-63
+go-service/vendor/github.com/jackc/pgx/v5/pgconn/defaults_windows.go
+  s_0e486e3dbb8350::t_5174eb8c43a006 1-57
+go-service/vendor/github.com/jackc/pgx/v5/pgconn/doc.go
+  s_0e486e3dbb8350::t_3d32e74355d2c9 1-64
+go-service/vendor/github.com/jackc/pgx/v5/pgconn/errors.go
+  s_0e486e3dbb8350::t_80194e7cca7676 1-287
+go-service/vendor/github.com/jackc/pgx/v5/pgconn/internal/bgreader/bgreader.go
+  s_0e486e3dbb8350::t_e92e96da6fbfb5 1-139
+go-service/vendor/github.com/jackc/pgx/v5/pgconn/krb5.go
+  s_0e486e3dbb8350::t_db0a478b1a5c35 1-100
+go-service/vendor/github.com/jackc/pgx/v5/pgconn/pgconn.go
+  s_0e486e3dbb8350::t_421ece4c8d55c1 1-3042
+go-service/vendor/github.com/jackc/pgx/v5/pgconn/require_auth.go
+  s_0e486e3dbb8350::t_c45cc59f3c548b 1-146
+go-service/vendor/github.com/jackc/pgx/v5/pgproto3/README.md
+  s_0e486e3dbb8350::t_6325f70c29c639 1-7
+go-service/vendor/github.com/jackc/pgx/v5/pgproto3/authentication_cleartext_password.go
+  s_0e486e3dbb8350::t_1e40867dad0767 1-50
+go-service/vendor/github.com/jackc/pgx/v5/pgproto3/authentication_gss.go
+  s_0e486e3dbb8350::t_7e6c673a8f51a7 1-58
+go-service/vendor/github.com/jackc/pgx/v5/pgproto3/authentication_gss_continue.go
+  s_0e486e3dbb8350::t_d1223cadd3de3f 1-67
+go-service/vendor/github.com/jackc/pgx/v5/pgproto3/authentication_md5_password.go
+  s_0e486e3dbb8350::t_e4b0e36d9aa65a 1-76
+go-service/vendor/github.com/jackc/pgx/v5/pgproto3/authentication_ok.go
+  s_0e486e3dbb8350::t_c2ac1a5d56fefd 1-50
+go-service/vendor/github.com/jackc/pgx/v5/pgproto3/authentication_sasl.go
+  s_0e486e3dbb8350::t_3bc0ce53bf0941 1-73
+go-service/vendor/github.com/jackc/pgx/v5/pgproto3/authentication_sasl_continue.go
+  s_0e486e3dbb8350::t_a37726968bc5c8 1-75
+go-service/vendor/github.com/jackc/pgx/v5/pgproto3/authentication_sasl_final.go
+  s_0e486e3dbb8350::t_650df5b91678cc 1-75
+go-service/vendor/github.com/jackc/pgx/v5/pgproto3/backend.go
+  s_0e486e3dbb8350::t_4047ac81516338 1-299
+go-service/vendor/github.com/jackc/pgx/v5/pgproto3/backend_key_data.go
+  s_0e486e3dbb8350::t_822bf9713724a8 1-71
+go-service/vendor/github.com/jackc/pgx/v5/pgproto3/big_endian.go
+  s_0e486e3dbb8350::t_115203d95291d0 1-37
+go-service/vendor/github.com/jackc/pgx/v5/pgproto3/bind.go
+  s_0e486e3dbb8350::t_10d885d276486c 1-223
+go-service/vendor/github.com/jackc/pgx/v5/pgproto3/bind_complete.go
+  s_0e486e3dbb8350::t_4d9cccbf97c46b 1-34
+go-service/vendor/github.com/jackc/pgx/v5/pgproto3/cancel_request.go
+  s_0e486e3dbb8350::t_9af4b2fe511545 1-85
+go-service/vendor/github.com/jackc/pgx/v5/pgproto3/chunkreader.go
+  s_0e486e3dbb8350::t_c27b596ec8d6b5 1-90
+go-service/vendor/github.com/jackc/pgx/v5/pgproto3/close.go
+  s_0e486e3dbb8350::t_04b634c01662ed 1-81
+go-service/vendor/github.com/jackc/pgx/v5/pgproto3/close_complete.go
+  s_0e486e3dbb8350::t_67cccc4f10b8b5 1-34
+go-service/vendor/github.com/jackc/pgx/v5/pgproto3/command_complete.go
+  s_0e486e3dbb8350::t_4d5887768d673d 1-66
+go-service/vendor/github.com/jackc/pgx/v5/pgproto3/copy_both_response.go
+  s_0e486e3dbb8350::t_d501e90a6c88da 1-95
+go-service/vendor/github.com/jackc/pgx/v5/pgproto3/copy_data.go
+  s_0e486e3dbb8350::t_f39192bb89579b 1-67
+go-service/vendor/github.com/jackc/pgx/v5/pgproto3/copy_done.go
+  s_0e486e3dbb8350::t_cfda9f209924f4 1-37
+go-service/vendor/github.com/jackc/pgx/v5/pgproto3/copy_fail.go
+  s_0e486e3dbb8350::t_babe6d316a3216 1-49
+go-service/vendor/github.com/jackc/pgx/v5/pgproto3/copy_in_response.go
+  s_0e486e3dbb8350::t_fdb6853d0a4f18 1-96
+go-service/vendor/github.com/jackc/pgx/v5/pgproto3/copy_out_response.go
+  s_0e486e3dbb8350::t_135142262e2068 1-96
+go-service/vendor/github.com/jackc/pgx/v5/pgproto3/data_row.go
+  s_0e486e3dbb8350::t_546ba7d5a446eb 1-140
+go-service/vendor/github.com/jackc/pgx/v5/pgproto3/describe.go
+  s_0e486e3dbb8350::t_f9a5b6cc1691f5 1-80
+go-service/vendor/github.com/jackc/pgx/v5/pgproto3/doc.go
+  s_0e486e3dbb8350::t_f1bd2eda40df87 1-11
+go-service/vendor/github.com/jackc/pgx/v5/pgproto3/empty_query_response.go
+  s_0e486e3dbb8350::t_9b73c3055ae22b 1-34
+go-service/vendor/github.com/jackc/pgx/v5/pgproto3/error_response.go
+  s_0e486e3dbb8350::t_5bb74941c6cfc6 1-326
+go-service/vendor/github.com/jackc/pgx/v5/pgproto3/execute.go
+  s_0e486e3dbb8350::t_7214b7482f44a0 1-58
+go-service/vendor/github.com/jackc/pgx/v5/pgproto3/flush.go
+  s_0e486e3dbb8350::t_ae6374e015263a 1-34
+go-service/vendor/github.com/jackc/pgx/v5/pgproto3/frontend.go
+  s_0e486e3dbb8350::t_ff9eafba1c09d9 1-475
+go-service/vendor/github.com/jackc/pgx/v5/pgproto3/function_call.go
+  s_0e486e3dbb8350::t_5d5a958288749a 1-124
+go-service/vendor/github.com/jackc/pgx/v5/pgproto3/function_call_response.go
+  s_0e486e3dbb8350::t_1073864b10e6df 1-97
+go-service/vendor/github.com/jackc/pgx/v5/pgproto3/gss_enc_request.go
+  s_0e486e3dbb8350::t_6c0e596494b681 1-48
+go-service/vendor/github.com/jackc/pgx/v5/pgproto3/gss_response.go
+  s_0e486e3dbb8350::t_16a4d65392869b 1-46
+go-service/vendor/github.com/jackc/pgx/v5/pgproto3/negotiate_protocol_version.go
+  s_0e486e3dbb8350::t_544362ad4102ca 1-93
+go-service/vendor/github.com/jackc/pgx/v5/pgproto3/no_data.go
+  s_0e486e3dbb8350::t_dfeade0ff6d153 1-34
+go-service/vendor/github.com/jackc/pgx/v5/pgproto3/notice_response.go
+  s_0e486e3dbb8350::t_6a86410911931b 1-19
+go-service/vendor/github.com/jackc/pgx/v5/pgproto3/notification_response.go
+  s_0e486e3dbb8350::t_4da815e48f058e 1-71
+go-service/vendor/github.com/jackc/pgx/v5/pgproto3/parameter_description.go
+  s_0e486e3dbb8350::t_26702edee071a0 1-67
+go-service/vendor/github.com/jackc/pgx/v5/pgproto3/parameter_status.go
+  s_0e486e3dbb8350::t_95472ab36a8dce 1-58
+go-service/vendor/github.com/jackc/pgx/v5/pgproto3/parse.go
+  s_0e486e3dbb8350::t_6dedf8f7324b15 1-89
+go-service/vendor/github.com/jackc/pgx/v5/pgproto3/parse_complete.go
+  s_0e486e3dbb8350::t_6bca6501b1efff 1-34
+go-service/vendor/github.com/jackc/pgx/v5/pgproto3/password_message.go
+  s_0e486e3dbb8350::t_6012b10af7c914 1-49
+go-service/vendor/github.com/jackc/pgx/v5/pgproto3/pgproto3.go
+  s_0e486e3dbb8350::t_b4308403947584 1-120
+go-service/vendor/github.com/jackc/pgx/v5/pgproto3/portal_suspended.go
+  s_0e486e3dbb8350::t_ac56842223bbcc 1-34
+go-service/vendor/github.com/jackc/pgx/v5/pgproto3/query.go
+  s_0e486e3dbb8350::t_59676e4296b06e 1-49
+go-service/vendor/github.com/jackc/pgx/v5/pgproto3/ready_for_query.go
+  s_0e486e3dbb8350::t_e7c34603f97e85 1-61
+go-service/vendor/github.com/jackc/pgx/v5/pgproto3/row_description.go
+  s_0e486e3dbb8350::t_6d49a63c4e4946 1-165
+go-service/vendor/github.com/jackc/pgx/v5/pgproto3/sasl_initial_response.go
+  s_0e486e3dbb8350::t_0bde96e9bac350 1-93
+go-service/vendor/github.com/jackc/pgx/v5/pgproto3/sasl_response.go
+  s_0e486e3dbb8350::t_23805f4e3016e1 1-56
+go-service/vendor/github.com/jackc/pgx/v5/pgproto3/ssl_request.go
+  s_0e486e3dbb8350::t_38b4d6b1e253f6 1-48
+go-service/vendor/github.com/jackc/pgx/v5/pgproto3/startup_message.go
+  s_0e486e3dbb8350::t_f252ec6e4ca7a0 1-99
+go-service/vendor/github.com/jackc/pgx/v5/pgproto3/sync.go
+  s_0e486e3dbb8350::t_687d4b24a3329b 1-34
+go-service/vendor/github.com/jackc/pgx/v5/pgproto3/terminate.go
+  s_0e486e3dbb8350::t_26edafd8e3f755 1-34
+go-service/vendor/github.com/jackc/pgx/v5/pgproto3/trace.go
+  s_0e486e3dbb8350::t_f813e0b96093b9 1-416
+go-service/vendor/github.com/jackc/pgx/v5/pgtype/array.go
+  s_0e486e3dbb8350::t_259a8dac5dfeb3 1-469
+go-service/vendor/github.com/jackc/pgx/v5/pgtype/array_codec.go
+  s_0e486e3dbb8350::t_2978f029d7332c 1-428
+go-service/vendor/github.com/jackc/pgx/v5/pgtype/bits.go
+  s_0e486e3dbb8350::t_2c54ed34b08bce 1-208
+go-service/vendor/github.com/jackc/pgx/v5/pgtype/bool.go
+  s_0e486e3dbb8350::t_9ebea23c79dd64 1-346
+go-service/vendor/github.com/jackc/pgx/v5/pgtype/box.go
+  s_0e486e3dbb8350::t_f3e38db3f4a153 1-235
+go-service/vendor/github.com/jackc/pgx/v5/pgtype/builtin_wrappers.go
+  s_0e486e3dbb8350::t_8bb34efd3762f0 1-952
+go-service/vendor/github.com/jackc/pgx/v5/pgtype/bytea.go
+  s_0e486e3dbb8350::t_9c63360a670ce2 1-254
+go-service/vendor/github.com/jackc/pgx/v5/pgtype/circle.go
+  s_0e486e3dbb8350::t_d28ce6b56746b4 1-231
+go-service/vendor/github.com/jackc/pgx/v5/pgtype/composite.go
+  s_0e486e3dbb8350::t_3ea0d160418150 1-613
+go-service/vendor/github.com/jackc/pgx/v5/pgtype/convert.go
+  s_0e486e3dbb8350::t_3f8a3568967f6d 1-108
+go-service/vendor/github.com/jackc/pgx/v5/pgtype/date.go
+  s_0e486e3dbb8350::t_be134456cab6fc 1-412
+go-service/vendor/github.com/jackc/pgx/v5/pgtype/doc.go
+  s_0e486e3dbb8350::t_deb88c4937dbde 1-196
+go-service/vendor/github.com/jackc/pgx/v5/pgtype/enum_codec.go
+  s_0e486e3dbb8350::t_ad4e6949c3a7c1 1-109
+go-service/vendor/github.com/jackc/pgx/v5/pgtype/float4.go
+  s_0e486e3dbb8350::t_59324a06efaa87 1-323
+go-service/vendor/github.com/jackc/pgx/v5/pgtype/float8.go
+  s_0e486e3dbb8350::t_b8a187fdcc3ce9 1-369
+go-service/vendor/github.com/jackc/pgx/v5/pgtype/hstore.go
+  s_0e486e3dbb8350::t_564ebc23d6e9e9 1-502
+go-service/vendor/github.com/jackc/pgx/v5/pgtype/inet.go
+  s_0e486e3dbb8350::t_c52284525e930d 1-197
+go-service/vendor/github.com/jackc/pgx/v5/pgtype/int.go
+  s_0e486e3dbb8350::t_d46cde104ddf53 1-1990
+go-service/vendor/github.com/jackc/pgx/v5/pgtype/int.go.erb
+  s_0e486e3dbb8350::t_c6bec84e13b79f 1-551
+go-service/vendor/github.com/jackc/pgx/v5/pgtype/int_test.go.erb
+  s_0e486e3dbb8350::t_c1558ac37ab737 1-93
+go-service/vendor/github.com/jackc/pgx/v5/pgtype/integration_benchmark_test.go.erb
+  s_0e486e3dbb8350::t_bb4a4d7a9e865b 1-62
+go-service/vendor/github.com/jackc/pgx/v5/pgtype/integration_benchmark_test_gen.sh
+  s_0e486e3dbb8350::t_7f7fa9e48313e1 1-2
+go-service/vendor/github.com/jackc/pgx/v5/pgtype/interval.go
+  s_0e486e3dbb8350::t_743996c4a960e9 1-297
+go-service/vendor/github.com/jackc/pgx/v5/pgtype/json.go
+  s_0e486e3dbb8350::t_9982efa907cd47 1-243
+go-service/vendor/github.com/jackc/pgx/v5/pgtype/jsonb.go
+  s_0e486e3dbb8350::t_8b54f2059c21b4 1-129
+go-service/vendor/github.com/jackc/pgx/v5/pgtype/line.go
+  s_0e486e3dbb8350::t_88664c4084c784 1-223
+go-service/vendor/github.com/jackc/pgx/v5/pgtype/lseg.go
+  s_0e486e3dbb8350::t_af4057dcd30390 1-235
+go-service/vendor/github.com/jackc/pgx/v5/pgtype/ltree.go
+  s_0e486e3dbb8350::t_99ae79abef46bb 1-122
+go-service/vendor/github.com/jackc/pgx/v5/pgtype/macaddr.go
+  s_0e486e3dbb8350::t_cbe04360f5c8cf 1-162
+go-service/vendor/github.com/jackc/pgx/v5/pgtype/multirange.go
+  s_0e486e3dbb8350::t_3144abef1b725b 1-453
+go-service/vendor/github.com/jackc/pgx/v5/pgtype/numeric.go
+  s_0e486e3dbb8350::t_13aa2d1b764394 1-843
+go-service/vendor/github.com/jackc/pgx/v5/pgtype/path.go
+  s_0e486e3dbb8350::t_04185ce9fae365 1-280
+go-service/vendor/github.com/jackc/pgx/v5/pgtype/pgtype.go
+  s_0e486e3dbb8350::t_56ef17b6dd76e0 1-2067
+go-service/vendor/github.com/jackc/pgx/v5/pgtype/pgtype_default.go
+  s_0e486e3dbb8350::t_9617da1c501c47 1-251
+go-service/vendor/github.com/jackc/pgx/v5/pgtype/point.go
+  s_0e486e3dbb8350::t_a3df9af1f677e4 1-266
+go-service/vendor/github.com/jackc/pgx/v5/pgtype/polygon.go
+  s_0e486e3dbb8350::t_b5908084e82b76 1-261
+go-service/vendor/github.com/jackc/pgx/v5/pgtype/qchar.go
+  s_0e486e3dbb8350::t_563ff9ade2c6ae 1-163
+go-service/vendor/github.com/jackc/pgx/v5/pgtype/range.go
+  s_0e486e3dbb8350::t_919a2f4cacd04a 1-331
+go-service/vendor/github.com/jackc/pgx/v5/pgtype/range_codec.go
+  s_0e486e3dbb8350::t_1aa69ab04f8983 1-377
+go-service/vendor/github.com/jackc/pgx/v5/pgtype/record_codec.go
+  s_0e486e3dbb8350::t_451ed1d56fda12 1-123
+go-service/vendor/github.com/jackc/pgx/v5/pgtype/register_default_pg_types.go
+  s_0e486e3dbb8350::t_392e9e7d573ff6 1-35
+go-service/vendor/github.com/jackc/pgx/v5/pgtype/register_default_pg_types_disabled.go
+  s_0e486e3dbb8350::t_d0e9f589b7a11a 1-6
+go-service/vendor/github.com/jackc/pgx/v5/pgtype/text.go
+  s_0e486e3dbb8350::t_ad2c4cb38c8a49 1-226
+go-service/vendor/github.com/jackc/pgx/v5/pgtype/text_format_only_codec.go
+  s_0e486e3dbb8350::t_ed6b4c0fcd2672 1-13
+go-service/vendor/github.com/jackc/pgx/v5/pgtype/tid.go
+  s_0e486e3dbb8350::t_4b2f48dec674c3 1-240
+go-service/vendor/github.com/jackc/pgx/v5/pgtype/time.go
+  s_0e486e3dbb8350::t_bd815decef21c8 1-273
+go-service/vendor/github.com/jackc/pgx/v5/pgtype/timestamp.go
+  s_0e486e3dbb8350::t_7fbc1303580607 1-368
+go-service/vendor/github.com/jackc/pgx/v5/pgtype/timestamptz.go
+  s_0e486e3dbb8350::t_0222268a0cf90a 1-370
+go-service/vendor/github.com/jackc/pgx/v5/pgtype/tsvector.go
+  s_0e486e3dbb8350::t_85c9263917494a 1-514
+go-service/vendor/github.com/jackc/pgx/v5/pgtype/uint32.go
+  s_0e486e3dbb8350::t_4f8d9fabf111ce 1-352
+go-service/vendor/github.com/jackc/pgx/v5/pgtype/uint64.go
+  s_0e486e3dbb8350::t_68374638d07c91 1-323
+go-service/vendor/github.com/jackc/pgx/v5/pgtype/uuid.go
+  s_0e486e3dbb8350::t_b53ef4da52bf4b 1-291
+go-service/vendor/github.com/jackc/pgx/v5/pgtype/xml.go
+  s_0e486e3dbb8350::t_c13fbdf756164c 1-198
+go-service/vendor/github.com/jackc/pgx/v5/pgxpool/batch_results.go
+  s_0e486e3dbb8350::t_36372f67b53f51 1-52
+go-service/vendor/github.com/jackc/pgx/v5/pgxpool/conn.go
+  s_0e486e3dbb8350::t_ecf41471821ad7 1-133
+go-service/vendor/github.com/jackc/pgx/v5/pgxpool/doc.go
+  s_0e486e3dbb8350::t_98b3a26735123b 1-27
+go-service/vendor/github.com/jackc/pgx/v5/pgxpool/pool.go
+  s_0e486e3dbb8350::t_116af7ab6b77d7 1-840
+go-service/vendor/github.com/jackc/pgx/v5/pgxpool/rows.go
+  s_0e486e3dbb8350::t_e3ea0905abb033 1-116
+go-service/vendor/github.com/jackc/pgx/v5/pgxpool/stat.go
+  s_0e486e3dbb8350::t_12a8f134d908a4 1-91
+go-service/vendor/github.com/jackc/pgx/v5/pgxpool/tracer.go
+  s_0e486e3dbb8350::t_c2139d0573e875 1-33
+go-service/vendor/github.com/jackc/pgx/v5/pgxpool/tx.go
+  s_0e486e3dbb8350::t_a98037b1f2fe02 1-83
+go-service/vendor/github.com/jackc/pgx/v5/rows.go
+  s_0e486e3dbb8350::t_2685af0b3f11e1 1-871
+go-service/vendor/github.com/jackc/pgx/v5/test.sh
+  s_0e486e3dbb8350::t_a4a0c086c7ad63 1-170
+go-service/vendor/github.com/jackc/pgx/v5/tracer.go
+  s_0e486e3dbb8350::t_3594a31b0be640 1-107
+go-service/vendor/github.com/jackc/pgx/v5/tx.go
+  s_0e486e3dbb8350::t_2f1724222d943b 1-442
+go-service/vendor/github.com/jackc/pgx/v5/values.go
+  s_0e486e3dbb8350::t_129e7a141f896b 1-63
+go-service/vendor/github.com/jackc/puddle/v2/CHANGELOG.md
+  s_0e486e3dbb8350::t_c4aa18b817a859 1-79
+go-service/vendor/github.com/jackc/puddle/v2/LICENSE
+  s_0e486e3dbb8350::t_cd74619708777a 1-22
+go-service/vendor/github.com/jackc/puddle/v2/README.md
+  s_0e486e3dbb8350::t_bd370f70f7f55f 1-80
+go-service/vendor/github.com/jackc/puddle/v2/context.go
+  s_0e486e3dbb8350::t_c28d9accc4be97 1-24
+go-service/vendor/github.com/jackc/puddle/v2/doc.go
+  s_0e486e3dbb8350::t_9eab1b1fe8f4f6 1-11
+go-service/vendor/github.com/jackc/puddle/v2/internal/genstack/gen_stack.go
+  s_0e486e3dbb8350::t_2d7e3377b41112 1-85
+go-service/vendor/github.com/jackc/puddle/v2/internal/genstack/stack.go
+  s_0e486e3dbb8350::t_43f5b360d4c46a 1-39
+go-service/vendor/github.com/jackc/puddle/v2/log.go
+  s_0e486e3dbb8350::t_67300e04b37227 1-32
+go-service/vendor/github.com/jackc/puddle/v2/nanotime.go
+  s_0e486e3dbb8350::t_d2c58a5c4807bc 1-16
+go-service/vendor/github.com/jackc/puddle/v2/pool.go
+  s_0e486e3dbb8350::t_1504c1b92c2568 1-710
+go-service/vendor/github.com/jackc/puddle/v2/resource_list.go
+  s_0e486e3dbb8350::t_7317099b0e1a75 1-28
+go-service/vendor/golang.org/x/sync/LICENSE
+  s_0e486e3dbb8350::t_dc8b40b90b2beb 1-27
+go-service/vendor/golang.org/x/sync/PATENTS
+  s_0e486e3dbb8350::t_6e24b01ea59cd4 1-22
+go-service/vendor/golang.org/x/sync/semaphore/semaphore.go
+  s_0e486e3dbb8350::t_a6091a2e404010 1-160
+go-service/vendor/golang.org/x/text/LICENSE
+  s_0e486e3dbb8350::t_d45fceba9bf053 1-27
+go-service/vendor/golang.org/x/text/PATENTS
+  s_0e486e3dbb8350::t_0b5af4936f1a4f 1-22
+go-service/vendor/golang.org/x/text/cases/cases.go
+  s_0e486e3dbb8350::t_0504df10f2474d 1-162
+go-service/vendor/golang.org/x/text/cases/context.go
+  s_0e486e3dbb8350::t_322d8be68c8bbb 1-376
+go-service/vendor/golang.org/x/text/cases/fold.go
+  s_0e486e3dbb8350::t_2e7a044831d529 1-34
+go-service/vendor/golang.org/x/text/cases/icu.go
+  s_0e486e3dbb8350::t_6ac4938a650e1c 1-61
+go-service/vendor/golang.org/x/text/cases/info.go
+  s_0e486e3dbb8350::t_ccec5258805c6d 1-82
+go-service/vendor/golang.org/x/text/cases/map.go
+  s_0e486e3dbb8350::t_eab4557542ae2e 1-816
+go-service/vendor/golang.org/x/text/cases/tables10.0.0.go
+  s_0e486e3dbb8350::t_077d6034da87f1 1-2255
+go-service/vendor/golang.org/x/text/cases/tables11.0.0.go
+  s_0e486e3dbb8350::t_db78a481bee851 1-2316
+go-service/vendor/golang.org/x/text/cases/tables12.0.0.go
+  s_0e486e3dbb8350::t_0149a3ba64be7f 1-2359
+go-service/vendor/golang.org/x/text/cases/tables13.0.0.go
+  s_0e486e3dbb8350::t_21d8e765c769f1 1-2399
+go-service/vendor/golang.org/x/text/cases/tables15.0.0.go
+  s_0e486e3dbb8350::t_a55f4603b59e8a 1-2527
+go-service/vendor/golang.org/x/text/cases/tables9.0.0.go
+  s_0e486e3dbb8350::t_42260de74e6a86 1-2215
+go-service/vendor/golang.org/x/text/cases/trieval.go
+  s_0e486e3dbb8350::t_12565e13749221 1-217
+go-service/vendor/golang.org/x/text/internal/internal.go
+  s_0e486e3dbb8350::t_47e71328da22eb 1-49
+go-service/vendor/golang.org/x/text/internal/language/common.go
+  s_0e486e3dbb8350::t_99ed6cd8c45f8e 1-16
+go-service/vendor/golang.org/x/text/internal/language/compact.go
+  s_0e486e3dbb8350::t_9db40b44d5b41b 1-29
+go-service/vendor/golang.org/x/text/internal/language/compact/compact.go
+  s_0e486e3dbb8350::t_484eb500ab1cc8 1-61
+go-service/vendor/golang.org/x/text/internal/language/compact/language.go
+  s_0e486e3dbb8350::t_50ba03188e8d2a 1-260
+go-service/vendor/golang.org/x/text/internal/language/compact/parents.go
+  s_0e486e3dbb8350::t_945d417bbbe29f 1-120
+go-service/vendor/golang.org/x/text/internal/language/compact/tables.go
+  s_0e486e3dbb8350::t_80689643d9d2b3 1-1015
+go-service/vendor/golang.org/x/text/internal/language/compact/tags.go
+  s_0e486e3dbb8350::t_46908adf8b8b51 1-91
+go-service/vendor/golang.org/x/text/internal/language/compose.go
+  s_0e486e3dbb8350::t_8d0ea1981338ba 1-167
+go-service/vendor/golang.org/x/text/internal/language/coverage.go
+  s_0e486e3dbb8350::t_5b625ce4e6581f 1-28
+go-service/vendor/golang.org/x/text/internal/language/language.go
+  s_0e486e3dbb8350::t_ac9ad1b3b358bf 1-627
+go-service/vendor/golang.org/x/text/internal/language/lookup.go
+  s_0e486e3dbb8350::t_cf25a1494af4b3 1-412
+go-service/vendor/golang.org/x/text/internal/language/match.go
+  s_0e486e3dbb8350::t_25a19cdb949cd6 1-226
+go-service/vendor/golang.org/x/text/internal/language/parse.go
+  s_0e486e3dbb8350::t_ae596ad9780890 1-608
+go-service/vendor/golang.org/x/text/internal/language/tables.go
+  s_0e486e3dbb8350::t_f091ef12f679a6 1-3494
+go-service/vendor/golang.org/x/text/internal/language/tags.go
+  s_0e486e3dbb8350::t_cd4b18bfda3e5e 1-48
+go-service/vendor/golang.org/x/text/internal/match.go
+  s_0e486e3dbb8350::t_90f0af078e5a2d 1-67
+go-service/vendor/golang.org/x/text/internal/tag/tag.go
+  s_0e486e3dbb8350::t_17d8826fd5264f 1-100
+go-service/vendor/golang.org/x/text/language/coverage.go
+  s_0e486e3dbb8350::t_50d7f03a8a5fac 1-187
+go-service/vendor/golang.org/x/text/language/doc.go
+  s_0e486e3dbb8350::t_745e09e8aaa4d0 1-98
+go-service/vendor/golang.org/x/text/language/language.go
+  s_0e486e3dbb8350::t_b362d3f476a275 1-605
+go-service/vendor/golang.org/x/text/language/match.go
+  s_0e486e3dbb8350::t_4a598831813c86 1-735
+go-service/vendor/golang.org/x/text/language/parse.go
+  s_0e486e3dbb8350::t_47567e52c38dd8 1-256
+go-service/vendor/golang.org/x/text/language/tables.go
+  s_0e486e3dbb8350::t_fc927b78017dde 1-298
+go-service/vendor/golang.org/x/text/language/tags.go
+  s_0e486e3dbb8350::t_607218204d11df 1-145
+go-service/vendor/golang.org/x/text/runes/cond.go
+  s_0e486e3dbb8350::t_7de6ccfb10525d 1-187
+go-service/vendor/golang.org/x/text/runes/runes.go
+  s_0e486e3dbb8350::t_be39c5e45ec596 1-355
+go-service/vendor/golang.org/x/text/secure/bidirule/bidirule.go
+  s_0e486e3dbb8350::t_ee29df007e0035 1-336
+go-service/vendor/golang.org/x/text/secure/bidirule/bidirule10.0.0.go
+  s_0e486e3dbb8350::t_9a392e68017896 1-11
+go-service/vendor/golang.org/x/text/secure/bidirule/bidirule9.0.0.go
+  s_0e486e3dbb8350::t_4a852ae7368136 1-14
+go-service/vendor/golang.org/x/text/secure/precis/class.go
+  s_0e486e3dbb8350::t_87092153dd52e3 1-36
+go-service/vendor/golang.org/x/text/secure/precis/context.go
+  s_0e486e3dbb8350::t_d23d77a4747c85 1-139
+go-service/vendor/golang.org/x/text/secure/precis/doc.go
+  s_0e486e3dbb8350::t_cab6c5b0b767c1 1-14
+go-service/vendor/golang.org/x/text/secure/precis/nickname.go
+  s_0e486e3dbb8350::t_04b0eac383b0cf 1-72
+go-service/vendor/golang.org/x/text/secure/precis/options.go
+  s_0e486e3dbb8350::t_7a7e7b1b82c667 1-157
+go-service/vendor/golang.org/x/text/secure/precis/profile.go
+  s_0e486e3dbb8350::t_b12f4e325aa8d5 1-412
+go-service/vendor/golang.org/x/text/secure/precis/profiles.go
+  s_0e486e3dbb8350::t_93cfa3520b176c 1-78
+go-service/vendor/golang.org/x/text/secure/precis/tables10.0.0.go
+  s_0e486e3dbb8350::t_b40160adc5b6f8 1-3889
+go-service/vendor/golang.org/x/text/secure/precis/tables11.0.0.go
+  s_0e486e3dbb8350::t_8af9760888905b 1-4016
+go-service/vendor/golang.org/x/text/secure/precis/tables12.0.0.go
+  s_0e486e3dbb8350::t_ca198e09e81f95 1-4118
+go-service/vendor/golang.org/x/text/secure/precis/tables13.0.0.go
+  s_0e486e3dbb8350::t_59b453ffbde326 1-4152
+go-service/vendor/golang.org/x/text/secure/precis/tables15.0.0.go
+  s_0e486e3dbb8350::t_ac076c5767e7d5 1-4315
+go-service/vendor/golang.org/x/text/secure/precis/tables9.0.0.go
+  s_0e486e3dbb8350::t_1fedceae96fb17 1-3790
+go-service/vendor/golang.org/x/text/secure/precis/transformer.go
+  s_0e486e3dbb8350::t_ba577cc61c51de 1-32
+go-service/vendor/golang.org/x/text/secure/precis/trieval.go
+  s_0e486e3dbb8350::t_d5a7a5056c723a 1-64
+go-service/vendor/golang.org/x/text/transform/transform.go
+  s_0e486e3dbb8350::t_4da4640221a73d 1-709
+go-service/vendor/golang.org/x/text/unicode/bidi/bidi.go
+  s_0e486e3dbb8350::t_61b568cf913311 1-359
+go-service/vendor/golang.org/x/text/unicode/bidi/bracket.go
+  s_0e486e3dbb8350::t_6a515497338d35 1-335
+go-service/vendor/golang.org/x/text/unicode/bidi/core.go
+  s_0e486e3dbb8350::t_d489711a6c0d9e 1-1071
+go-service/vendor/golang.org/x/text/unicode/bidi/prop.go
+  s_0e486e3dbb8350::t_52bbecd821f9fc 1-206
+go-service/vendor/golang.org/x/text/unicode/bidi/tables10.0.0.go
+  s_0e486e3dbb8350::t_5cf5b219f8d07b 1-1815
+go-service/vendor/golang.org/x/text/unicode/bidi/tables11.0.0.go
+  s_0e486e3dbb8350::t_8b47927e125a12 1-1887
+go-service/vendor/golang.org/x/text/unicode/bidi/tables12.0.0.go
+  s_0e486e3dbb8350::t_3659e7b022a699 1-1923
+go-service/vendor/golang.org/x/text/unicode/bidi/tables13.0.0.go
+  s_0e486e3dbb8350::t_9c5b30a1ccb0bb 1-1955
+go-service/vendor/golang.org/x/text/unicode/bidi/tables15.0.0.go
+  s_0e486e3dbb8350::t_08aaf1c146407c 1-2042
+go-service/vendor/golang.org/x/text/unicode/bidi/tables9.0.0.go
+  s_0e486e3dbb8350::t_9df1bbd1d3699f 1-1781
+go-service/vendor/golang.org/x/text/unicode/bidi/trieval.go
+  s_0e486e3dbb8350::t_cb3bb4fb9947e1 1-48
+go-service/vendor/golang.org/x/text/unicode/norm/composition.go
+  s_0e486e3dbb8350::t_49dda078d65ee0 1-512
+go-service/vendor/golang.org/x/text/unicode/norm/forminfo.go
+  s_0e486e3dbb8350::t_2b29778a9844d7 1-279
+go-service/vendor/golang.org/x/text/unicode/norm/input.go
+  s_0e486e3dbb8350::t_b52bbd154df36f 1-109
+go-service/vendor/golang.org/x/text/unicode/norm/iter.go
+  s_0e486e3dbb8350::t_a386f3430cd8ee 1-458
+go-service/vendor/golang.org/x/text/unicode/norm/normalize.go
+  s_0e486e3dbb8350::t_b8d401e70dc9bb 1-610
+go-service/vendor/golang.org/x/text/unicode/norm/readwriter.go
+  s_0e486e3dbb8350::t_1e6035c8af63eb 1-125
+go-service/vendor/golang.org/x/text/unicode/norm/tables10.0.0.go
+  s_0e486e3dbb8350::t_fbd3fa761ba800 1-7657
+go-service/vendor/golang.org/x/text/unicode/norm/tables11.0.0.go
+  s_0e486e3dbb8350::t_2661e8d0585f8b 1-7693
+go-service/vendor/golang.org/x/text/unicode/norm/tables12.0.0.go
+  s_0e486e3dbb8350::t_2dfa7e8474a626 1-7710
+go-service/vendor/golang.org/x/text/unicode/norm/tables13.0.0.go
+  s_0e486e3dbb8350::t_5943828f25cecd 1-7760
+go-service/vendor/golang.org/x/text/unicode/norm/tables15.0.0.go
+  s_0e486e3dbb8350::t_c4f8a34b48bc3d 1-7907
+go-service/vendor/golang.org/x/text/unicode/norm/tables9.0.0.go
+  s_0e486e3dbb8350::t_89bc368c2084fb 1-7637
+go-service/vendor/golang.org/x/text/unicode/norm/transform.go
+  s_0e486e3dbb8350::t_78ee78d36902a5 1-88
+go-service/vendor/golang.org/x/text/unicode/norm/trie.go
+  s_0e486e3dbb8350::t_6a17e670f6285f 1-54
+go-service/vendor/golang.org/x/text/width/kind_string.go
+  s_0e486e3dbb8350::t_1bab4fed959819 1-28
+go-service/vendor/golang.org/x/text/width/tables10.0.0.go
+  s_0e486e3dbb8350::t_d003b16385761f 1-1328
+go-service/vendor/golang.org/x/text/width/tables11.0.0.go
+  s_0e486e3dbb8350::t_3744559b0b1602 1-1340
+go-service/vendor/golang.org/x/text/width/tables12.0.0.go
+  s_0e486e3dbb8350::t_753d508cf662b4 1-1360
+go-service/vendor/golang.org/x/text/width/tables13.0.0.go
+  s_0e486e3dbb8350::t_67bbd7fd5963cc 1-1361
+go-service/vendor/golang.org/x/text/width/tables15.0.0.go
+  s_0e486e3dbb8350::t_82e2b8ccbeb6eb 1-1367
+go-service/vendor/golang.org/x/text/width/tables9.0.0.go
+  s_0e486e3dbb8350::t_08cd0793cb0ac5 1-1296
+go-service/vendor/golang.org/x/text/width/transform.go
+  s_0e486e3dbb8350::t_7d41bef00a1fa8 1-239
+go-service/vendor/golang.org/x/text/width/trieval.go
+  s_0e486e3dbb8350::t_3ade910ec34a76 1-30
+go-service/vendor/golang.org/x/text/width/width.go
+  s_0e486e3dbb8350::t_8f0dd6a17b67c7 1-206
+go-service/vendor/modules.txt
+  s_0e486e3dbb8350::t_a442390da77cef 1-41
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.12",
+  "base_commit_sha": "778e4f75d0b9bc0de07d776885ead5030f0263d9",
+  "prompts": {},
+  "sessions": {
+    "s_0e486e3dbb8350": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "a226d532-d057-44c8-9f9e-6d5c82d03cd3",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "muluo <mengchao1027@gmail.com>"
+    }
+  }
+}
