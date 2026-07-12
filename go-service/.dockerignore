@@ -1,0 +1,5 @@
+.env
+.env.*
+*_test.go
+docs/
+README.md
