@@ -1,0 +1,43 @@
+go-service/internal/store/store_test.go
+  s_0e486e3dbb8350::t_6064ad1a8f1835 1-58
+go-service/cmd/server/main.go
+  s_0e486e3dbb8350::t_3906530ff13d83 1-44
+go-service/internal/server/server.go
+  s_0e486e3dbb8350::t_9a54dc043f0c4e 1-15,27-51,53-79
+  s_0e486e3dbb8350::t_3879355d9b634d 16-26
+  s_0e486e3dbb8350::t_1693095b256c6c 52
+go-service/internal/intro/intro.go
+  s_0e486e3dbb8350::t_ad3d6b37d7008f 1-51
+go-service/internal/server/server_test.go
+  s_0e486e3dbb8350::t_b52bcf38c8318d 1-93
+go-service/internal/store/store.go
+  s_0e486e3dbb8350::t_05518cbb1ce613 1-68
+go-service/go.mod
+  s_0e486e3dbb8350::t_f8445ccc4646b5 4-13
+  s_0e486e3dbb8350::t_3cb5940289a4d3 1-3
+go-service/internal/intro/intro_test.go
+  s_0e486e3dbb8350::t_96b48f18881b79 1-102
+go-service/.env.example
+  s_0e486e3dbb8350::t_2e9f1c0b529127 3-4
+  s_0e486e3dbb8350::t_8e970a09a513c8 1-2,5
+go-service/.gitignore
+  s_0e486e3dbb8350::t_dc769645eb6041 1
+go-service/go.sum
+  s_0e486e3dbb8350::t_c091efbf75aa11 1-26
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.12",
+  "base_commit_sha": "cf049471c56beb9f948ab643531368cb7d27f7e5",
+  "prompts": {},
+  "sessions": {
+    "s_0e486e3dbb8350": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "a226d532-d057-44c8-9f9e-6d5c82d03cd3",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "muluo <mengchao1027@gmail.com>"
+    }
+  }
+}
