@@ -16,7 +16,7 @@ func doWithOrigin(t *testing.T, h http.Handler, method, path, origin string) *ht
 }
 
 func TestCORS_ProductionOrigin(t *testing.T) {
-	h := New(fakeSource{})
+	h := New(fakeSource{}, nil)
 	rec := doWithOrigin(t, h, http.MethodGet, "/health", "https://zuoye-frontend.pages.dev")
 	if got := rec.Header().Get("Access-Control-Allow-Origin"); got != "https://zuoye-frontend.pages.dev" {
 		t.Errorf("Allow-Origin = %q, 期望生产域名被回显", got)
@@ -24,7 +24,7 @@ func TestCORS_ProductionOrigin(t *testing.T) {
 }
 
 func TestCORS_PreviewSubdomain(t *testing.T) {
-	h := New(fakeSource{})
+	h := New(fakeSource{}, nil)
 	rec := doWithOrigin(t, h, http.MethodGet, "/health", "https://pr-7.zuoye-frontend.pages.dev")
 	if got := rec.Header().Get("Access-Control-Allow-Origin"); got != "https://pr-7.zuoye-frontend.pages.dev" {
 		t.Errorf("Allow-Origin = %q, 期望预览子域被回显", got)
@@ -32,7 +32,7 @@ func TestCORS_PreviewSubdomain(t *testing.T) {
 }
 
 func TestCORS_ForeignOriginRejected(t *testing.T) {
-	h := New(fakeSource{})
+	h := New(fakeSource{}, nil)
 	for _, origin := range []string{
 		"https://evil.example.com",
 		// 后缀伪装：不是子域，只是长得像。
@@ -48,7 +48,7 @@ func TestCORS_ForeignOriginRejected(t *testing.T) {
 }
 
 func TestCORS_PreflightAnswered(t *testing.T) {
-	h := New(fakeSource{})
+	h := New(fakeSource{}, nil)
 	rec := doWithOrigin(t, h, http.MethodOptions, "/intro", "https://pr-7.zuoye-frontend.pages.dev")
 	if rec.Code != http.StatusNoContent {
 		t.Errorf("OPTIONS 状态码 = %d, 期望 204", rec.Code)

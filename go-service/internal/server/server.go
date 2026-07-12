@@ -5,6 +5,7 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
+	"io"
 	"log"
 	"net/http"
 	"regexp"
@@ -32,8 +33,14 @@ type UserSource interface {
 	Ping(ctx context.Context) error
 }
 
-// New returns an http.Handler with the /intro and /health routes.
-func New(src UserSource) http.Handler {
+// UsersForwarder relays a request to the collector Lambda. Defined here so
+// tests can fake it without AWS.
+type UsersForwarder interface {
+	Forward(ctx context.Context, method, path string, body []byte) (int, []byte, error)
+}
+
+// New returns an http.Handler with the /intro, /users and /health routes.
+func New(src UserSource, fwd UsersForwarder) http.Handler {
 	mux := http.NewServeMux()
 	mux.HandleFunc("GET /health", func(w http.ResponseWriter, r *http.Request) {
 		if err := src.Ping(r.Context()); err != nil {
@@ -43,7 +50,34 @@ func New(src UserSource) http.Handler {
 		writeJSON(w, http.StatusOK, map[string]string{"status": "ok"})
 	})
 	mux.HandleFunc("GET /intro", handleIntro(src))
+	mux.HandleFunc("POST /users", handleUsers(fwd))
 	return withCORS(mux)
+}
+
+// handleUsers forwards the search/collect request to the Lambda and passes
+// its verdict through untouched, so the frontend sees the same status codes
+// it would get from API Gateway.
+func handleUsers(fwd UsersForwarder) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		if fwd == nil {
+			writeJSON(w, http.StatusServiceUnavailable, map[string]string{"error": "采集服务未配置"})
+			return
+		}
+		body, err := io.ReadAll(http.MaxBytesReader(w, r.Body, 4096))
+		if err != nil {
+			writeJSON(w, http.StatusBadRequest, map[string]string{"error": "请求体过大或不可读"})
+			return
+		}
+		status, respBody, err := fwd.Forward(r.Context(), http.MethodPost, "/users", body)
+		if err != nil {
+			log.Printf("转发 /users 失败: %v", err)
+			writeJSON(w, http.StatusBadGateway, map[string]string{"error": "采集服务暂时不可用"})
+			return
+		}
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(status)
+		w.Write(respBody)
+	}
 }
 
 // The frontend calls this service directly through the ALB (the homework's
@@ -61,7 +95,8 @@ func withCORS(next http.Handler) http.Handler {
 			w.Header().Set("Vary", "Origin")
 		}
 		if r.Method == http.MethodOptions {
-			w.Header().Set("Access-Control-Allow-Methods", "GET, OPTIONS")
+			w.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+			w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 			w.WriteHeader(http.StatusNoContent)
 			return
 		}

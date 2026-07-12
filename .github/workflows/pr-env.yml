@@ -1,10 +1,14 @@
 name: PR environment (go-service)
 
+# The Go service is the single front door, so a backend-only PR also needs
+# its own Go instance — same code as main, but its Cloud Map target points
+# at that PR's Lambda stack.
 on:
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
       - "go-service/**"
+      - "backend/**"
       - "scripts/pr-env-up.sh"
       - ".github/workflows/pr-env.yml"
 
@@ -85,9 +89,21 @@ jobs:
           docker buildx build --platform linux/arm64 --push \
             -t "$IMAGE:pr-${{ github.event.number }}" go-service
 
+      - name: Choose the collector Lambda for this environment
+        id: collector
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if gh pr view ${{ github.event.number }} --json files -q '.files[].path' | grep -q '^backend/'; then
+            echo "service=collector-lambda-pr-${{ github.event.number }}" >> "$GITHUB_OUTPUT"
+          else
+            echo "service=collector-lambda" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Create or refresh the PR environment
         env:
           PR_NUMBER: ${{ github.event.number }}
+          COLLECTOR_SERVICE: ${{ steps.collector.outputs.service }}
         run: bash scripts/pr-env-up.sh
 
       - name: Comment the environment URL on the PR

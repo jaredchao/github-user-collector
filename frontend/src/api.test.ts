@@ -26,7 +26,6 @@ function mockResponse(status: number, body: unknown = {}): void {
 }
 
 beforeEach(() => {
-  vi.stubEnv("VITE_API_URL", "https://api.example.com");
   vi.stubEnv("VITE_GO_API_URL", "https://go.example.com");
 });
 
@@ -49,7 +48,7 @@ describe("fetchUser", () => {
     await fetchUser("torvalds");
 
     const [url, init] = spy.mock.calls[0]!;
-    expect(url).toBe("https://api.example.com/users");
+    expect(url).toBe("https://go.example.com/users");
     expect(init.method).toBe("POST");
     expect(JSON.parse(init.body)).toEqual({ username: "torvalds" });
   });
