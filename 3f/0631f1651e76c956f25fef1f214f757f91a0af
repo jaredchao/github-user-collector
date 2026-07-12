@@ -1,0 +1,23 @@
+go-service/internal/intro/intro_test.go
+  s_e41a08a6891c43::t_2119f95262ebf2 4
+  s_e41a08a6891c43::t_09e3847a5e6fd2 105-112
+  s_e41a08a6891c43::t_8677d91c2b2e85 28,32
+go-service/internal/intro/intro.go
+  s_e41a08a6891c43::t_3dd0103f77da3f 44-48
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.12",
+  "base_commit_sha": "3f0631f1651e76c956f25fef1f214f757f91a0af",
+  "prompts": {},
+  "sessions": {
+    "s_e41a08a6891c43": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "fe1c60df-e471-465e-a877-388c609e3b05",
+        "model": "claude-fable-5"
+      },
+      "human_author": "muluo <mengchao1027@gmail.com>"
+    }
+  }
+}
