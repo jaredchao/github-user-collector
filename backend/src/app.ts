@@ -13,12 +13,28 @@ import { fetchAndStore } from "./service.js";
 const USERNAME_PATTERN = /^[a-zA-Z0-9](?:[a-zA-Z0-9]|-(?=[a-zA-Z0-9])){0,38}$/;
 
 // Unset means "any origin", which suits local development. Production sets the
-// Cloudflare Pages domain here.
-function allowedOrigins(): string[] | "*" {
+// Cloudflare Pages domain plus a `https://*.domain` wildcard entry so Pages
+// preview deployments (pr-N.<project>.pages.dev) can call the API too.
+function originMatcher(): (origin: string) => string | null {
   const configured = process.env.CORS_ORIGINS?.split(",")
     .map((o) => o.trim())
     .filter(Boolean);
-  return configured?.length ? configured : "*";
+  if (!configured?.length) return (origin) => origin;
+
+  const exact = new Set(configured.filter((o) => !o.includes("*")));
+  const subdomainPatterns = configured
+    .filter((o) => o.startsWith("https://*."))
+    // "https://*.a.dev" allows exactly one label before ".a.dev", nothing else.
+    .map(
+      (o) =>
+        new RegExp(
+          `^https://[a-z0-9-]+\\.${o.slice("https://*.".length).replaceAll(".", "\\.")}$`,
+          "i",
+        ),
+    );
+
+  return (origin) =>
+    exact.has(origin) || subdomainPatterns.some((p) => p.test(origin)) ? origin : null;
 }
 
 export const app = new Hono();
@@ -26,7 +42,7 @@ export const app = new Hono();
 app.use(
   "/*",
   cors({
-    origin: allowedOrigins(),
+    origin: originMatcher(),
     allowMethods: ["GET", "POST", "OPTIONS"],
     allowHeaders: ["Content-Type"],
     maxAge: 86400,
