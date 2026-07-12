@@ -44,6 +44,9 @@ jobs:
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     permissions:
+      # Job-level permissions replace the default set entirely, so the OIDC
+      # token grant must be spelled out here or AWS credentials fail to load.
+      id-token: write
       contents: read
       pull-requests: write
     steps:
