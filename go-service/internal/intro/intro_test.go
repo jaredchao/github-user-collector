@@ -1,6 +1,7 @@
 package intro
 
 import (
+	"strconv"
 	"strings"
 	"testing"
 	"time"
@@ -24,10 +25,11 @@ func TestBuild_AllFields(t *testing.T) {
 		GitHubCreated: date(2011),
 	})
 
+	age := time.Now().Year() - 2011
 	for _, want := range []string{
 		"Linus Torvalds", "@torvalds", "来自 Portland, OR",
 		"就职于 Linux Foundation", "12 个公开仓库", "310967 位关注者",
-		"注册于 2011 年",
+		"注册于 2011 年", "至今已 " + strconv.Itoa(age) + " 年",
 	} {
 		if !strings.Contains(got, want) {
 			t.Errorf("缺少片段 %q\n完整输出: %s", want, got)
@@ -98,5 +100,13 @@ func TestBuild_NoGitHubCreatedOmitsRegistration(t *testing.T) {
 
 	if strings.Contains(got, "注册于") {
 		t.Errorf("无注册时间不该出现注册句: %s", got)
+	}
+}
+
+func TestBuild_AccountCreatedThisYearOmitsAge(t *testing.T) {
+	now := time.Now()
+	got := Build(User{Username: "newbie", GitHubCreated: &now})
+	if strings.Contains(got, "至今已") {
+		t.Errorf("注册当年不应输出账龄\n完整输出: %s", got)
 	}
 }

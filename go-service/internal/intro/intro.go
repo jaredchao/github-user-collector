@@ -41,7 +41,11 @@ func Build(u User) string {
 	fmt.Fprintf(&b, "。目前有 %d 个公开仓库，%d 位关注者。", u.PublicRepos, u.Followers)
 
 	if u.GitHubCreated != nil {
-		fmt.Fprintf(&b, "GitHub 账号注册于 %d 年。", u.GitHubCreated.Year())
+		fmt.Fprintf(&b, "GitHub 账号注册于 %d 年", u.GitHubCreated.Year())
+		if years := time.Now().Year() - u.GitHubCreated.Year(); years >= 1 {
+			fmt.Fprintf(&b, "，至今已 %d 年", years)
+		}
+		b.WriteString("。")
 	}
 	if u.Bio != nil && strings.TrimSpace(*u.Bio) != "" {
 		fmt.Fprintf(&b, "个人简介：%s", strings.TrimSpace(*u.Bio))
