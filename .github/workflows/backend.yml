@@ -50,6 +50,90 @@ jobs:
           DATABASE_URL: postgres://appuser:localdevpassword@localhost:5432/github_users
       - run: npm run build
 
+  deploy-preview:
+    needs: test
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+      pull-requests: write
+    concurrency:
+      group: api-env-${{ github.event.number }}
+      cancel-in-progress: false
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: backend/package-lock.json
+      - run: npm ci
+      - run: npm run build
+
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_DEPLOY_ROLE_ARN }}
+          aws-region: us-east-2
+
+      - uses: aws-actions/setup-sam@v2
+        with:
+          use-installer: true
+
+      # If this PR also changes the Go service, the pr-env workflow registers
+      # go-service-pr-N in Cloud Map; point this stack's Lambda there so the
+      # internal path serves this PR's code too. DNS resolves at request time,
+      # so the ordering between the two workflows doesn't matter.
+      - name: Choose the Go service for this stack
+        id: gosvc
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if gh pr view ${{ github.event.number }} --json files -q '.files[].path' | grep -q '^go-service/'; then
+            echo "url=http://go-service-pr-${{ github.event.number }}.zuoye.internal:8080" >> "$GITHUB_OUTPUT"
+          else
+            echo "url=http://go-service.zuoye.internal:8080" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Deploy the PR stack
+        run: |
+          sam deploy \
+            --stack-name zuoye-collector-pr-${{ github.event.number }} \
+            --region us-east-2 \
+            --resolve-s3 \
+            --capabilities CAPABILITY_IAM \
+            --no-confirm-changeset \
+            --no-fail-on-empty-changeset \
+            --parameter-overrides \
+              SubnetIdA=${{ secrets.SUBNET_ID_A }} \
+              SubnetIdB=${{ secrets.SUBNET_ID_B }} \
+              LambdaSecurityGroupId=${{ secrets.LAMBDA_SECURITY_GROUP_ID }} \
+              DatabaseUrl='${{ secrets.DATABASE_URL }}' \
+              GoServiceUrl=${{ steps.gosvc.outputs.url }} \
+              CorsOrigins='https://zuoye-frontend.pages.dev,https://*.zuoye-frontend.pages.dev'
+
+      - name: Smoke test and comment the API URL
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          API=$(aws cloudformation describe-stacks --stack-name zuoye-collector-pr-${{ github.event.number }} \
+            --region us-east-2 --query 'Stacks[0].Outputs[?OutputKey==`ApiUrl`].OutputValue' --output text)
+          test "$(curl -s -o /dev/null -w '%{http_code}' "$API/health")" = "200"
+          MARKER="<!-- api-preview -->"
+          BODY="$MARKER
+          Lambda API 预览已就绪: $API
+          （介绍内链指向: ${{ steps.gosvc.outputs.url }}，PR 关闭时整栈销毁）"
+          EXISTING=$(gh api "repos/${{ github.repository }}/issues/${{ github.event.number }}/comments" \
+            --jq ".[] | select(.body | startswith(\"$MARKER\")) | .id" | head -1)
+          if [ -n "$EXISTING" ]; then
+            gh api -X PATCH "repos/${{ github.repository }}/issues/comments/$EXISTING" -f body="$BODY"
+          else
+            gh api "repos/${{ github.repository }}/issues/${{ github.event.number }}/comments" -f body="$BODY"
+          fi
+
   deploy:
     needs: test
     if: github.event_name == 'push'

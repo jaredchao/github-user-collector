@@ -27,6 +27,11 @@ Parameters:
     Default: ""
     Description: Comma-separated allowed origins. Empty means any origin.
 
+  GoServiceUrl:
+    Type: String
+    Default: http://go-service.zuoye.internal:8080
+    Description: Cloud Map address of the Go intro service. PR stacks point at go-service-pr-N.
+
 Globals:
   Function:
     Runtime: nodejs22.x
@@ -39,7 +44,8 @@ Resources:
   CollectorFunction:
     Type: AWS::Serverless::Function
     Properties:
-      FunctionName: zuoye-collector
+      # No FunctionName: CloudFormation generates a stack-scoped name, so the
+      # per-PR stacks (zuoye-collector-pr-N) don't collide with production.
       CodeUri: dist/
       Handler: index.handler
       Description: Fetches a GitHub user and upserts it into RDS
@@ -47,6 +53,7 @@ Resources:
         Variables:
           DATABASE_URL: !Ref DatabaseUrl
           CORS_ORIGINS: !Ref CorsOrigins
+          GO_SERVICE_URL: !Ref GoServiceUrl
           # The pg pool lives at module scope; keep the container alive between calls.
           NODE_OPTIONS: --enable-source-maps
       VpcConfig:
