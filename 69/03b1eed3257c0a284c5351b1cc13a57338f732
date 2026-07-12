@@ -1,0 +1,33 @@
+frontend/src/App.tsx
+  s_0e486e3dbb8350::t_c4da40358db3aa 2-3,18-30,39,41-44,77-82
+frontend/src/api.test.ts
+  s_0e486e3dbb8350::t_7500085cb17528 2,89-121
+  s_0e486e3dbb8350::t_8a299a59853601 122
+frontend/src/api.ts
+  s_0e486e3dbb8350::t_72177dc505abdd 42-69
+frontend/src/IntroCard.test.tsx
+  s_0e486e3dbb8350::t_1196b090f9fd78 1-20
+frontend/src/App.test.tsx
+  s_0e486e3dbb8350::t_f4e6e43fa56023 8,11
+  s_0e486e3dbb8350::t_d2f4eaf26301da 43-83
+frontend/src/IntroCard.tsx
+  s_0e486e3dbb8350::t_beb7c31cd4b34e 1-21
+frontend/src/styles.css
+  s_0e486e3dbb8350::t_2bf2bdef665a78 176-200
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.12",
+  "base_commit_sha": "6903b1eed3257c0a284c5351b1cc13a57338f732",
+  "prompts": {},
+  "sessions": {
+    "s_0e486e3dbb8350": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "a226d532-d057-44c8-9f9e-6d5c82d03cd3",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "muluo <mengchao1027@gmail.com>"
+    }
+  }
+}
