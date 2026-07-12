@@ -66,14 +66,22 @@ echo "cloudmap: $REGISTRY_ARN ($CLOUDMAP_NAME.zuoye.internal)"
 
 # --- 4. Task definition -----------------------------------------------------
 # Clone the production task definition so DATABASE_URL and friends stay in
-# AWS and never pass through GitHub. Only family and image change.
+# AWS and never pass through GitHub. Family, image, task role and the
+# collector Cloud Map target change; everything else is inherited.
+COLLECTOR_SERVICE=${COLLECTOR_SERVICE:-collector-lambda}
+TASK_ROLE_ARN=arn:aws:iam::089783390738:role/zuoye-go-task-role
 aws ecs describe-task-definition --task-definition "$BASE_TASK_FAMILY" \
   --query 'taskDefinition' --output json \
-  | jq --arg family "$PR_FAMILY" --arg image "$IMAGE" '
+  | jq --arg family "$PR_FAMILY" --arg image "$IMAGE" \
+       --arg taskRole "$TASK_ROLE_ARN" --arg collector "$COLLECTOR_SERVICE" '
       del(.taskDefinitionArn, .revision, .status, .requiresAttributes,
           .compatibilities, .registeredAt, .registeredBy)
       | .family = $family
-      | .containerDefinitions[0].image = $image' \
+      | .taskRoleArn = $taskRole
+      | .containerDefinitions[0].image = $image
+      | .containerDefinitions[0].environment =
+          ([.containerDefinitions[0].environment[] | select(.name != "COLLECTOR_CLOUDMAP_SERVICE")]
+           + [{name: "COLLECTOR_CLOUDMAP_SERVICE", value: $collector}])' \
   > /tmp/pr-taskdef.json
 TASKDEF_ARN=$(aws ecs register-task-definition \
   --cli-input-json file:///tmp/pr-taskdef.json \

@@ -32,7 +32,7 @@ func do(t *testing.T, h http.Handler, target string) *httptest.ResponseRecorder 
 
 func TestIntro_OK(t *testing.T) {
 	name := "Linus Torvalds"
-	h := New(fakeSource{user: intro.User{Username: "torvalds", Name: &name, Followers: 100}})
+	h := New(fakeSource{user: intro.User{Username: "torvalds", Name: &name, Followers: 100}}, nil)
 
 	rec := do(t, h, "/intro?username=torvalds")
 	if rec.Code != http.StatusOK {
@@ -51,42 +51,42 @@ func TestIntro_OK(t *testing.T) {
 }
 
 func TestIntro_MissingUsername(t *testing.T) {
-	h := New(fakeSource{})
+	h := New(fakeSource{}, nil)
 	if rec := do(t, h, "/intro"); rec.Code != http.StatusBadRequest {
 		t.Errorf("缺 username 状态码 = %d, 期望 400", rec.Code)
 	}
 }
 
 func TestIntro_InvalidUsername(t *testing.T) {
-	h := New(fakeSource{})
+	h := New(fakeSource{}, nil)
 	if rec := do(t, h, "/intro?username=-bad-"); rec.Code != http.StatusBadRequest {
 		t.Errorf("非法 username 状态码 = %d, 期望 400", rec.Code)
 	}
 }
 
 func TestIntro_NotFound(t *testing.T) {
-	h := New(fakeSource{getErr: store.ErrNotFound})
+	h := New(fakeSource{getErr: store.ErrNotFound}, nil)
 	if rec := do(t, h, "/intro?username=nobody"); rec.Code != http.StatusNotFound {
 		t.Errorf("不存在用户状态码 = %d, 期望 404", rec.Code)
 	}
 }
 
 func TestIntro_DBError(t *testing.T) {
-	h := New(fakeSource{getErr: context.DeadlineExceeded})
+	h := New(fakeSource{getErr: context.DeadlineExceeded}, nil)
 	if rec := do(t, h, "/intro?username=torvalds"); rec.Code != http.StatusInternalServerError {
 		t.Errorf("数据库错误状态码 = %d, 期望 500", rec.Code)
 	}
 }
 
 func TestHealth_OK(t *testing.T) {
-	h := New(fakeSource{})
+	h := New(fakeSource{}, nil)
 	if rec := do(t, h, "/health"); rec.Code != http.StatusOK {
 		t.Errorf("health 状态码 = %d, 期望 200", rec.Code)
 	}
 }
 
 func TestHealth_DBDown(t *testing.T) {
-	h := New(fakeSource{pingErr: context.DeadlineExceeded})
+	h := New(fakeSource{pingErr: context.DeadlineExceeded}, nil)
 	if rec := do(t, h, "/health"); rec.Code != http.StatusServiceUnavailable {
 		t.Errorf("数据库不可用时 health 状态码 = %d, 期望 503", rec.Code)
 	}

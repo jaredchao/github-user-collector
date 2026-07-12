@@ -10,16 +10,21 @@ export class ApiError extends Error {
   }
 }
 
+// The Go service is the single front door: it forwards this to the collector
+// Lambda (discovered via Cloud Map) and passes the verdict through, so the
+// status codes below are still the Lambda's own. 502 doubles as "the Go
+// service couldn't reach the Lambda".
 const MESSAGES: Record<number, string> = {
   400: "用户名格式不对",
   404: "找不到这个 GitHub 用户",
   429: "请求太频繁，GitHub 限流了，请稍后再试",
   500: "服务器出错了，请稍后再试",
   502: "GitHub 暂时无法访问，请稍后再试",
+  503: "采集服务暂时不可用，请稍后再试",
 };
 
 export async function fetchUser(username: string): Promise<GitHubUser> {
-  const baseUrl = import.meta.env.VITE_API_URL;
+  const baseUrl = import.meta.env.VITE_GO_API_URL;
 
   let response: Response;
   try {
