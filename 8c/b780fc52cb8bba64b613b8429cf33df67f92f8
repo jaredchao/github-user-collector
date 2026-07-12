@@ -1,0 +1,30 @@
+backend/tests/introClient.test.ts
+  s_0e486e3dbb8350::t_b26e5a37cbdd54 1-57
+backend/src/app.ts
+  s_0e486e3dbb8350::t_2d1f4f738d4ea5 55-66
+  s_0e486e3dbb8350::t_226fde164c1087 77-79
+  s_0e486e3dbb8350::t_669c10c605e19b 3-9
+backend/tests/app.test.ts
+  s_0e486e3dbb8350::t_a65b730eac3d28 36-71
+  s_0e486e3dbb8350::t_7d5fa997da90b2 2-7,10,13
+backend/src/errors.ts
+  s_0e486e3dbb8350::t_a2336a4b42cf0b 21-28
+backend/src/introClient.ts
+  s_0e486e3dbb8350::t_9184d04b4605b0 1-31
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.12",
+  "base_commit_sha": "8cb780fc52cb8bba64b613b8429cf33df67f92f8",
+  "prompts": {},
+  "sessions": {
+    "s_0e486e3dbb8350": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "a226d532-d057-44c8-9f9e-6d5c82d03cd3",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "muluo <mengchao1027@gmail.com>"
+    }
+  }
+}
