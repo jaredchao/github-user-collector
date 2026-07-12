@@ -7,8 +7,14 @@ on:
       - "frontend/**"
       - ".github/workflows/frontend.yml"
   pull_request:
+    # Backend-only PRs also get a clickable preview: the frontend is built
+    # from this branch (same as main for those PRs) but wired to the PR's
+    # own backend(s).
     paths:
       - "frontend/**"
+      - "backend/**"
+      - "go-service/**"
+      - ".github/workflows/frontend.yml"
 
 jobs:
   test:
@@ -38,6 +44,9 @@ jobs:
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     permissions:
+      # Job-level permissions replace the default set entirely, so the OIDC
+      # token grant must be spelled out here or AWS credentials fail to load.
+      id-token: write
       contents: read
       pull-requests: write
     steps:
@@ -50,26 +59,53 @@ jobs:
       - run: npm ci
         working-directory: frontend
 
-      # If this PR also changes the Go service, the pr-env workflow gives it
-      # its own backend; point the preview there so the whole chain is this
-      # PR's code. Otherwise fall back to the production Go service.
-      - name: Choose the Go API for this preview
-        id: goapi
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::089783390738:role/zuoye-github-oidc-role
+          aws-region: us-east-2
+
+      # Whatever this PR changes gets its own backend; whatever it doesn't
+      # change stays on production. The Go URL is deterministic (host-header
+      # routing), but the Lambda URL is generated per stack, so it has to be
+      # read from the stack output — polling because the backend workflow
+      # deploys it in parallel with this job.
+      - name: Choose the APIs for this preview
+        id: apis
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          if gh pr view ${{ github.event.number }} --json files -q '.files[].path' | grep -q '^go-service/'; then
-            echo "url=https://pr-${{ github.event.number }}.go-api.jccode.cc" >> "$GITHUB_OUTPUT"
+          FILES=$(gh pr view ${{ github.event.number }} --json files -q '.files[].path')
+
+          if echo "$FILES" | grep -q '^go-service/'; then
+            echo "go_url=https://pr-${{ github.event.number }}.go-api.jccode.cc" >> "$GITHUB_OUTPUT"
           else
-            echo "url=https://main.go-api.jccode.cc" >> "$GITHUB_OUTPUT"
+            echo "go_url=https://main.go-api.jccode.cc" >> "$GITHUB_OUTPUT"
+          fi
+
+          if echo "$FILES" | grep -q '^backend/'; then
+            STACK=zuoye-collector-pr-${{ github.event.number }}
+            for i in $(seq 1 60); do
+              API=$(aws cloudformation describe-stacks --stack-name "$STACK" \
+                --query 'Stacks[0].Outputs[?OutputKey==`ApiUrl`].OutputValue' --output text 2>/dev/null || true)
+              if [ -n "$API" ] && [ "$API" != "None" ]; then break; fi
+              echo "waiting for $STACK ($i/60)..."
+              sleep 15
+            done
+            if [ -z "$API" ] || [ "$API" = "None" ]; then
+              echo "PR stack never became ready"; exit 1
+            fi
+            echo "api_url=$API" >> "$GITHUB_OUTPUT"
+          else
+            echo "api_url=https://qsmyj6l2q1.execute-api.us-east-2.amazonaws.com" >> "$GITHUB_OUTPUT"
           fi
 
       # Real environment variables beat .env.production in Vite, so this
-      # rebuild bakes the preview's Go API into the bundle.
+      # rebuild bakes the preview's backends into the bundle.
       - run: npm run build
         working-directory: frontend
         env:
-          VITE_GO_API_URL: ${{ steps.goapi.outputs.url }}
+          VITE_API_URL: ${{ steps.apis.outputs.api_url }}
+          VITE_GO_API_URL: ${{ steps.apis.outputs.go_url }}
 
       - name: Publish the preview to Cloudflare Pages
         uses: cloudflare/wrangler-action@v3
@@ -85,7 +121,7 @@ jobs:
           MARKER="<!-- fe-preview -->"
           BODY="$MARKER
           前端预览已就绪: https://pr-${{ github.event.number }}.zuoye-frontend.pages.dev
-          （介绍接口指向: ${{ steps.goapi.outputs.url }}）"
+          （搜索接口: ${{ steps.apis.outputs.api_url }}，介绍接口: ${{ steps.apis.outputs.go_url }}）"
           EXISTING=$(gh api "repos/${{ github.repository }}/issues/${{ github.event.number }}/comments" \
             --jq ".[] | select(.body | startswith(\"$MARKER\")) | .id" | head -1)
           if [ -n "$EXISTING" ]; then

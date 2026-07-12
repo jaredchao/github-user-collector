@@ -39,3 +39,25 @@ jobs:
           gh api "repos/${{ github.repository }}/issues/${{ github.event.number }}/comments" \
             -f body="<!-- pr-env-cleanup -->
           PR 环境已销毁，相关 AWS 资源（ECS 服务/目标组/ALB 规则/CloudMap/镜像）均已删除。"
+
+  # Deleting a CloudFormation stack needs permissions on everything inside it,
+  # which only the SAM deploy role has — hence a separate job and role.
+  teardown-api:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_DEPLOY_ROLE_ARN }}
+          aws-region: us-east-2
+
+      - name: Delete the PR Lambda stack (if any)
+        run: |
+          STACK=zuoye-collector-pr-${{ github.event.number }}
+          if ! aws cloudformation describe-stacks --stack-name "$STACK" >/dev/null 2>&1; then
+            echo "no lambda stack for this PR"
+            exit 0
+          fi
+          echo "deleting $STACK..."
+          aws cloudformation delete-stack --stack-name "$STACK"
+          aws cloudformation wait stack-delete-complete --stack-name "$STACK"
+          echo "stack deleted"
