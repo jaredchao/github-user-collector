@@ -1,0 +1,1275 @@
+.github/workflows/frontend.yml
+  s_e41a08a6891c43::t_2321ef809025dd 62-66,71,78,98
+.github/workflows/pr-env.yml
+  s_e41a08a6891c43::t_5b68e7610cd8a6 3-5,11,92-102,106
+frontend/src/api.test.ts
+  s_e41a08a6891c43::t_0b6ee5dff3247d 51
+frontend/src/api.ts
+  s_e41a08a6891c43::t_65093a41bf6e76 13-16,23,27
+go-service/cmd/server/main.go
+  s_e41a08a6891c43::t_5f003523b1a429 10,35-46,49,58-64
+go-service/go.mod
+  s_e41a08a6891c43::t_7712f9c7780f63 5-11,14-26
+go-service/go.sum
+  s_e41a08a6891c43::t_e82acba7b504fc 1-34
+go-service/internal/collector/collector.go
+  s_e41a08a6891c43::t_87984d679988f5 1-164
+go-service/internal/server/cors_test.go
+  s_e41a08a6891c43::t_3150465f304d9b 19,27,35,51
+go-service/internal/server/server.go
+  s_e41a08a6891c43::t_058ef6e034e089 8,36-43,53,57-82,98-99
+go-service/internal/server/server_test.go
+  s_e41a08a6891c43::t_9d863800eccec2 35,54,61,68,75,82,89
+go-service/vendor/github.com/aws/aws-sdk-go-v2/LICENSE.txt
+  s_e41a08a6891c43::t_506a49cf39da02 1-202
+go-service/vendor/github.com/aws/aws-sdk-go-v2/NOTICE.txt
+  s_e41a08a6891c43::t_fd090a0b5e549a 1-3
+go-service/vendor/github.com/aws/aws-sdk-go-v2/aws/accountid_endpoint_mode.go
+  s_e41a08a6891c43::t_ea767743b7b1d7 1-18
+go-service/vendor/github.com/aws/aws-sdk-go-v2/aws/checksum.go
+  s_e41a08a6891c43::t_4e0e37c6a6c5f7 1-33
+go-service/vendor/github.com/aws/aws-sdk-go-v2/aws/config.go
+  s_e41a08a6891c43::t_43b0112e1ef990 1-254
+go-service/vendor/github.com/aws/aws-sdk-go-v2/aws/context.go
+  s_e41a08a6891c43::t_727aa4d202c1bd 1-22
+go-service/vendor/github.com/aws/aws-sdk-go-v2/aws/credential_cache.go
+  s_e41a08a6891c43::t_06c3fb0156ffab 1-235
+go-service/vendor/github.com/aws/aws-sdk-go-v2/aws/credentials.go
+  s_e41a08a6891c43::t_7751b50fe0aeaa 1-234
+go-service/vendor/github.com/aws/aws-sdk-go-v2/aws/defaults/auto.go
+  s_e41a08a6891c43::t_0b554fc99fd9ec 1-38
+go-service/vendor/github.com/aws/aws-sdk-go-v2/aws/defaults/configuration.go
+  s_e41a08a6891c43::t_0c43995f22f522 1-43
+go-service/vendor/github.com/aws/aws-sdk-go-v2/aws/defaults/defaults.go
+  s_e41a08a6891c43::t_8230465efec594 1-50
+go-service/vendor/github.com/aws/aws-sdk-go-v2/aws/defaults/doc.go
+  s_e41a08a6891c43::t_7538d1d5c1aff4 1-2
+go-service/vendor/github.com/aws/aws-sdk-go-v2/aws/defaultsmode.go
+  s_e41a08a6891c43::t_5eecf33b40e852 1-95
+go-service/vendor/github.com/aws/aws-sdk-go-v2/aws/doc.go
+  s_e41a08a6891c43::t_28a657e81e051f 1-62
+go-service/vendor/github.com/aws/aws-sdk-go-v2/aws/endpoints.go
+  s_e41a08a6891c43::t_2bc46daa364b95 1-247
+go-service/vendor/github.com/aws/aws-sdk-go-v2/aws/errors.go
+  s_e41a08a6891c43::t_0eb4fff3b31dea 1-9
+go-service/vendor/github.com/aws/aws-sdk-go-v2/aws/from_ptr.go
+  s_e41a08a6891c43::t_d96b071702160a 1-365
+go-service/vendor/github.com/aws/aws-sdk-go-v2/aws/go_module_metadata.go
+  s_e41a08a6891c43::t_b58de94582de62 1-6
+go-service/vendor/github.com/aws/aws-sdk-go-v2/aws/logging.go
+  s_e41a08a6891c43::t_dfbdc89129aaab 1-119
+go-service/vendor/github.com/aws/aws-sdk-go-v2/aws/logging_generate.go
+  s_e41a08a6891c43::t_aa492785c989fd 1-95
+go-service/vendor/github.com/aws/aws-sdk-go-v2/aws/middleware/metadata.go
+  s_e41a08a6891c43::t_3c488dc791a815 1-213
+go-service/vendor/github.com/aws/aws-sdk-go-v2/aws/middleware/middleware.go
+  s_e41a08a6891c43::t_31b105d5c7a02f 1-168
+go-service/vendor/github.com/aws/aws-sdk-go-v2/aws/middleware/osname.go
+  s_e41a08a6891c43::t_ab5d85aead43a1 1-24
+go-service/vendor/github.com/aws/aws-sdk-go-v2/aws/middleware/osname_go115.go
+  s_e41a08a6891c43::t_2a57a672d2032f 1-24
+go-service/vendor/github.com/aws/aws-sdk-go-v2/aws/middleware/recursion_detection.go
+  s_e41a08a6891c43::t_f437df925a1c53 1-94
+go-service/vendor/github.com/aws/aws-sdk-go-v2/aws/middleware/request_id.go
+  s_e41a08a6891c43::t_38d283afa06f09 1-27
+go-service/vendor/github.com/aws/aws-sdk-go-v2/aws/middleware/request_id_retriever.go
+  s_e41a08a6891c43::t_9abb16f3b576f6 1-57
+go-service/vendor/github.com/aws/aws-sdk-go-v2/aws/middleware/user_agent.go
+  s_e41a08a6891c43::t_137de4423e9a5a 1-398
+go-service/vendor/github.com/aws/aws-sdk-go-v2/aws/protocol/eventstream/CHANGELOG.md
+  s_e41a08a6891c43::t_fde6f80f73f0b7 1-207
+go-service/vendor/github.com/aws/aws-sdk-go-v2/aws/protocol/eventstream/LICENSE.txt
+  s_e41a08a6891c43::t_5484164b751a60 1-202
+go-service/vendor/github.com/aws/aws-sdk-go-v2/aws/protocol/eventstream/debug.go
+  s_e41a08a6891c43::t_e714d6e4877870 1-144
+go-service/vendor/github.com/aws/aws-sdk-go-v2/aws/protocol/eventstream/decode.go
+  s_e41a08a6891c43::t_ac3a36bdd47ef3 1-218
+go-service/vendor/github.com/aws/aws-sdk-go-v2/aws/protocol/eventstream/encode.go
+  s_e41a08a6891c43::t_0c47c275519f4f 1-167
+go-service/vendor/github.com/aws/aws-sdk-go-v2/aws/protocol/eventstream/error.go
+  s_e41a08a6891c43::t_0593128cefb2bd 1-23
+go-service/vendor/github.com/aws/aws-sdk-go-v2/aws/protocol/eventstream/eventstreamapi/headers.go
+  s_e41a08a6891c43::t_932db18f49feb5 1-24
+go-service/vendor/github.com/aws/aws-sdk-go-v2/aws/protocol/eventstream/eventstreamapi/middleware.go
+  s_e41a08a6891c43::t_36610e4ffa54ee 1-71
+go-service/vendor/github.com/aws/aws-sdk-go-v2/aws/protocol/eventstream/eventstreamapi/transport.go
+  s_e41a08a6891c43::t_d8d916495d3a39 1-13
+go-service/vendor/github.com/aws/aws-sdk-go-v2/aws/protocol/eventstream/eventstreamapi/transport_go117.go
+  s_e41a08a6891c43::t_8dbae62f76d023 1-12
+go-service/vendor/github.com/aws/aws-sdk-go-v2/aws/protocol/eventstream/go_module_metadata.go
+  s_e41a08a6891c43::t_e13c257d67434a 1-6
+go-service/vendor/github.com/aws/aws-sdk-go-v2/aws/protocol/eventstream/header.go
+  s_e41a08a6891c43::t_0a0c5a48f21f5e 1-175
+go-service/vendor/github.com/aws/aws-sdk-go-v2/aws/protocol/eventstream/header_value.go
+  s_e41a08a6891c43::t_01d5ef407a23a5 1-521
+go-service/vendor/github.com/aws/aws-sdk-go-v2/aws/protocol/eventstream/message.go
+  s_e41a08a6891c43::t_ab040364cad816 1-99
+go-service/vendor/github.com/aws/aws-sdk-go-v2/aws/protocol/query/array.go
+  s_e41a08a6891c43::t_79b8fdacf44be4 1-61
+go-service/vendor/github.com/aws/aws-sdk-go-v2/aws/protocol/query/encoder.go
+  s_e41a08a6891c43::t_2a826ccc3bf078 1-80
+go-service/vendor/github.com/aws/aws-sdk-go-v2/aws/protocol/query/map.go
+  s_e41a08a6891c43::t_9829201244a3a9 1-78
+go-service/vendor/github.com/aws/aws-sdk-go-v2/aws/protocol/query/middleware.go
+  s_e41a08a6891c43::t_56bca093a0901d 1-62
+go-service/vendor/github.com/aws/aws-sdk-go-v2/aws/protocol/query/object.go
+  s_e41a08a6891c43::t_1091c787ecb018 1-68
+go-service/vendor/github.com/aws/aws-sdk-go-v2/aws/protocol/query/value.go
+  s_e41a08a6891c43::t_b23375f058cc13 1-117
+go-service/vendor/github.com/aws/aws-sdk-go-v2/aws/protocol/restjson/decoder_util.go
+  s_e41a08a6891c43::t_302d1f4bc45e3a 1-85
+go-service/vendor/github.com/aws/aws-sdk-go-v2/aws/protocol/xml/error_utils.go
+  s_e41a08a6891c43::t_b1c56b77a319a1 1-48
+go-service/vendor/github.com/aws/aws-sdk-go-v2/aws/ratelimit/none.go
+  s_e41a08a6891c43::t_a19402aec65fd9 1-20
+go-service/vendor/github.com/aws/aws-sdk-go-v2/aws/ratelimit/token_bucket.go
+  s_e41a08a6891c43::t_ba7981120dd018 1-96
+go-service/vendor/github.com/aws/aws-sdk-go-v2/aws/ratelimit/token_rate_limit.go
+  s_e41a08a6891c43::t_ba17dfb1deb2bf 1-83
+go-service/vendor/github.com/aws/aws-sdk-go-v2/aws/request.go
+  s_e41a08a6891c43::t_bb8a41b390c7cf 1-25
+go-service/vendor/github.com/aws/aws-sdk-go-v2/aws/restrict_file_permissions.go
+  s_e41a08a6891c43::t_0736c678fd7136 1-21
+go-service/vendor/github.com/aws/aws-sdk-go-v2/aws/retry/adaptive.go
+  s_e41a08a6891c43::t_ed61822233fba8 1-156
+go-service/vendor/github.com/aws/aws-sdk-go-v2/aws/retry/adaptive_ratelimit.go
+  s_e41a08a6891c43::t_607b6c61b9565e 1-158
+go-service/vendor/github.com/aws/aws-sdk-go-v2/aws/retry/adaptive_token_bucket.go
+  s_e41a08a6891c43::t_d1a1f1e5c2a621 1-83
+go-service/vendor/github.com/aws/aws-sdk-go-v2/aws/retry/attempt_metrics.go
+  s_e41a08a6891c43::t_7f4cfbc2b9750c 1-51
+go-service/vendor/github.com/aws/aws-sdk-go-v2/aws/retry/doc.go
+  s_e41a08a6891c43::t_4e9df602834ff8 1-80
+go-service/vendor/github.com/aws/aws-sdk-go-v2/aws/retry/errors.go
+  s_e41a08a6891c43::t_cb8183af25bee9 1-20
+go-service/vendor/github.com/aws/aws-sdk-go-v2/aws/retry/jitter_backoff.go
+  s_e41a08a6891c43::t_c90552504fb569 1-124
+go-service/vendor/github.com/aws/aws-sdk-go-v2/aws/retry/metadata.go
+  s_e41a08a6891c43::t_f6f18f62bdd12a 1-52
+go-service/vendor/github.com/aws/aws-sdk-go-v2/aws/retry/middleware.go
+  s_e41a08a6891c43::t_184bd195a9a7f8 1-487
+go-service/vendor/github.com/aws/aws-sdk-go-v2/aws/retry/retry.go
+  s_e41a08a6891c43::t_a04733f8069662 1-103
+go-service/vendor/github.com/aws/aws-sdk-go-v2/aws/retry/retryable_error.go
+  s_e41a08a6891c43::t_1a97c1ea536fc2 1-228
+go-service/vendor/github.com/aws/aws-sdk-go-v2/aws/retry/standard.go
+  s_e41a08a6891c43::t_bf3479bec4c8fe 1-343
+go-service/vendor/github.com/aws/aws-sdk-go-v2/aws/retry/throttle_error.go
+  s_e41a08a6891c43::t_2b90190108cc5f 1-60
+go-service/vendor/github.com/aws/aws-sdk-go-v2/aws/retry/timeout_error.go
+  s_e41a08a6891c43::t_b5532c5d30a8c9 1-52
+go-service/vendor/github.com/aws/aws-sdk-go-v2/aws/retryer.go
+  s_e41a08a6891c43::t_33bbb000fc84ae 1-127
+go-service/vendor/github.com/aws/aws-sdk-go-v2/aws/runtime.go
+  s_e41a08a6891c43::t_64552cb46898c4 1-14
+go-service/vendor/github.com/aws/aws-sdk-go-v2/aws/signer/internal/v4/cache.go
+  s_e41a08a6891c43::t_b8c761db4e256f 1-115
+go-service/vendor/github.com/aws/aws-sdk-go-v2/aws/signer/internal/v4/const.go
+  s_e41a08a6891c43::t_2dea5c5dc0f0cb 1-40
+go-service/vendor/github.com/aws/aws-sdk-go-v2/aws/signer/internal/v4/header_rules.go
+  s_e41a08a6891c43::t_99493ac477308f 1-82
+go-service/vendor/github.com/aws/aws-sdk-go-v2/aws/signer/internal/v4/headers.go
+  s_e41a08a6891c43::t_263d3ee83ae2fb 1-70
+go-service/vendor/github.com/aws/aws-sdk-go-v2/aws/signer/internal/v4/hmac.go
+  s_e41a08a6891c43::t_3abbf37e424a2c 1-13
+go-service/vendor/github.com/aws/aws-sdk-go-v2/aws/signer/internal/v4/host.go
+  s_e41a08a6891c43::t_81b4d0a5715dc6 1-75
+go-service/vendor/github.com/aws/aws-sdk-go-v2/aws/signer/internal/v4/scope.go
+  s_e41a08a6891c43::t_b7d26d4451237a 1-13
+go-service/vendor/github.com/aws/aws-sdk-go-v2/aws/signer/internal/v4/time.go
+  s_e41a08a6891c43::t_f8443d43dbdd0a 1-36
+go-service/vendor/github.com/aws/aws-sdk-go-v2/aws/signer/internal/v4/util.go
+  s_e41a08a6891c43::t_351d49734c462e 1-80
+go-service/vendor/github.com/aws/aws-sdk-go-v2/aws/signer/v4/middleware.go
+  s_e41a08a6891c43::t_39fc3bc30eedde 1-420
+go-service/vendor/github.com/aws/aws-sdk-go-v2/aws/signer/v4/presign_middleware.go
+  s_e41a08a6891c43::t_614573f75dcf1e 1-127
+go-service/vendor/github.com/aws/aws-sdk-go-v2/aws/signer/v4/stream.go
+  s_e41a08a6891c43::t_48a4c8721c42a4 1-86
+go-service/vendor/github.com/aws/aws-sdk-go-v2/aws/signer/v4/v4.go
+  s_e41a08a6891c43::t_bee430d5ba174f 1-564
+go-service/vendor/github.com/aws/aws-sdk-go-v2/aws/to_ptr.go
+  s_e41a08a6891c43::t_1346529c559aed 1-297
+go-service/vendor/github.com/aws/aws-sdk-go-v2/aws/transport/http/client.go
+  s_e41a08a6891c43::t_175958d997d046 1-355
+go-service/vendor/github.com/aws/aws-sdk-go-v2/aws/transport/http/content_type.go
+  s_e41a08a6891c43::t_5ab01ee0a0a18c 1-42
+go-service/vendor/github.com/aws/aws-sdk-go-v2/aws/transport/http/response_error.go
+  s_e41a08a6891c43::t_1df420aa2c6e84 1-33
+go-service/vendor/github.com/aws/aws-sdk-go-v2/aws/transport/http/response_error_middleware.go
+  s_e41a08a6891c43::t_54b1d638c18681 1-56
+go-service/vendor/github.com/aws/aws-sdk-go-v2/aws/transport/http/timeout_read_closer.go
+  s_e41a08a6891c43::t_0e6936381c2f6e 1-109
+go-service/vendor/github.com/aws/aws-sdk-go-v2/aws/types.go
+  s_e41a08a6891c43::t_43d180241b30d6 1-42
+go-service/vendor/github.com/aws/aws-sdk-go-v2/aws/version.go
+  s_e41a08a6891c43::t_2d4006e6537296 1-8
+go-service/vendor/github.com/aws/aws-sdk-go-v2/config/CHANGELOG.md
+  s_e41a08a6891c43::t_d8ca825ea52898 1-1114
+go-service/vendor/github.com/aws/aws-sdk-go-v2/config/LICENSE.txt
+  s_e41a08a6891c43::t_ffd582c77fd6c6 1-202
+go-service/vendor/github.com/aws/aws-sdk-go-v2/config/auth_scheme_preference.go
+  s_e41a08a6891c43::t_c6ec9686a60e42 1-19
+go-service/vendor/github.com/aws/aws-sdk-go-v2/config/config.go
+  s_e41a08a6891c43::t_623e990849e6b0 1-237
+go-service/vendor/github.com/aws/aws-sdk-go-v2/config/defaultsmode.go
+  s_e41a08a6891c43::t_2c3e3bfad2d098 1-47
+go-service/vendor/github.com/aws/aws-sdk-go-v2/config/doc.go
+  s_e41a08a6891c43::t_0a1aea6f2d4615 1-20
+go-service/vendor/github.com/aws/aws-sdk-go-v2/config/env_config.go
+  s_e41a08a6891c43::t_cc1efd658a0881 1-966
+go-service/vendor/github.com/aws/aws-sdk-go-v2/config/generate.go
+  s_e41a08a6891c43::t_24c11b75ad3d3a 1-4
+go-service/vendor/github.com/aws/aws-sdk-go-v2/config/go_module_metadata.go
+  s_e41a08a6891c43::t_023a6030c3f883 1-6
+go-service/vendor/github.com/aws/aws-sdk-go-v2/config/internal/ini/errors.go
+  s_e41a08a6891c43::t_3b37bebbf08abc 1-22
+go-service/vendor/github.com/aws/aws-sdk-go-v2/config/internal/ini/ini.go
+  s_e41a08a6891c43::t_238c4a974b698a 1-56
+go-service/vendor/github.com/aws/aws-sdk-go-v2/config/internal/ini/parse.go
+  s_e41a08a6891c43::t_f493eb47d684d0 1-109
+go-service/vendor/github.com/aws/aws-sdk-go-v2/config/internal/ini/sections.go
+  s_e41a08a6891c43::t_ad8de2835d15d6 1-157
+go-service/vendor/github.com/aws/aws-sdk-go-v2/config/internal/ini/strings.go
+  s_e41a08a6891c43::t_920ec65798c96f 1-89
+go-service/vendor/github.com/aws/aws-sdk-go-v2/config/internal/ini/token.go
+  s_e41a08a6891c43::t_73a59f5ccab8a1 1-32
+go-service/vendor/github.com/aws/aws-sdk-go-v2/config/internal/ini/tokenize.go
+  s_e41a08a6891c43::t_ccc653a60ef881 1-92
+go-service/vendor/github.com/aws/aws-sdk-go-v2/config/internal/ini/value.go
+  s_e41a08a6891c43::t_4bdfd3173edab8 1-93
+go-service/vendor/github.com/aws/aws-sdk-go-v2/config/load_options.go
+  s_e41a08a6891c43::t_ed65f67f533738 1-1371
+go-service/vendor/github.com/aws/aws-sdk-go-v2/config/local.go
+  s_e41a08a6891c43::t_c682398700a360 1-51
+go-service/vendor/github.com/aws/aws-sdk-go-v2/config/provider.go
+  s_e41a08a6891c43::t_6e4912232e1c41 1-802
+go-service/vendor/github.com/aws/aws-sdk-go-v2/config/resolve.go
+  s_e41a08a6891c43::t_5b3bc3af1ce1c4 1-458
+go-service/vendor/github.com/aws/aws-sdk-go-v2/config/resolve_bearer_token.go
+  s_e41a08a6891c43::t_df9ea1a3447357 1-122
+go-service/vendor/github.com/aws/aws-sdk-go-v2/config/resolve_credentials.go
+  s_e41a08a6891c43::t_a4bec9ef6a7a4e 1-650
+go-service/vendor/github.com/aws/aws-sdk-go-v2/config/shared_config.go
+  s_e41a08a6891c43::t_1c0069a51188df 1-1704
+go-service/vendor/github.com/aws/aws-sdk-go-v2/credentials/CHANGELOG.md
+  s_e41a08a6891c43::t_b7afc4acad8892 1-1007
+go-service/vendor/github.com/aws/aws-sdk-go-v2/credentials/LICENSE.txt
+  s_e41a08a6891c43::t_ee893d714e0852 1-202
+go-service/vendor/github.com/aws/aws-sdk-go-v2/credentials/doc.go
+  s_e41a08a6891c43::t_5edbea895be277 1-4
+go-service/vendor/github.com/aws/aws-sdk-go-v2/credentials/ec2rolecreds/doc.go
+  s_e41a08a6891c43::t_e0091c429efd94 1-58
+go-service/vendor/github.com/aws/aws-sdk-go-v2/credentials/ec2rolecreds/provider.go
+  s_e41a08a6891c43::t_983321092c1021 1-241
+go-service/vendor/github.com/aws/aws-sdk-go-v2/credentials/endpointcreds/internal/client/auth.go
+  s_e41a08a6891c43::t_4911d2caa3295a 1-48
+go-service/vendor/github.com/aws/aws-sdk-go-v2/credentials/endpointcreds/internal/client/client.go
+  s_e41a08a6891c43::t_69de0cc0146ba4 1-165
+go-service/vendor/github.com/aws/aws-sdk-go-v2/credentials/endpointcreds/internal/client/endpoints.go
+  s_e41a08a6891c43::t_e3fe19fc07664a 1-20
+go-service/vendor/github.com/aws/aws-sdk-go-v2/credentials/endpointcreds/internal/client/middleware.go
+  s_e41a08a6891c43::t_9e6857f9379917 1-164
+go-service/vendor/github.com/aws/aws-sdk-go-v2/credentials/endpointcreds/provider.go
+  s_e41a08a6891c43::t_fa5facfff54781 1-207
+go-service/vendor/github.com/aws/aws-sdk-go-v2/credentials/go_module_metadata.go
+  s_e41a08a6891c43::t_5a01a31cedfecd 1-6
+go-service/vendor/github.com/aws/aws-sdk-go-v2/credentials/logincreds/dpop.go
+  s_e41a08a6891c43::t_1cc5ec4e9c336b 1-150
+go-service/vendor/github.com/aws/aws-sdk-go-v2/credentials/logincreds/file.go
+  s_e41a08a6891c43::t_c3eee3fe7b27da 1-14
+go-service/vendor/github.com/aws/aws-sdk-go-v2/credentials/logincreds/provider.go
+  s_e41a08a6891c43::t_f25a9f907158c4 1-184
+go-service/vendor/github.com/aws/aws-sdk-go-v2/credentials/logincreds/token.go
+  s_e41a08a6891c43::t_428c67877bb4d3 1-110
+go-service/vendor/github.com/aws/aws-sdk-go-v2/credentials/processcreds/doc.go
+  s_e41a08a6891c43::t_5788441b5322bd 1-92
+go-service/vendor/github.com/aws/aws-sdk-go-v2/credentials/processcreds/provider.go
+  s_e41a08a6891c43::t_8b42dcbeb1a8fb 1-296
+go-service/vendor/github.com/aws/aws-sdk-go-v2/credentials/ssocreds/doc.go
+  s_e41a08a6891c43::t_16aa30f9e85281 1-81
+go-service/vendor/github.com/aws/aws-sdk-go-v2/credentials/ssocreds/sso_cached_token.go
+  s_e41a08a6891c43::t_77c5525583e74e 1-232
+go-service/vendor/github.com/aws/aws-sdk-go-v2/credentials/ssocreds/sso_credentials_provider.go
+  s_e41a08a6891c43::t_7038ba9d065cab 1-165
+go-service/vendor/github.com/aws/aws-sdk-go-v2/credentials/ssocreds/sso_token_provider.go
+  s_e41a08a6891c43::t_ce75a031d3fbf3 1-147
+go-service/vendor/github.com/aws/aws-sdk-go-v2/credentials/static_provider.go
+  s_e41a08a6891c43::t_a6f4a19a62fb3c 1-63
+go-service/vendor/github.com/aws/aws-sdk-go-v2/credentials/stscreds/assume_role_provider.go
+  s_e41a08a6891c43::t_e3556711126693 1-338
+go-service/vendor/github.com/aws/aws-sdk-go-v2/credentials/stscreds/web_identity_provider.go
+  s_e41a08a6891c43::t_b23d5ea371f386 1-181
+go-service/vendor/github.com/aws/aws-sdk-go-v2/feature/ec2/imds/CHANGELOG.md
+  s_e41a08a6891c43::t_c94fc2812cf0aa 1-588
+go-service/vendor/github.com/aws/aws-sdk-go-v2/feature/ec2/imds/LICENSE.txt
+  s_e41a08a6891c43::t_0233ecdfce7bc0 1-202
+go-service/vendor/github.com/aws/aws-sdk-go-v2/feature/ec2/imds/api_client.go
+  s_e41a08a6891c43::t_acf7edc5ef2487 1-358
+go-service/vendor/github.com/aws/aws-sdk-go-v2/feature/ec2/imds/api_op_GetDynamicData.go
+  s_e41a08a6891c43::t_d20c5576ca7b09 1-77
+go-service/vendor/github.com/aws/aws-sdk-go-v2/feature/ec2/imds/api_op_GetIAMInfo.go
+  s_e41a08a6891c43::t_0463383e7c19b0 1-103
+go-service/vendor/github.com/aws/aws-sdk-go-v2/feature/ec2/imds/api_op_GetInstanceIdentityDocument.go
+  s_e41a08a6891c43::t_c7facde0eb09fa 1-110
+go-service/vendor/github.com/aws/aws-sdk-go-v2/feature/ec2/imds/api_op_GetMetadata.go
+  s_e41a08a6891c43::t_662a618569f1f9 1-77
+go-service/vendor/github.com/aws/aws-sdk-go-v2/feature/ec2/imds/api_op_GetRegion.go
+  s_e41a08a6891c43::t_7d4f476aec2732 1-73
+go-service/vendor/github.com/aws/aws-sdk-go-v2/feature/ec2/imds/api_op_GetToken.go
+  s_e41a08a6891c43::t_901a67d471bd6b 1-119
+go-service/vendor/github.com/aws/aws-sdk-go-v2/feature/ec2/imds/api_op_GetUserData.go
+  s_e41a08a6891c43::t_5b544b13b306c8 1-61
+go-service/vendor/github.com/aws/aws-sdk-go-v2/feature/ec2/imds/auth.go
+  s_e41a08a6891c43::t_151aede2bfec76 1-48
+go-service/vendor/github.com/aws/aws-sdk-go-v2/feature/ec2/imds/doc.go
+  s_e41a08a6891c43::t_4975bcc7c03c24 1-12
+go-service/vendor/github.com/aws/aws-sdk-go-v2/feature/ec2/imds/endpoints.go
+  s_e41a08a6891c43::t_7f9f6f1abe60bd 1-20
+go-service/vendor/github.com/aws/aws-sdk-go-v2/feature/ec2/imds/go_module_metadata.go
+  s_e41a08a6891c43::t_67acaf894e5a92 1-6
+go-service/vendor/github.com/aws/aws-sdk-go-v2/feature/ec2/imds/internal/config/resolvers.go
+  s_e41a08a6891c43::t_0d9f41ab367e7c 1-114
+go-service/vendor/github.com/aws/aws-sdk-go-v2/feature/ec2/imds/request_middleware.go
+  s_e41a08a6891c43::t_618f2a5e06a5b5 1-313
+go-service/vendor/github.com/aws/aws-sdk-go-v2/feature/ec2/imds/token_provider.go
+  s_e41a08a6891c43::t_94660d4cce2fb8 1-261
+go-service/vendor/github.com/aws/aws-sdk-go-v2/internal/auth/auth.go
+  s_e41a08a6891c43::t_a094170a876ecd 1-45
+go-service/vendor/github.com/aws/aws-sdk-go-v2/internal/auth/scheme.go
+  s_e41a08a6891c43::t_cb6b5b79de37c4 1-191
+go-service/vendor/github.com/aws/aws-sdk-go-v2/internal/auth/smithy/bearer_token_adapter.go
+  s_e41a08a6891c43::t_d94f2d7691abc4 1-43
+go-service/vendor/github.com/aws/aws-sdk-go-v2/internal/auth/smithy/bearer_token_signer_adapter.go
+  s_e41a08a6891c43::t_da18ae14279aac 1-35
+go-service/vendor/github.com/aws/aws-sdk-go-v2/internal/auth/smithy/credentials_adapter.go
+  s_e41a08a6891c43::t_5bba12875d3605 1-46
+go-service/vendor/github.com/aws/aws-sdk-go-v2/internal/auth/smithy/smithy.go
+  s_e41a08a6891c43::t_a6201852988839 1-2
+go-service/vendor/github.com/aws/aws-sdk-go-v2/internal/auth/smithy/v4signer_adapter.go
+  s_e41a08a6891c43::t_47d16224f8c3dc 1-57
+go-service/vendor/github.com/aws/aws-sdk-go-v2/internal/auth/smithy/v4signer_adapter_eventstream.go
+  s_e41a08a6891c43::t_299da97b6e5d30 1-51
+go-service/vendor/github.com/aws/aws-sdk-go-v2/internal/configsources/CHANGELOG.md
+  s_e41a08a6891c43::t_a4a55f609a0393 1-548
+go-service/vendor/github.com/aws/aws-sdk-go-v2/internal/configsources/LICENSE.txt
+  s_e41a08a6891c43::t_5043366fb383cf 1-202
+go-service/vendor/github.com/aws/aws-sdk-go-v2/internal/configsources/config.go
+  s_e41a08a6891c43::t_b40fb5457aaea4 1-65
+go-service/vendor/github.com/aws/aws-sdk-go-v2/internal/configsources/endpoints.go
+  s_e41a08a6891c43::t_2c61945e8c8588 1-57
+go-service/vendor/github.com/aws/aws-sdk-go-v2/internal/configsources/go_module_metadata.go
+  s_e41a08a6891c43::t_eb010b1166b8b4 1-6
+go-service/vendor/github.com/aws/aws-sdk-go-v2/internal/context/context.go
+  s_e41a08a6891c43::t_4de28ce2fb771d 1-65
+go-service/vendor/github.com/aws/aws-sdk-go-v2/internal/endpoints/awsrulesfn/arn.go
+  s_e41a08a6891c43::t_35bfbf4ecde1a2 1-94
+go-service/vendor/github.com/aws/aws-sdk-go-v2/internal/endpoints/awsrulesfn/doc.go
+  s_e41a08a6891c43::t_404fc31747468a 1-3
+go-service/vendor/github.com/aws/aws-sdk-go-v2/internal/endpoints/awsrulesfn/generate.go
+  s_e41a08a6891c43::t_160e01a0ad6b5f 1-7
+go-service/vendor/github.com/aws/aws-sdk-go-v2/internal/endpoints/awsrulesfn/host.go
+  s_e41a08a6891c43::t_4afc054f35771f 1-51
+go-service/vendor/github.com/aws/aws-sdk-go-v2/internal/endpoints/awsrulesfn/partition.go
+  s_e41a08a6891c43::t_62802e22d6809d 1-76
+go-service/vendor/github.com/aws/aws-sdk-go-v2/internal/endpoints/awsrulesfn/partitions.go
+  s_e41a08a6891c43::t_159405e73eecda 1-496
+go-service/vendor/github.com/aws/aws-sdk-go-v2/internal/endpoints/awsrulesfn/partitions.json
+  s_e41a08a6891c43::t_ce020b7752d2fd 1-267
+go-service/vendor/github.com/aws/aws-sdk-go-v2/internal/endpoints/endpoints.go
+  s_e41a08a6891c43::t_26fc28f678eca7 1-201
+go-service/vendor/github.com/aws/aws-sdk-go-v2/internal/endpoints/v2/CHANGELOG.md
+  s_e41a08a6891c43::t_baf9e6fb3c8fa7 1-523
+go-service/vendor/github.com/aws/aws-sdk-go-v2/internal/endpoints/v2/LICENSE.txt
+  s_e41a08a6891c43::t_4295ac29f8e32b 1-202
+go-service/vendor/github.com/aws/aws-sdk-go-v2/internal/endpoints/v2/endpoints.go
+  s_e41a08a6891c43::t_82956dfb1e6fe2 1-302
+go-service/vendor/github.com/aws/aws-sdk-go-v2/internal/endpoints/v2/go_module_metadata.go
+  s_e41a08a6891c43::t_d6bc3a8bf1176a 1-6
+go-service/vendor/github.com/aws/aws-sdk-go-v2/internal/rand/rand.go
+  s_e41a08a6891c43::t_0c21f635643667 1-33
+go-service/vendor/github.com/aws/aws-sdk-go-v2/internal/sdk/interfaces.go
+  s_e41a08a6891c43::t_4d651b8fe54b4a 1-9
+go-service/vendor/github.com/aws/aws-sdk-go-v2/internal/sdk/time.go
+  s_e41a08a6891c43::t_5ea76cbff7efcd 1-74
+go-service/vendor/github.com/aws/aws-sdk-go-v2/internal/sdkio/byte.go
+  s_e41a08a6891c43::t_f9d6798498cf5d 1-12
+go-service/vendor/github.com/aws/aws-sdk-go-v2/internal/shareddefaults/shared_config.go
+  s_e41a08a6891c43::t_7a377baeb64b22 1-47
+go-service/vendor/github.com/aws/aws-sdk-go-v2/internal/strings/strings.go
+  s_e41a08a6891c43::t_c00a4a55cab512 1-11
+go-service/vendor/github.com/aws/aws-sdk-go-v2/internal/sync/singleflight/LICENSE
+  s_e41a08a6891c43::t_e0603d10953fc0 1-28
+go-service/vendor/github.com/aws/aws-sdk-go-v2/internal/sync/singleflight/docs.go
+  s_e41a08a6891c43::t_73217b1058fb39 1-7
+go-service/vendor/github.com/aws/aws-sdk-go-v2/internal/sync/singleflight/singleflight.go
+  s_e41a08a6891c43::t_0c8d768b75bde4 1-210
+go-service/vendor/github.com/aws/aws-sdk-go-v2/internal/timeconv/duration.go
+  s_e41a08a6891c43::t_35e25bdb1c9a4c 1-13
+go-service/vendor/github.com/aws/aws-sdk-go-v2/internal/v4a/CHANGELOG.md
+  s_e41a08a6891c43::t_044975f75ef757 1-490
+go-service/vendor/github.com/aws/aws-sdk-go-v2/internal/v4a/LICENSE.txt
+  s_e41a08a6891c43::t_cad840e34a4a96 1-202
+go-service/vendor/github.com/aws/aws-sdk-go-v2/internal/v4a/credentials.go
+  s_e41a08a6891c43::t_615736d7c35487 1-141
+go-service/vendor/github.com/aws/aws-sdk-go-v2/internal/v4a/error.go
+  s_e41a08a6891c43::t_b7fa198d1dfce3 1-17
+go-service/vendor/github.com/aws/aws-sdk-go-v2/internal/v4a/go_module_metadata.go
+  s_e41a08a6891c43::t_df2a6dec24a24f 1-6
+go-service/vendor/github.com/aws/aws-sdk-go-v2/internal/v4a/internal/crypto/compare.go
+  s_e41a08a6891c43::t_0aa7e77adbf5f4 1-30
+go-service/vendor/github.com/aws/aws-sdk-go-v2/internal/v4a/internal/crypto/ecc.go
+  s_e41a08a6891c43::t_5787e9ec17df00 1-113
+go-service/vendor/github.com/aws/aws-sdk-go-v2/internal/v4a/internal/v4/const.go
+  s_e41a08a6891c43::t_61a5c4c82af2ba 1-36
+go-service/vendor/github.com/aws/aws-sdk-go-v2/internal/v4a/internal/v4/header_rules.go
+  s_e41a08a6891c43::t_457a9bc71ab1ea 1-82
+go-service/vendor/github.com/aws/aws-sdk-go-v2/internal/v4a/internal/v4/headers.go
+  s_e41a08a6891c43::t_8efc4d973d5351 1-68
+go-service/vendor/github.com/aws/aws-sdk-go-v2/internal/v4a/internal/v4/hmac.go
+  s_e41a08a6891c43::t_66275be31f2dc2 1-13
+go-service/vendor/github.com/aws/aws-sdk-go-v2/internal/v4a/internal/v4/host.go
+  s_e41a08a6891c43::t_b11caf1c5afd6a 1-75
+go-service/vendor/github.com/aws/aws-sdk-go-v2/internal/v4a/internal/v4/time.go
+  s_e41a08a6891c43::t_63c7fe79fcaee3 1-36
+go-service/vendor/github.com/aws/aws-sdk-go-v2/internal/v4a/internal/v4/util.go
+  s_e41a08a6891c43::t_cee28d1edfe50c 1-64
+go-service/vendor/github.com/aws/aws-sdk-go-v2/internal/v4a/middleware.go
+  s_e41a08a6891c43::t_3dd1ef61ba22b3 1-118
+go-service/vendor/github.com/aws/aws-sdk-go-v2/internal/v4a/presign_middleware.go
+  s_e41a08a6891c43::t_18221028ee5f1e 1-117
+go-service/vendor/github.com/aws/aws-sdk-go-v2/internal/v4a/smithy.go
+  s_e41a08a6891c43::t_59d94884151a42 1-92
+go-service/vendor/github.com/aws/aws-sdk-go-v2/internal/v4a/v4a.go
+  s_e41a08a6891c43::t_4026bbd7b22583 1-520
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/internal/accept-encoding/CHANGELOG.md
+  s_e41a08a6891c43::t_3f483f84d789e2 1-224
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/internal/accept-encoding/LICENSE.txt
+  s_e41a08a6891c43::t_80adb2fe3ffb35 1-202
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/internal/accept-encoding/accept_encoding_gzip.go
+  s_e41a08a6891c43::t_e9a3d6990a9369 1-176
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/internal/accept-encoding/doc.go
+  s_e41a08a6891c43::t_f0bdec32230d93 1-22
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/internal/accept-encoding/go_module_metadata.go
+  s_e41a08a6891c43::t_2cf85b31423917 1-6
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/internal/presigned-url/CHANGELOG.md
+  s_e41a08a6891c43::t_25fe5dae74af5f 1-575
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/internal/presigned-url/LICENSE.txt
+  s_e41a08a6891c43::t_c54923fa57473b 1-202
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/internal/presigned-url/context.go
+  s_e41a08a6891c43::t_c4dc4b10e9de12 1-56
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/internal/presigned-url/doc.go
+  s_e41a08a6891c43::t_291ae758c7e850 1-3
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/internal/presigned-url/go_module_metadata.go
+  s_e41a08a6891c43::t_4448832ae66f8e 1-6
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/internal/presigned-url/middleware.go
+  s_e41a08a6891c43::t_146bfaaaa0b347 1-110
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/lambda/CHANGELOG.md
+  s_e41a08a6891c43::t_3916f525d6fefb 1-1027
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/lambda/LICENSE.txt
+  s_e41a08a6891c43::t_b6d90b06c07b22 1-202
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/lambda/api_client.go
+  s_e41a08a6891c43::t_e0363f906998ac 1-1002
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/lambda/api_op_AddLayerVersionPermission.go
+  s_e41a08a6891c43::t_cdd48b31354fad 1-148
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/lambda/api_op_AddPermission.go
+  s_e41a08a6891c43::t_7a57555ef77ebd 1-195
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/lambda/api_op_CheckpointDurableExecution.go
+  s_e41a08a6891c43::t_9ccd976c7c2e6a 1-180
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/lambda/api_op_CreateAlias.go
+  s_e41a08a6891c43::t_e11f0c4eb3bc49 1-161
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/lambda/api_op_CreateCapacityProvider.go
+  s_e41a08a6891c43::t_a1b29033e0f92f 1-142
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/lambda/api_op_CreateCodeSigningConfig.go
+  s_e41a08a6891c43::t_719e966821bf75 1-121
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/lambda/api_op_CreateEventSourceMapping.go
+  s_e41a08a6891c43::t_a40b39600beb77 1-524
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/lambda/api_op_CreateFunction.go
+  s_e41a08a6891c43::t_fed909e99e4b9a 1-519
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/lambda/api_op_CreateFunctionUrlConfig.go
+  s_e41a08a6891c43::t_6cfdc63346c708 1-187
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/lambda/api_op_DeleteAlias.go
+  s_e41a08a6891c43::t_27454242f03bd3 1-118
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/lambda/api_op_DeleteCapacityProvider.go
+  s_e41a08a6891c43::t_9b3e78cce1e6f0 1-108
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/lambda/api_op_DeleteCodeSigningConfig.go
+  s_e41a08a6891c43::t_d4c14c0f2da8cc 1-101
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/lambda/api_op_DeleteEventSourceMapping.go
+  s_e41a08a6891c43::t_6e730feae8ad76 1-282
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/lambda/api_op_DeleteFunction.go
+  s_e41a08a6891c43::t_f0e80dc662243e 1-129
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/lambda/api_op_DeleteFunctionCodeSigningConfig.go
+  s_e41a08a6891c43::t_d86ec8025466e5 1-111
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/lambda/api_op_DeleteFunctionConcurrency.go
+  s_e41a08a6891c43::t_774163360e30ea 1-111
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/lambda/api_op_DeleteFunctionEventInvokeConfig.go
+  s_e41a08a6891c43::t_2594f55bdadfd8 1-118
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/lambda/api_op_DeleteFunctionUrlConfig.go
+  s_e41a08a6891c43::t_3b3dd322301231 1-115
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/lambda/api_op_DeleteLayerVersion.go
+  s_e41a08a6891c43::t_08ef1153e532f2 1-109
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/lambda/api_op_DeleteProvisionedConcurrencyConfig.go
+  s_e41a08a6891c43::t_45d4bd0a611b60 1-116
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/lambda/api_op_GetAccountSettings.go
+  s_e41a08a6891c43::t_3439a23c6c0021 1-102
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/lambda/api_op_GetAlias.go
+  s_e41a08a6891c43::t_842000ccf7af95 1-143
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/lambda/api_op_GetCapacityProvider.go
+  s_e41a08a6891c43::t_9f74816c5cba7d 1-109
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/lambda/api_op_GetCodeSigningConfig.go
+  s_e41a08a6891c43::t_d73009bbef36c0 1-107
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/lambda/api_op_GetDurableExecution.go
+  s_e41a08a6891c43::t_4b529171f7cb8b 1-181
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/lambda/api_op_GetDurableExecutionHistory.go
+  s_e41a08a6891c43::t_5ce306edbdddd3 1-238
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/lambda/api_op_GetDurableExecutionState.go
+  s_e41a08a6891c43::t_e46225e4a3d516 1-234
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/lambda/api_op_GetEventSourceMapping.go
+  s_e41a08a6891c43::t_13bf648181c788 1-278
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/lambda/api_op_GetFunction.go
+  s_e41a08a6891c43::t_dd29d0fce0d129 1-749
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/lambda/api_op_GetFunctionCodeSigningConfig.go
+  s_e41a08a6891c43::t_52b5c95c0cbd7b 1-133
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/lambda/api_op_GetFunctionConcurrency.go
+  s_e41a08a6891c43::t_c1eaa904a93f74 1-116
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/lambda/api_op_GetFunctionConfiguration.go
+  s_e41a08a6891c43::t_876a41c18da0cc 1-903
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/lambda/api_op_GetFunctionEventInvokeConfig.go
+  s_e41a08a6891c43::t_8ba54cb389231c 1-151
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/lambda/api_op_GetFunctionRecursionConfig.go
+  s_e41a08a6891c43::t_2d0e33f2580465 1-116
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/lambda/api_op_GetFunctionScalingConfig.go
+  s_e41a08a6891c43::t_d60613e99c5798 1-118
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/lambda/api_op_GetFunctionUrlConfig.go
+  s_e41a08a6891c43::t_ad22ad5aa1a6da 1-167
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/lambda/api_op_GetLayerVersion.go
+  s_e41a08a6891c43::t_8980948bd33696 1-148
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/lambda/api_op_GetLayerVersionByArn.go
+  s_e41a08a6891c43::t_864423a3359694 1-143
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/lambda/api_op_GetLayerVersionPolicy.go
+  s_e41a08a6891c43::t_7c0088323c1534 1-114
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/lambda/api_op_GetPolicy.go
+  s_e41a08a6891c43::t_03fdde5d1a535b 1-124
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/lambda/api_op_GetProvisionedConcurrencyConfig.go
+  s_e41a08a6891c43::t_68bd7cb9cf3a52 1-142
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/lambda/api_op_GetRuntimeManagementConfig.go
+  s_e41a08a6891c43::t_bb5e2e6691a9f0 1-134
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/lambda/api_op_Invoke.go
+  s_e41a08a6891c43::t_7ace12f624d6aa 1-235
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/lambda/api_op_InvokeAsync.go
+  s_e41a08a6891c43::t_13ca5976476dcf 1-133
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/lambda/api_op_InvokeWithResponseStream.go
+  s_e41a08a6891c43::t_e4131c9d3eac12 1-268
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/lambda/api_op_ListAliases.go
+  s_e41a08a6891c43::t_cd9adc141d81ab 1-224
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/lambda/api_op_ListCapacityProviders.go
+  s_e41a08a6891c43::t_2af6ddfc282231 1-207
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/lambda/api_op_ListCodeSigningConfigs.go
+  s_e41a08a6891c43::t_de9a16215cc0a4 1-205
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/lambda/api_op_ListDurableExecutionsByFunction.go
+  s_e41a08a6891c43::t_8a264526dfca27 1-238
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/lambda/api_op_ListEventSourceMappings.go
+  s_e41a08a6891c43::t_8cea524edeb09f 1-243
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/lambda/api_op_ListFunctionEventInvokeConfigs.go
+  s_e41a08a6891c43::t_943b3b7a27b4d3 1-225
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/lambda/api_op_ListFunctionUrlConfigs.go
+  s_e41a08a6891c43::t_05699d22e90d9e 1-227
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/lambda/api_op_ListFunctionVersionsByCapacityProvider.go
+  s_e41a08a6891c43::t_e748da293b3c2e 1-220
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/lambda/api_op_ListFunctions.go
+  s_e41a08a6891c43::t_70218e633deb5a 1-223
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/lambda/api_op_ListFunctionsByCodeSigningConfig.go
+  s_e41a08a6891c43::t_06de16657ba2d3 1-213
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/lambda/api_op_ListLayerVersions.go
+  s_e41a08a6891c43::t_e231d2d2a79437 1-229
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/lambda/api_op_ListLayers.go
+  s_e41a08a6891c43::t_e80e85d35cb69a 1-221
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/lambda/api_op_ListProvisionedConcurrencyConfigs.go
+  s_e41a08a6891c43::t_475bdb315e5d73 1-223
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/lambda/api_op_ListTags.go
+  s_e41a08a6891c43::t_526e65f1976134 1-108
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/lambda/api_op_ListVersionsByFunction.go
+  s_e41a08a6891c43::t_1264ef6c16b737 1-228
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/lambda/api_op_PublishLayerVersion.go
+  s_e41a08a6891c43::t_250f57c2cb5383 1-178
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/lambda/api_op_PublishVersion.go
+  s_e41a08a6891c43::t_99aaedda0730cc 1-323
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/lambda/api_op_PutFunctionCodeSigningConfig.go
+  s_e41a08a6891c43::t_7682b275312b1a 1-140
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/lambda/api_op_PutFunctionConcurrency.go
+  s_e41a08a6891c43::t_44ebb0aca1a7aa 1-137
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/lambda/api_op_PutFunctionEventInvokeConfig.go
+  s_e41a08a6891c43::t_9b5cc66ed2689a 1-193
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/lambda/api_op_PutFunctionRecursionConfig.go
+  s_e41a08a6891c43::t_db44f434f54ffd 1-160
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/lambda/api_op_PutFunctionScalingConfig.go
+  s_e41a08a6891c43::t_883f49d57f5f86 1-118
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/lambda/api_op_PutProvisionedConcurrencyConfig.go
+  s_e41a08a6891c43::t_726956a466cf54 1-146
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/lambda/api_op_PutRuntimeManagementConfig.go
+  s_e41a08a6891c43::t_ff51f7d94c2e56 1-165
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/lambda/api_op_RemoveLayerVersionPermission.go
+  s_e41a08a6891c43::t_9035ccbefb5cae 1-117
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/lambda/api_op_RemovePermission.go
+  s_e41a08a6891c43::t_24d0c2f2ee0840 1-127
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/lambda/api_op_SendDurableExecutionCallbackFailure.go
+  s_e41a08a6891c43::t_9ad10671268249 1-106
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/lambda/api_op_SendDurableExecutionCallbackHeartbeat.go
+  s_e41a08a6891c43::t_11db555db6c14c 1-102
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/lambda/api_op_SendDurableExecutionCallbackSuccess.go
+  s_e41a08a6891c43::t_4604248985d5b5 1-105
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/lambda/api_op_StopDurableExecution.go
+  s_e41a08a6891c43::t_64540fb83c0ba6 1-114
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/lambda/api_op_TagResource.go
+  s_e41a08a6891c43::t_3cb9097f168ab2 1-107
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/lambda/api_op_UntagResource.go
+  s_e41a08a6891c43::t_f7c43fb0d38130 1-107
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/lambda/api_op_UpdateAlias.go
+  s_e41a08a6891c43::t_88756ec37d3743 1-158
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/lambda/api_op_UpdateCapacityProvider.go
+  s_e41a08a6891c43::t_5771325d9179d0 1-117
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/lambda/api_op_UpdateCodeSigningConfig.go
+  s_e41a08a6891c43::t_b8aba93d1374b5 1-118
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/lambda/api_op_UpdateEventSourceMapping.go
+  s_e41a08a6891c43::t_0d3ac64d65619e 1-486
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/lambda/api_op_UpdateFunctionCode.go
+  s_e41a08a6891c43::t_2cb89de68fa479 1-370
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/lambda/api_op_UpdateFunctionConfiguration.go
+  s_e41a08a6891c43::t_9e95e172e17d1a 1-449
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/lambda/api_op_UpdateFunctionEventInvokeConfig.go
+  s_e41a08a6891c43::t_32c6f831dee8d3 1-175
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/lambda/api_op_UpdateFunctionUrlConfig.go
+  s_e41a08a6891c43::t_5d2090d0c527ca 1-191
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/lambda/auth.go
+  s_e41a08a6891c43::t_aaed64a3d4f783 1-355
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/lambda/deserializers.go
+  s_e41a08a6891c43::t_daaf8d1c90066f 1-30135
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/lambda/doc.go
+  s_e41a08a6891c43::t_57ed2e8f20a243 1-77
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/lambda/endpoints.go
+  s_e41a08a6891c43::t_8f8bfea5f54f5e 1-552
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/lambda/eventstream.go
+  s_e41a08a6891c43::t_1b5de142039402 1-284
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/lambda/generated.json
+  s_e41a08a6891c43::t_cc3ef0a49c912c 1-121
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/lambda/go_module_metadata.go
+  s_e41a08a6891c43::t_0b580ef39bc8f1 1-6
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/lambda/internal/endpoints/endpoints.go
+  s_e41a08a6891c43::t_c86533a44cc8c2 1-811
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/lambda/options.go
+  s_e41a08a6891c43::t_62ea324baa13b0 1-242
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/lambda/serializers.go
+  s_e41a08a6891c43::t_7452622213d126 1-9469
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/lambda/types/enums.go
+  s_e41a08a6891c43::t_4207e4b1a5a521 1-1242
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/lambda/types/errors.go
+  s_e41a08a6891c43::t_829bf1910f99c7 1-1691
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/lambda/types/types.go
+  s_e41a08a6891c43::t_42ffe57b3af168 1-2753
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/lambda/validators.go
+  s_e41a08a6891c43::t_f3e7e6cda4c503 1-3533
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/servicediscovery/CHANGELOG.md
+  s_e41a08a6891c43::t_a3c347d2cb1f13 1-849
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/servicediscovery/LICENSE.txt
+  s_e41a08a6891c43::t_43bdc7e9b8a049 1-202
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/servicediscovery/api_client.go
+  s_e41a08a6891c43::t_448c4470dcc15f 1-1000
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/servicediscovery/api_op_CreateHttpNamespace.go
+  s_e41a08a6891c43::t_d2a5312ee184dd 1-166
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/servicediscovery/api_op_CreatePrivateDnsNamespace.go
+  s_e41a08a6891c43::t_f91055567bb4e2 1-178
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/servicediscovery/api_op_CreatePublicDnsNamespace.go
+  s_e41a08a6891c43::t_f660f56471f7e3 1-177
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/servicediscovery/api_op_CreateService.go
+  s_e41a08a6891c43::t_97bdfeeb6416f2 1-245
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/servicediscovery/api_op_DeleteNamespace.go
+  s_e41a08a6891c43::t_f56019b1bd9a87 1-108
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/servicediscovery/api_op_DeleteService.go
+  s_e41a08a6891c43::t_2b87325d45a104 1-106
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/servicediscovery/api_op_DeleteServiceAttributes.go
+  s_e41a08a6891c43::t_4180c153266dab 1-110
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/servicediscovery/api_op_DeregisterInstance.go
+  s_e41a08a6891c43::t_87b88db3558b03 1-120
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/servicediscovery/api_op_DiscoverInstances.go
+  s_e41a08a6891c43::t_65ef0c64ac4ec9 1-192
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/servicediscovery/api_op_DiscoverInstancesRevision.go
+  s_e41a08a6891c43::t_8cd396c9ec6a86 1-152
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/servicediscovery/api_op_GetInstance.go
+  s_e41a08a6891c43::t_912dec7ed26cb5 1-121
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/servicediscovery/api_op_GetInstancesHealthStatus.go
+  s_e41a08a6891c43::t_9ec76d31bf0ecb 1-242
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/servicediscovery/api_op_GetNamespace.go
+  s_e41a08a6891c43::t_052b3acdc43d15 1-110
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/servicediscovery/api_op_GetOperation.go
+  s_e41a08a6891c43::t_c4f10bb837f512 1-116
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/servicediscovery/api_op_GetService.go
+  s_e41a08a6891c43::t_c4105331ac317c 1-110
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/servicediscovery/api_op_GetServiceAttributes.go
+  s_e41a08a6891c43::t_dd56e3c0197a97 1-111
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/servicediscovery/api_op_ListInstances.go
+  s_e41a08a6891c43::t_831c78b10c4e2c 1-229
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/servicediscovery/api_op_ListNamespaces.go
+  s_e41a08a6891c43::t_51768fdb2dda6f 1-233
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/servicediscovery/api_op_ListOperations.go
+  s_e41a08a6891c43::t_5f5db902f6afd7 1-231
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/servicediscovery/api_op_ListServices.go
+  s_e41a08a6891c43::t_984aa8e98fef0a 1-231
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/servicediscovery/api_op_ListTagsForResource.go
+  s_e41a08a6891c43::t_c133fab17245fe 1-106
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/servicediscovery/api_op_RegisterInstance.go
+  s_e41a08a6891c43::t_1ad921be4611bd 1-312
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/servicediscovery/api_op_TagResource.go
+  s_e41a08a6891c43::t_8c8fd68f49d320 1-109
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/servicediscovery/api_op_UntagResource.go
+  s_e41a08a6891c43::t_44b1d3c02f5bd1 1-106
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/servicediscovery/api_op_UpdateHttpNamespace.go
+  s_e41a08a6891c43::t_51e7d3fc7c0bf7 1-156
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/servicediscovery/api_op_UpdateInstanceCustomHealthStatus.go
+  s_e41a08a6891c43::t_9e5e14c0c90200 1-126
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/servicediscovery/api_op_UpdatePrivateDnsNamespace.go
+  s_e41a08a6891c43::t_469211889be59b 1-156
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/servicediscovery/api_op_UpdatePublicDnsNamespace.go
+  s_e41a08a6891c43::t_c92b182dc2b04a 1-156
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/servicediscovery/api_op_UpdateService.go
+  s_e41a08a6891c43::t_d91f9b9c8ae55a 1-145
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/servicediscovery/api_op_UpdateServiceAttributes.go
+  s_e41a08a6891c43::t_80e7aaa95381ad 1-107
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/servicediscovery/auth.go
+  s_e41a08a6891c43::t_68c039b7cdd50f 1-355
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/servicediscovery/deserializers.go
+  s_e41a08a6891c43::t_e679a983d6f147 1-7653
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/servicediscovery/doc.go
+  s_e41a08a6891c43::t_8a6d4879d6fb4e 1-15
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/servicediscovery/endpoints.go
+  s_e41a08a6891c43::t_c7c2af8d673c64 1-590
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/servicediscovery/generated.json
+  s_e41a08a6891c43::t_9f848de44309d0 1-63
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/servicediscovery/go_module_metadata.go
+  s_e41a08a6891c43::t_de50588ffa0b84 1-6
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/servicediscovery/internal/endpoints/endpoints.go
+  s_e41a08a6891c43::t_f664ec4dcbf1ca 1-898
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/servicediscovery/options.go
+  s_e41a08a6891c43::t_c995fd844a4fe1 1-242
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/servicediscovery/serializers.go
+  s_e41a08a6891c43::t_9b9a3ff1cb5354 1-3065
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/servicediscovery/types/enums.go
+  s_e41a08a6891c43::t_79653d15dcea76 1-349
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/servicediscovery/types/errors.go
+  s_e41a08a6891c43::t_fec6a6e86c7651 1-423
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/servicediscovery/types/types.go
+  s_e41a08a6891c43::t_42083c8c49d105 1-1334
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/servicediscovery/validators.go
+  s_e41a08a6891c43::t_3a0522864bfb18 1-1779
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/signin/CHANGELOG.md
+  s_e41a08a6891c43::t_ad1d6a55960ad5 1-102
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/signin/LICENSE.txt
+  s_e41a08a6891c43::t_e927006f6e7d0b 1-202
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/signin/api_client.go
+  s_e41a08a6891c43::t_3a9a920b308962 1-1000
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/signin/api_op_CreateOAuth2Token.go
+  s_e41a08a6891c43::t_50debbdc29025b 1-163
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/signin/api_op_CreateOAuth2TokenWithIAM.go
+  s_e41a08a6891c43::t_a66b858a63d8eb 1-134
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/signin/api_op_DeleteConsoleAuthorizationConfiguration.go
+  s_e41a08a6891c43::t_ab1051d9a6e10f 1-119
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/signin/api_op_DeleteResourcePermissionStatement.go
+  s_e41a08a6891c43::t_e3415f7908b98f 1-148
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/signin/api_op_GetConsoleAuthorizationConfiguration.go
+  s_e41a08a6891c43::t_5c659caf457500 1-119
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/signin/api_op_GetResourcePolicy.go
+  s_e41a08a6891c43::t_a9d08beb8c9d95 1-106
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/signin/api_op_IntrospectOAuth2TokenWithIAM.go
+  s_e41a08a6891c43::t_8cbc083bfa6ac0 1-184
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/signin/api_op_ListResourcePermissionStatements.go
+  s_e41a08a6891c43::t_fe956530e2690d 1-213
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/signin/api_op_PutConsoleAuthorizationConfiguration.go
+  s_e41a08a6891c43::t_29ee356706a615 1-119
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/signin/api_op_PutResourcePermissionStatement.go
+  s_e41a08a6891c43::t_81e2e3651a563a 1-168
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/signin/api_op_RevokeOAuth2TokenWithIAM.go
+  s_e41a08a6891c43::t_58f2ab8e689bbe 1-122
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/signin/auth.go
+  s_e41a08a6891c43::t_6fe1250a29bfe4 1-361
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/signin/deserializers.go
+  s_e41a08a6891c43::t_cf5603cc4962b5 1-3052
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/signin/doc.go
+  s_e41a08a6891c43::t_bd9554e92ff20e 1-9
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/signin/endpoints.go
+  s_e41a08a6891c43::t_ad093394d96fb7 1-902
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/signin/generated.json
+  s_e41a08a6891c43::t_d54eb209e28ef1 1-44
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/signin/go_module_metadata.go
+  s_e41a08a6891c43::t_cc8eeb5314e313 1-6
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/signin/internal/endpoints/endpoints.go
+  s_e41a08a6891c43::t_8f0c567fad75e8 1-333
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/signin/options.go
+  s_e41a08a6891c43::t_ecab64e9f3f23c 1-242
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/signin/serializers.go
+  s_e41a08a6891c43::t_ec5854b1c3553e 1-977
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/signin/types/enums.go
+  s_e41a08a6891c43::t_987f8356fe664e 1-46
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/signin/types/errors.go
+  s_e41a08a6891c43::t_197d88d5ed6475 1-247
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/signin/types/types.go
+  s_e41a08a6891c43::t_11133d5dad8d28 1-160
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/signin/validators.go
+  s_e41a08a6891c43::t_908e3491c3ff9a 1-231
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/sso/CHANGELOG.md
+  s_e41a08a6891c43::t_63f16e8b0ef7ce 1-805
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/sso/LICENSE.txt
+  s_e41a08a6891c43::t_34692fe54edc64 1-202
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/sso/api_client.go
+  s_e41a08a6891c43::t_3819abcfc5480d 1-984
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/sso/api_op_GetRoleCredentials.go
+  s_e41a08a6891c43::t_2555cbcde18083 1-116
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/sso/api_op_ListAccountRoles.go
+  s_e41a08a6891c43::t_4ba333ab7114e7 1-215
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/sso/api_op_ListAccounts.go
+  s_e41a08a6891c43::t_f03c964c69b65b 1-213
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/sso/api_op_Logout.go
+  s_e41a08a6891c43::t_9c4fafb0cb52a4 1-115
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/sso/auth.go
+  s_e41a08a6891c43::t_9168bd9bd73a68 1-379
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/sso/deserializers.go
+  s_e41a08a6891c43::t_6ec22be792cc46 1-1171
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/sso/doc.go
+  s_e41a08a6891c43::t_0f7cddafd4a1ea 1-27
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/sso/endpoints.go
+  s_e41a08a6891c43::t_a92b62431220a2 1-570
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/sso/generated.json
+  s_e41a08a6891c43::t_420fc1da29e53e 1-36
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/sso/go_module_metadata.go
+  s_e41a08a6891c43::t_b7b8a36c5696e1 1-6
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/sso/internal/endpoints/endpoints.go
+  s_e41a08a6891c43::t_03641d55d6474e 1-628
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/sso/options.go
+  s_e41a08a6891c43::t_69095389cced38 1-238
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/sso/serializers.go
+  s_e41a08a6891c43::t_88750618738fd1 1-309
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/sso/types/errors.go
+  s_e41a08a6891c43::t_41bf3232cb5c7f 1-115
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/sso/types/types.go
+  s_e41a08a6891c43::t_665cda4de4ee9e 1-63
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/sso/validators.go
+  s_e41a08a6891c43::t_2611c8744f3d78 1-175
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/ssooidc/CHANGELOG.md
+  s_e41a08a6891c43::t_724550a948c326 1-803
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/ssooidc/LICENSE.txt
+  s_e41a08a6891c43::t_036d600b8428e0 1-202
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/ssooidc/api_client.go
+  s_e41a08a6891c43::t_a08d77809304bb 1-984
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/ssooidc/api_op_CreateToken.go
+  s_e41a08a6891c43::t_84e6cf2f77389b 1-186
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/ssooidc/api_op_CreateTokenWithIAM.go
+  s_e41a08a6891c43::t_f6093431597c5b 1-233
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/ssooidc/api_op_RegisterClient.go
+  s_e41a08a6891c43::t_b6c53ebbfb8a19 1-157
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/ssooidc/api_op_StartDeviceAuthorization.go
+  s_e41a08a6891c43::t_b7cc0483cc7b4a 1-139
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/ssooidc/auth.go
+  s_e41a08a6891c43::t_c07693fa0c3d50 1-373
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/ssooidc/deserializers.go
+  s_e41a08a6891c43::t_1b675fdf3fccab 1-2244
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/ssooidc/doc.go
+  s_e41a08a6891c43::t_e6fffe040070ab 1-49
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/ssooidc/endpoints.go
+  s_e41a08a6891c43::t_9a7d2eb98ac966 1-570
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/ssooidc/generated.json
+  s_e41a08a6891c43::t_7f1e51dc35bd9f 1-37
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/ssooidc/go_module_metadata.go
+  s_e41a08a6891c43::t_fb30a2c6d2cf54 1-6
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/ssooidc/internal/endpoints/endpoints.go
+  s_e41a08a6891c43::t_aaf93fc92be5cd 1-628
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/ssooidc/options.go
+  s_e41a08a6891c43::t_0308f3c46644b9 1-238
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/ssooidc/serializers.go
+  s_e41a08a6891c43::t_631e64bdcd19af 1-512
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/ssooidc/types/enums.go
+  s_e41a08a6891c43::t_890e6692fed1bf 1-44
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/ssooidc/types/errors.go
+  s_e41a08a6891c43::t_00e9f428cc7ce8 1-430
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/ssooidc/types/types.go
+  s_e41a08a6891c43::t_b381f685e68704 1-25
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/ssooidc/validators.go
+  s_e41a08a6891c43::t_0f064c0d71faab 1-184
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/sts/CHANGELOG.md
+  s_e41a08a6891c43::t_f67c559e8e88a8 1-845
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/sts/LICENSE.txt
+  s_e41a08a6891c43::t_d63d79450f542f 1-202
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/sts/api_client.go
+  s_e41a08a6891c43::t_321c7e18ca7564 1-1170
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/sts/api_op_AssumeRole.go
+  s_e41a08a6891c43::t_1e1ff699f04fb4 1-495
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/sts/api_op_AssumeRoleWithSAML.go
+  s_e41a08a6891c43::t_86e182edb4fe3c 1-406
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/sts/api_op_AssumeRoleWithWebIdentity.go
+  s_e41a08a6891c43::t_bbce2b970b2d5e 1-423
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/sts/api_op_AssumeRoot.go
+  s_e41a08a6891c43::t_e02560c99f4217 1-180
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/sts/api_op_DecodeAuthorizationMessage.go
+  s_e41a08a6891c43::t_d883251b6d28db 1-140
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/sts/api_op_GetAccessKeyInfo.go
+  s_e41a08a6891c43::t_cfc9f73aeca885 1-131
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/sts/api_op_GetCallerIdentity.go
+  s_e41a08a6891c43::t_8a570a6457b4c5 1-143
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/sts/api_op_GetDelegatedAccessToken.go
+  s_e41a08a6891c43::t_d6fb1869f234d4 1-120
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/sts/api_op_GetFederationToken.go
+  s_e41a08a6891c43::t_8f76bf61ed09d8 1-344
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/sts/api_op_GetSessionToken.go
+  s_e41a08a6891c43::t_6930a1c40c6545 1-190
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/sts/api_op_GetWebIdentityToken.go
+  s_e41a08a6891c43::t_fb5c0eb78b107b 1-143
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/sts/auth.go
+  s_e41a08a6891c43::t_f18187aef99241 1-377
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/sts/deserializers.go
+  s_e41a08a6891c43::t_cd1186c06b2440 1-3456
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/sts/doc.go
+  s_e41a08a6891c43::t_bba5938e6d55a3 1-13
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/sts/endpoints.go
+  s_e41a08a6891c43::t_55ad8daf818b72 1-683
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/sts/generated.json
+  s_e41a08a6891c43::t_ef46ec274fbd50 1-46
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/sts/go_module_metadata.go
+  s_e41a08a6891c43::t_4b8cfb25f7596c 1-6
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/sts/internal/endpoints/endpoints.go
+  s_e41a08a6891c43::t_cb6607db887097 1-585
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/sts/options.go
+  s_e41a08a6891c43::t_4e15bc645ec0b0 1-286
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/sts/serializers.go
+  s_e41a08a6891c43::t_222f835b057d66 1-1198
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/sts/types/errors.go
+  s_e41a08a6891c43::t_dd010977cff465 1-363
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/sts/types/types.go
+  s_e41a08a6891c43::t_361a8ebf6a7e02 1-144
+go-service/vendor/github.com/aws/aws-sdk-go-v2/service/sts/validators.go
+  s_e41a08a6891c43::t_7c3f945c48b689 1-433
+go-service/vendor/github.com/aws/smithy-go/.gitignore
+  s_e41a08a6891c43::t_421367b698f302 1-29
+go-service/vendor/github.com/aws/smithy-go/.travis.yml
+  s_e41a08a6891c43::t_4e99778bc48fe4 1-28
+go-service/vendor/github.com/aws/smithy-go/AGENTS.md
+  s_e41a08a6891c43::t_b8a1ae2189287b 1-172
+go-service/vendor/github.com/aws/smithy-go/CHANGELOG.md
+  s_e41a08a6891c43::t_591210a9e86632 1-454
+go-service/vendor/github.com/aws/smithy-go/CODE_OF_CONDUCT.md
+  s_e41a08a6891c43::t_903bda667f8f18 1-4
+go-service/vendor/github.com/aws/smithy-go/CONTRIBUTING.md
+  s_e41a08a6891c43::t_3e5f3d77b977d0 1-90
+go-service/vendor/github.com/aws/smithy-go/LICENSE
+  s_e41a08a6891c43::t_8473a9dedbb131 1-175
+go-service/vendor/github.com/aws/smithy-go/Makefile
+  s_e41a08a6891c43::t_1247ce5033d195 1-130
+go-service/vendor/github.com/aws/smithy-go/NOTICE
+  s_e41a08a6891c43::t_751c6688cba375 1
+go-service/vendor/github.com/aws/smithy-go/README.md
+  s_e41a08a6891c43::t_ba4f4801ca9541 1-107
+go-service/vendor/github.com/aws/smithy-go/auth/auth.go
+  s_e41a08a6891c43::t_cdc81941438129 1-3
+go-service/vendor/github.com/aws/smithy-go/auth/bearer/docs.go
+  s_e41a08a6891c43::t_98520d3f9535d0 1-3
+go-service/vendor/github.com/aws/smithy-go/auth/bearer/middleware.go
+  s_e41a08a6891c43::t_90e36fee931bd9 1-104
+go-service/vendor/github.com/aws/smithy-go/auth/bearer/token.go
+  s_e41a08a6891c43::t_fbb0529eddd069 1-50
+go-service/vendor/github.com/aws/smithy-go/auth/bearer/token_cache.go
+  s_e41a08a6891c43::t_5d6e738aa41e3e 1-208
+go-service/vendor/github.com/aws/smithy-go/auth/identity.go
+  s_e41a08a6891c43::t_25e5f43546caee 1-47
+go-service/vendor/github.com/aws/smithy-go/auth/option.go
+  s_e41a08a6891c43::t_231e0eefbd5a06 1-25
+go-service/vendor/github.com/aws/smithy-go/auth/scheme_id.go
+  s_e41a08a6891c43::t_c818628fdc6f36 1-20
+go-service/vendor/github.com/aws/smithy-go/changelog-template.json
+  s_e41a08a6891c43::t_260dad40c90db8 1-9
+go-service/vendor/github.com/aws/smithy-go/context/suppress_expired.go
+  s_e41a08a6891c43::t_d0ecce309ed6ef 1-81
+go-service/vendor/github.com/aws/smithy-go/doc.go
+  s_e41a08a6891c43::t_474b3da3c8e380 1-2
+go-service/vendor/github.com/aws/smithy-go/document.go
+  s_e41a08a6891c43::t_ef6b370184777b 1-10
+go-service/vendor/github.com/aws/smithy-go/document/doc.go
+  s_e41a08a6891c43::t_ef4bfa7d22611e 1-12
+go-service/vendor/github.com/aws/smithy-go/document/document.go
+  s_e41a08a6891c43::t_6a298951aba7f7 1-239
+go-service/vendor/github.com/aws/smithy-go/document/errors.go
+  s_e41a08a6891c43::t_cbbbfd32f000ad 1-75
+go-service/vendor/github.com/aws/smithy-go/encoding/doc.go
+  s_e41a08a6891c43::t_a6c440a5adff9c 1-4
+go-service/vendor/github.com/aws/smithy-go/encoding/encoding.go
+  s_e41a08a6891c43::t_8ba4064150e1d6 1-40
+go-service/vendor/github.com/aws/smithy-go/encoding/httpbinding/encode.go
+  s_e41a08a6891c43::t_e920173cab5dac 1-123
+go-service/vendor/github.com/aws/smithy-go/encoding/httpbinding/header.go
+  s_e41a08a6891c43::t_6361aa5f66b4a8 1-122
+go-service/vendor/github.com/aws/smithy-go/encoding/httpbinding/path_replace.go
+  s_e41a08a6891c43::t_3eaedcd17b38ad 1-108
+go-service/vendor/github.com/aws/smithy-go/encoding/httpbinding/query.go
+  s_e41a08a6891c43::t_b96f23994f8315 1-107
+go-service/vendor/github.com/aws/smithy-go/encoding/httpbinding/uri.go
+  s_e41a08a6891c43::t_5203ccef21330e 1-111
+go-service/vendor/github.com/aws/smithy-go/encoding/json/array.go
+  s_e41a08a6891c43::t_6820b8128d5a39 1-35
+go-service/vendor/github.com/aws/smithy-go/encoding/json/constants.go
+  s_e41a08a6891c43::t_0f138b7e95f948 1-15
+go-service/vendor/github.com/aws/smithy-go/encoding/json/decoder_util.go
+  s_e41a08a6891c43::t_ac5d6a451d5a0a 1-139
+go-service/vendor/github.com/aws/smithy-go/encoding/json/encoder.go
+  s_e41a08a6891c43::t_47d4d3eca746a4 1-30
+go-service/vendor/github.com/aws/smithy-go/encoding/json/escape.go
+  s_e41a08a6891c43::t_0bfef989b3e394 1-198
+go-service/vendor/github.com/aws/smithy-go/encoding/json/object.go
+  s_e41a08a6891c43::t_edf2037c389867 1-40
+go-service/vendor/github.com/aws/smithy-go/encoding/json/value.go
+  s_e41a08a6891c43::t_b6a5200fa29561 1-154
+go-service/vendor/github.com/aws/smithy-go/encoding/xml/array.go
+  s_e41a08a6891c43::t_002add5acf4e63 1-49
+go-service/vendor/github.com/aws/smithy-go/encoding/xml/constants.go
+  s_e41a08a6891c43::t_f498952c0a98e4 1-10
+go-service/vendor/github.com/aws/smithy-go/encoding/xml/doc.go
+  s_e41a08a6891c43::t_be2c39f423e1cb 1-49
+go-service/vendor/github.com/aws/smithy-go/encoding/xml/element.go
+  s_e41a08a6891c43::t_1456fab2d6feec 1-91
+go-service/vendor/github.com/aws/smithy-go/encoding/xml/encoder.go
+  s_e41a08a6891c43::t_b42d14fb2f6079 1-51
+go-service/vendor/github.com/aws/smithy-go/encoding/xml/error_utils.go
+  s_e41a08a6891c43::t_1f0a97b4a4903f 1-51
+go-service/vendor/github.com/aws/smithy-go/encoding/xml/escape.go
+  s_e41a08a6891c43::t_7046e90a31198f 1-137
+go-service/vendor/github.com/aws/smithy-go/encoding/xml/map.go
+  s_e41a08a6891c43::t_f8a5ffedb726a9 1-53
+go-service/vendor/github.com/aws/smithy-go/encoding/xml/value.go
+  s_e41a08a6891c43::t_d7865935567170 1-302
+go-service/vendor/github.com/aws/smithy-go/encoding/xml/xml_decoder.go
+  s_e41a08a6891c43::t_00c3c0134710ec 1-154
+go-service/vendor/github.com/aws/smithy-go/endpoints/endpoint.go
+  s_e41a08a6891c43::t_09264253b00f7c 1-23
+go-service/vendor/github.com/aws/smithy-go/endpoints/private/bdd/evaluate.go
+  s_e41a08a6891c43::t_ca2d57b50d2deb 1-35
+go-service/vendor/github.com/aws/smithy-go/endpoints/private/rulesfn/doc.go
+  s_e41a08a6891c43::t_48d7b03dd891ae 1-4
+go-service/vendor/github.com/aws/smithy-go/endpoints/private/rulesfn/split.go
+  s_e41a08a6891c43::t_821facae0fccbf 1-16
+go-service/vendor/github.com/aws/smithy-go/endpoints/private/rulesfn/string_slice.go
+  s_e41a08a6891c43::t_e829111860d1e0 1-18
+go-service/vendor/github.com/aws/smithy-go/endpoints/private/rulesfn/strings.go
+  s_e41a08a6891c43::t_26190c9ccb2f1d 1-25
+go-service/vendor/github.com/aws/smithy-go/endpoints/private/rulesfn/uri.go
+  s_e41a08a6891c43::t_2a0924c859e570 1-133
+go-service/vendor/github.com/aws/smithy-go/errors.go
+  s_e41a08a6891c43::t_1c1b4712a07e85 1-137
+go-service/vendor/github.com/aws/smithy-go/eventstream/const.go
+  s_e41a08a6891c43::t_9bd3690ba14ad9 1-24
+go-service/vendor/github.com/aws/smithy-go/eventstream/debug.go
+  s_e41a08a6891c43::t_4a6338ab0519a0 1-144
+go-service/vendor/github.com/aws/smithy-go/eventstream/decode.go
+  s_e41a08a6891c43::t_50f22b1443230f 1-218
+go-service/vendor/github.com/aws/smithy-go/eventstream/deserializer.go
+  s_e41a08a6891c43::t_e08ad629a594d3 1-294
+go-service/vendor/github.com/aws/smithy-go/eventstream/encode.go
+  s_e41a08a6891c43::t_648a920ed9522b 1-167
+go-service/vendor/github.com/aws/smithy-go/eventstream/error.go
+  s_e41a08a6891c43::t_71dfe32afb4745 1-23
+go-service/vendor/github.com/aws/smithy-go/eventstream/header.go
+  s_e41a08a6891c43::t_1ffb1804b840d4 1-175
+go-service/vendor/github.com/aws/smithy-go/eventstream/header_value.go
+  s_e41a08a6891c43::t_ef33fc85a0b767 1-521
+go-service/vendor/github.com/aws/smithy-go/eventstream/message.go
+  s_e41a08a6891c43::t_ac7e31147e76cb 1-99
+go-service/vendor/github.com/aws/smithy-go/eventstream/serializer.go
+  s_e41a08a6891c43::t_43ec855eb56450 1-228
+go-service/vendor/github.com/aws/smithy-go/eventstream/signer.go
+  s_e41a08a6891c43::t_e51badb89ec7ff 1-82
+go-service/vendor/github.com/aws/smithy-go/eventstream/types.go
+  s_e41a08a6891c43::t_7dd54e1339f18c 1-26
+go-service/vendor/github.com/aws/smithy-go/go_module_metadata.go
+  s_e41a08a6891c43::t_67cbed80b36b64 1-6
+go-service/vendor/github.com/aws/smithy-go/internal/sync/singleflight/LICENSE
+  s_e41a08a6891c43::t_022f49be0336e7 1-28
+go-service/vendor/github.com/aws/smithy-go/internal/sync/singleflight/docs.go
+  s_e41a08a6891c43::t_73838ac1a114da 1-8
+go-service/vendor/github.com/aws/smithy-go/internal/sync/singleflight/singleflight.go
+  s_e41a08a6891c43::t_1f9c516201d6fb 1-210
+go-service/vendor/github.com/aws/smithy-go/io/byte.go
+  s_e41a08a6891c43::t_4888ea593f44c5 1-12
+go-service/vendor/github.com/aws/smithy-go/io/doc.go
+  s_e41a08a6891c43::t_1d8090938addaa 1-2
+go-service/vendor/github.com/aws/smithy-go/io/reader.go
+  s_e41a08a6891c43::t_2681fd65670070 1-16
+go-service/vendor/github.com/aws/smithy-go/io/ringbuffer.go
+  s_e41a08a6891c43::t_79e33c44d8e5bf 1-94
+go-service/vendor/github.com/aws/smithy-go/local-mod-replace.sh
+  s_e41a08a6891c43::t_a36ffa3039daa6 1-39
+go-service/vendor/github.com/aws/smithy-go/logging/logger.go
+  s_e41a08a6891c43::t_3d212432d804cf 1-82
+go-service/vendor/github.com/aws/smithy-go/metrics/metrics.go
+  s_e41a08a6891c43::t_5532262472105a 1-136
+go-service/vendor/github.com/aws/smithy-go/metrics/nop.go
+  s_e41a08a6891c43::t_d9cc4b1d352a76 1-98
+go-service/vendor/github.com/aws/smithy-go/middleware/context.go
+  s_e41a08a6891c43::t_618746203054c9 1-41
+go-service/vendor/github.com/aws/smithy-go/middleware/doc.go
+  s_e41a08a6891c43::t_04ff8c4c5a1c7d 1-67
+go-service/vendor/github.com/aws/smithy-go/middleware/eventstream_middleware.go
+  s_e41a08a6891c43::t_f59c520fc13e96 1-21
+go-service/vendor/github.com/aws/smithy-go/middleware/logging.go
+  s_e41a08a6891c43::t_1e3b32b558bb1c 1-46
+go-service/vendor/github.com/aws/smithy-go/middleware/metadata.go
+  s_e41a08a6891c43::t_3477e1416dfd7d 1-65
+go-service/vendor/github.com/aws/smithy-go/middleware/middleware.go
+  s_e41a08a6891c43::t_86fee74575da53 1-71
+go-service/vendor/github.com/aws/smithy-go/middleware/ordered_group.go
+  s_e41a08a6891c43::t_17183f483bedfe 1-270
+go-service/vendor/github.com/aws/smithy-go/middleware/stack.go
+  s_e41a08a6891c43::t_ce371b3cedbd62 1-209
+go-service/vendor/github.com/aws/smithy-go/middleware/stack_values.go
+  s_e41a08a6891c43::t_4c143c983a253f 1-100
+go-service/vendor/github.com/aws/smithy-go/middleware/step_build.go
+  s_e41a08a6891c43::t_0d86fb16aacd52 1-298
+go-service/vendor/github.com/aws/smithy-go/middleware/step_deserialize.go
+  s_e41a08a6891c43::t_6113c7ffddd2ef 1-300
+go-service/vendor/github.com/aws/smithy-go/middleware/step_finalize.go
+  s_e41a08a6891c43::t_7f9b37efb9c67f 1-298
+go-service/vendor/github.com/aws/smithy-go/middleware/step_initialize.go
+  s_e41a08a6891c43::t_3698f446ca2037 1-299
+go-service/vendor/github.com/aws/smithy-go/middleware/step_serialize.go
+  s_e41a08a6891c43::t_d2419cabeaeb83 1-305
+go-service/vendor/github.com/aws/smithy-go/modman.toml
+  s_e41a08a6891c43::t_23b03539de7eed 1-9
+go-service/vendor/github.com/aws/smithy-go/private/requestcompression/gzip.go
+  s_e41a08a6891c43::t_11ff3a677445ff 1-30
+go-service/vendor/github.com/aws/smithy-go/private/requestcompression/middleware_capture_request_compression.go
+  s_e41a08a6891c43::t_2fc645aabc68a0 1-52
+go-service/vendor/github.com/aws/smithy-go/private/requestcompression/request_compression.go
+  s_e41a08a6891c43::t_bdb35a13688dbe 1-103
+go-service/vendor/github.com/aws/smithy-go/properties.go
+  s_e41a08a6891c43::t_6c867af2991c29 1-69
+go-service/vendor/github.com/aws/smithy-go/ptr/doc.go
+  s_e41a08a6891c43::t_a6ece332488dc9 1-5
+go-service/vendor/github.com/aws/smithy-go/ptr/from_ptr.go
+  s_e41a08a6891c43::t_c62e3634145d1a 1-601
+go-service/vendor/github.com/aws/smithy-go/ptr/gen_scalars.go
+  s_e41a08a6891c43::t_e757290e1be744 1-83
+go-service/vendor/github.com/aws/smithy-go/ptr/to_ptr.go
+  s_e41a08a6891c43::t_4451bf926ca20f 1-499
+go-service/vendor/github.com/aws/smithy-go/rand/doc.go
+  s_e41a08a6891c43::t_48ef0c7c7b7838 1-3
+go-service/vendor/github.com/aws/smithy-go/rand/rand.go
+  s_e41a08a6891c43::t_bc12e39bf80279 1-31
+go-service/vendor/github.com/aws/smithy-go/rand/uuid.go
+  s_e41a08a6891c43::t_a06333f7620170 1-87
+go-service/vendor/github.com/aws/smithy-go/schema.go
+  s_e41a08a6891c43::t_a8abee615f3d7d 1-328
+go-service/vendor/github.com/aws/smithy-go/schema_ext.go
+  s_e41a08a6891c43::t_db31b7ccb2deb9 1-37
+go-service/vendor/github.com/aws/smithy-go/serde.go
+  s_e41a08a6891c43::t_882aa27b1036c5 1-229
+go-service/vendor/github.com/aws/smithy-go/sync/error.go
+  s_e41a08a6891c43::t_5df4a8343342bc 1-53
+go-service/vendor/github.com/aws/smithy-go/time/time.go
+  s_e41a08a6891c43::t_5e71e3efcdaf18 1-134
+go-service/vendor/github.com/aws/smithy-go/tracing/context.go
+  s_e41a08a6891c43::t_6e0f8dca348bcb 1-96
+go-service/vendor/github.com/aws/smithy-go/tracing/nop.go
+  s_e41a08a6891c43::t_71b8172ebfee6d 1-32
+go-service/vendor/github.com/aws/smithy-go/tracing/tracing.go
+  s_e41a08a6891c43::t_d6f057d10b32fe 1-95
+go-service/vendor/github.com/aws/smithy-go/trait.go
+  s_e41a08a6891c43::t_139e88c32743d1 1-21
+go-service/vendor/github.com/aws/smithy-go/traits/http.go
+  s_e41a08a6891c43::t_f5cc0e06a9bce5 1-69
+go-service/vendor/github.com/aws/smithy-go/traits/index.go
+  s_e41a08a6891c43::t_2f224c50c82636 1-107
+go-service/vendor/github.com/aws/smithy-go/traits/serde.go
+  s_e41a08a6891c43::t_cb7637939457dc 1-56
+go-service/vendor/github.com/aws/smithy-go/traits/traits.go
+  s_e41a08a6891c43::t_2bdb31d505c666 1-72
+go-service/vendor/github.com/aws/smithy-go/transport/http/auth.go
+  s_e41a08a6891c43::t_f4f1335088bec3 1-30
+go-service/vendor/github.com/aws/smithy-go/transport/http/auth_schemes.go
+  s_e41a08a6891c43::t_d8a2514bf4d0f0 1-45
+go-service/vendor/github.com/aws/smithy-go/transport/http/checksum_middleware.go
+  s_e41a08a6891c43::t_fb28076146c051 1-70
+go-service/vendor/github.com/aws/smithy-go/transport/http/client.go
+  s_e41a08a6891c43::t_e0d739caf76410 1-161
+go-service/vendor/github.com/aws/smithy-go/transport/http/doc.go
+  s_e41a08a6891c43::t_9aa922f942f10f 1-5
+go-service/vendor/github.com/aws/smithy-go/transport/http/eventstream.go
+  s_e41a08a6891c43::t_c3e9893d29fd18 1-209
+go-service/vendor/github.com/aws/smithy-go/transport/http/eventstream_middleware.go
+  s_e41a08a6891c43::t_8c8f1a02d34079 1-69
+go-service/vendor/github.com/aws/smithy-go/transport/http/headerlist.go
+  s_e41a08a6891c43::t_bce986fb1c4cb4 1-163
+go-service/vendor/github.com/aws/smithy-go/transport/http/host.go
+  s_e41a08a6891c43::t_37ebf680b63fb7 1-89
+go-service/vendor/github.com/aws/smithy-go/transport/http/interceptor.go
+  s_e41a08a6891c43::t_3ea475cf620207 1-321
+go-service/vendor/github.com/aws/smithy-go/transport/http/interceptor_middleware.go
+  s_e41a08a6891c43::t_ab620e9539d0f5 1-325
+go-service/vendor/github.com/aws/smithy-go/transport/http/internal/io/safe.go
+  s_e41a08a6891c43::t_f035e1d671c333 1-75
+go-service/vendor/github.com/aws/smithy-go/transport/http/md5_checksum.go
+  s_e41a08a6891c43::t_f918846a5ddc86 1-25
+go-service/vendor/github.com/aws/smithy-go/transport/http/metrics.go
+  s_e41a08a6891c43::t_2f2ca5b9bc5607 1-204
+go-service/vendor/github.com/aws/smithy-go/transport/http/middleware_close_response_body.go
+  s_e41a08a6891c43::t_28a43a47d03f4c 1-79
+go-service/vendor/github.com/aws/smithy-go/transport/http/middleware_content_length.go
+  s_e41a08a6891c43::t_f24b6017f4c1b3 1-84
+go-service/vendor/github.com/aws/smithy-go/transport/http/middleware_header_comment.go
+  s_e41a08a6891c43::t_11f383be88c830 1-81
+go-service/vendor/github.com/aws/smithy-go/transport/http/middleware_headers.go
+  s_e41a08a6891c43::t_c9300bdd264263 1-167
+go-service/vendor/github.com/aws/smithy-go/transport/http/middleware_http_logging.go
+  s_e41a08a6891c43::t_0513e318abfdd9 1-75
+go-service/vendor/github.com/aws/smithy-go/transport/http/middleware_metadata.go
+  s_e41a08a6891c43::t_2d404b13ed309f 1-51
+go-service/vendor/github.com/aws/smithy-go/transport/http/middleware_min_proto.go
+  s_e41a08a6891c43::t_b9e031d3e61723 1-79
+go-service/vendor/github.com/aws/smithy-go/transport/http/properties.go
+  s_e41a08a6891c43::t_c78b3e816248ad 1-80
+go-service/vendor/github.com/aws/smithy-go/transport/http/protocol.go
+  s_e41a08a6891c43::t_56b970b0dfef3c 1-27
+go-service/vendor/github.com/aws/smithy-go/transport/http/request.go
+  s_e41a08a6891c43::t_73c0a42a6b12eb 1-188
+go-service/vendor/github.com/aws/smithy-go/transport/http/response.go
+  s_e41a08a6891c43::t_6c649e0160298c 1-34
+go-service/vendor/github.com/aws/smithy-go/transport/http/time.go
+  s_e41a08a6891c43::t_ebacefc7b11dd7 1-13
+go-service/vendor/github.com/aws/smithy-go/transport/http/url.go
+  s_e41a08a6891c43::t_67e7c68a3c2a7c 1-44
+go-service/vendor/github.com/aws/smithy-go/transport/http/user_agent.go
+  s_e41a08a6891c43::t_0a3f39c32cffbe 1-37
+go-service/vendor/github.com/aws/smithy-go/type_registry.go
+  s_e41a08a6891c43::t_5a19f4b061ffa7 1-70
+go-service/vendor/github.com/aws/smithy-go/validation.go
+  s_e41a08a6891c43::t_468f09f5df4b5c 1-140
+go-service/vendor/github.com/aws/smithy-go/waiter/logger.go
+  s_e41a08a6891c43::t_a79ec4e9d856cd 1-36
+go-service/vendor/github.com/aws/smithy-go/waiter/waiter.go
+  s_e41a08a6891c43::t_779d8fa18896bc 1-66
+go-service/vendor/modules.txt
+  s_e41a08a6891c43::t_6dcf0b02267bfe 1-124
+scripts/pr-env-up.sh
+  s_e41a08a6891c43::t_8719249aca7cc8 69-72,75-76,80-84
+go-service/internal/collector/collector_test.go
+  s_e41a08a6891c43::t_94432fe0337e7f 1-114
+go-service/internal/server/users_test.go
+  s_e41a08a6891c43::t_73bd8ff8e62d65 1-87
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.12",
+  "base_commit_sha": "5a67364dd39845f87dc11a8822ad45c1cb40336c",
+  "prompts": {},
+  "sessions": {
+    "s_e41a08a6891c43": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "fe1c60df-e471-465e-a877-388c609e3b05",
+        "model": "claude-fable-5"
+      },
+      "human_author": "muluo <mengchao1027@gmail.com>"
+    }
+  }
+}
