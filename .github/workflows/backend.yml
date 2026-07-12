@@ -90,7 +90,7 @@ jobs:
               SubnetIdB=${{ secrets.SUBNET_ID_B }} \
               LambdaSecurityGroupId=${{ secrets.LAMBDA_SECURITY_GROUP_ID }} \
               DatabaseUrl='${{ secrets.DATABASE_URL }}' \
-              CorsOrigins=https://zuoye-frontend.pages.dev
+              CorsOrigins='https://zuoye-frontend.pages.dev,https://*.zuoye-frontend.pages.dev'
 
       - name: Smoke test the deployed API
         run: |
