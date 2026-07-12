@@ -22,6 +22,12 @@ env:
   AWS_REGION: us-east-2
   SOURCE_BUCKET: zuoye-codebuild-source-089783390738
   CODEBUILD_PROJECT: zuoye-go-service
+  IMAGE: 089783390738.dkr.ecr.us-east-2.amazonaws.com/zuoye-go-service
+  # CodeBuild is the intended build path, but this new AWS account has its
+  # concurrent-build limit locked at 0 (support case 178383926300453 denied:
+  # "build more account history"). Until AWS lifts it, build on the runner
+  # with buildx instead. Flip to "true" once the quota is granted.
+  USE_CODEBUILD: "false"
 
 jobs:
   deploy:
@@ -36,11 +42,13 @@ jobs:
           aws-region: us-east-2
 
       - name: Upload source to S3
+        if: env.USE_CODEBUILD == 'true'
         run: |
           zip -qr source.zip go-service
           aws s3 cp source.zip "s3://$SOURCE_BUCKET/pr-${{ github.event.number }}/source.zip"
 
       - name: Build image on CodeBuild
+        if: env.USE_CODEBUILD == 'true'
         run: |
           BUILD_ID=$(aws codebuild start-build \
             --project-name "$CODEBUILD_PROJECT" \
@@ -58,6 +66,24 @@ jobs:
               *) echo "build ended with $STATUS"; exit 1 ;;
             esac
           done
+
+      # Fallback path while the CodeBuild quota is locked at 0: cross-build
+      # the ARM64 image on the runner via QEMU. Same Dockerfile, same tag.
+      - name: Set up QEMU
+        if: env.USE_CODEBUILD != 'true'
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up buildx
+        if: env.USE_CODEBUILD != 'true'
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build image on the runner
+        if: env.USE_CODEBUILD != 'true'
+        run: |
+          aws ecr get-login-password | docker login --username AWS \
+            --password-stdin 089783390738.dkr.ecr.us-east-2.amazonaws.com
+          docker buildx build --platform linux/arm64 --push \
+            -t "$IMAGE:pr-${{ github.event.number }}" go-service
 
       - name: Create or refresh the PR environment
         env:
