@@ -43,7 +43,30 @@ func New(src UserSource) http.Handler {
 		writeJSON(w, http.StatusOK, map[string]string{"status": "ok"})
 	})
 	mux.HandleFunc("GET /intro", handleIntro(src))
-	return mux
+	return withCORS(mux)
+}
+
+// The frontend calls this service directly through the ALB (the homework's
+// "external" path), so browsers need CORS. The Pages project domain is fixed
+// for this project; previews live one label below it (pr-N.<project>).
+const frontendOrigin = "https://zuoye-frontend.pages.dev"
+
+var previewOrigin = regexp.MustCompile(`^https://[a-z0-9-]+\.zuoye-frontend\.pages\.dev$`)
+
+func withCORS(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		origin := r.Header.Get("Origin")
+		if origin == frontendOrigin || previewOrigin.MatchString(origin) {
+			w.Header().Set("Access-Control-Allow-Origin", origin)
+			w.Header().Set("Vary", "Origin")
+		}
+		if r.Method == http.MethodOptions {
+			w.Header().Set("Access-Control-Allow-Methods", "GET, OPTIONS")
+			w.WriteHeader(http.StatusNoContent)
+			return
+		}
+		next.ServeHTTP(w, r)
+	})
 }
 
 func handleIntro(src UserSource) http.HandlerFunc {

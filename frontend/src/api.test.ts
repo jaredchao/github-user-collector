@@ -27,6 +27,7 @@ function mockResponse(status: number, body: unknown = {}): void {
 
 beforeEach(() => {
   vi.stubEnv("VITE_API_URL", "https://api.example.com");
+  vi.stubEnv("VITE_GO_API_URL", "https://go.example.com");
 });
 
 afterEach(() => {
@@ -94,7 +95,7 @@ describe("fetchIntro", () => {
     await expect(fetchIntro("torvalds")).resolves.toBe("Linus Torvalds（@torvalds）...");
   });
 
-  it("calls the intro endpoint with the username in the path", async () => {
+  it("calls the Go service directly through the ALB", async () => {
     const spy = vi
       .fn()
       .mockResolvedValue({ ok: true, status: 200, json: async () => ({ intro: "x" }) });
@@ -102,7 +103,7 @@ describe("fetchIntro", () => {
 
     await fetchIntro("torvalds");
 
-    expect(spy.mock.calls[0]![0]).toBe("https://api.example.com/users/torvalds/intro");
+    expect(spy.mock.calls[0]![0]).toBe("https://go.example.com/intro?username=torvalds");
   });
 
   it("maps 404 onto a readable message", async () => {
