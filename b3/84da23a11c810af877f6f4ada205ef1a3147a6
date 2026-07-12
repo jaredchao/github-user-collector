@@ -1,0 +1,32 @@
+frontend/src/api.ts
+  s_e41a08a6891c43::t_6bbe12b079b153 43-44,52,56
+.github/workflows/frontend.yml
+  s_e41a08a6891c43::t_2980fb5aa2945f 36-96
+go-service/internal/server/cors_test.go
+  s_e41a08a6891c43::t_373e82c7bfa678 1-59
+go-service/internal/server/server.go
+  s_e41a08a6891c43::t_2bdd4c6baba344 46-69
+frontend/src/api.test.ts
+  s_e41a08a6891c43::t_5b711247a6ee57 30
+  s_e41a08a6891c43::t_765a46eb0fe880 98,106
+frontend/.env.development
+  s_e41a08a6891c43::t_452cb93a7b4786 2
+frontend/.env.production
+  s_e41a08a6891c43::t_287d46be740068 2
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.12",
+  "base_commit_sha": "b384da23a11c810af877f6f4ada205ef1a3147a6",
+  "prompts": {},
+  "sessions": {
+    "s_e41a08a6891c43": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "fe1c60df-e471-465e-a877-388c609e3b05",
+        "model": "claude-fable-5"
+      },
+      "human_author": "muluo <mengchao1027@gmail.com>"
+    }
+  }
+}
