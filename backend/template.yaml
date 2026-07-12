@@ -32,6 +32,16 @@ Parameters:
     Default: http://go-service.zuoye.internal:8080
     Description: Cloud Map address of the Go intro service. PR stacks point at go-service-pr-N.
 
+  CloudMapNamespaceId:
+    Type: String
+    Default: ns-5fkzrmwi3bzbrcx3
+    Description: The zuoye.internal Cloud Map namespace
+
+  CloudMapServiceName:
+    Type: String
+    Default: collector-lambda
+    Description: Cloud Map service name registering this stack's Lambda. PR stacks use collector-lambda-pr-N.
+
 Globals:
   Function:
     Runtime: nodejs22.x
@@ -88,6 +98,25 @@ Resources:
     Properties:
       LogGroupName: !Sub /aws/lambda/${CollectorFunction}
       RetentionInDays: 7
+
+  # Lambda has no IP, so it can't live in a DNS record like the Go service
+  # does. A service with no DnsConfig is API-discoverable only: the Go
+  # service finds this function via DiscoverInstances, then invokes it.
+  CollectorDiscoveryService:
+    Type: AWS::ServiceDiscovery::Service
+    Properties:
+      Name: !Ref CloudMapServiceName
+      NamespaceId: !Ref CloudMapNamespaceId
+      Description: API-type registration of the collector Lambda
+
+  CollectorDiscoveryInstance:
+    Type: AWS::ServiceDiscovery::Instance
+    Properties:
+      ServiceId: !Ref CollectorDiscoveryService
+      InstanceId: collector
+      InstanceAttributes:
+        functionName: !Ref CollectorFunction
+        arn: !GetAtt CollectorFunction.Arn
 
 Outputs:
   ApiUrl:

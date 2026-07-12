@@ -113,6 +113,7 @@ jobs:
               LambdaSecurityGroupId=${{ secrets.LAMBDA_SECURITY_GROUP_ID }} \
               DatabaseUrl='${{ secrets.DATABASE_URL }}' \
               GoServiceUrl=${{ steps.gosvc.outputs.url }} \
+              CloudMapServiceName=collector-lambda-pr-${{ github.event.number }} \
               CorsOrigins='https://zuoye-frontend.pages.dev,https://*.zuoye-frontend.pages.dev'
 
       - name: Smoke test and comment the API URL
