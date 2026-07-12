@@ -1,0 +1,26 @@
+.github/workflows/pr-env-cleanup.yml
+  s_e41a08a6891c43::t_a1da2837213454 1-41
+scripts/pr-env-up.sh
+  s_e41a08a6891c43::t_5f70181d459dba 1-103
+.github/workflows/pr-env.yml
+  s_e41a08a6891c43::t_478325761c78b0 75
+  s_e41a08a6891c43::t_37f6815b95a85f 1-74,76-83
+scripts/pr-env-down.sh
+  s_e41a08a6891c43::t_da7396144d0826 1-76
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.12",
+  "base_commit_sha": "efdd34f11e1a8eab684aa9b933e259cc8ed0219e",
+  "prompts": {},
+  "sessions": {
+    "s_e41a08a6891c43": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "fe1c60df-e471-465e-a877-388c609e3b05",
+        "model": "claude-fable-5"
+      },
+      "human_author": "muluo <mengchao1027@gmail.com>"
+    }
+  }
+}
