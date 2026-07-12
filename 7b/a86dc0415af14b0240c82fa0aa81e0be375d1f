@@ -1,0 +1,25 @@
+.github/workflows/backend.yml
+  s_e41a08a6891c43::t_6d0342111f25ac 93
+backend/src/app.ts
+  s_e41a08a6891c43::t_0776d037e79ce9 16-18,22-37
+  s_e41a08a6891c43::t_7ff618dbdb90f3 45
+backend/tests/cors.test.ts
+  s_e41a08a6891c43::t_780e0ff2b9fcde 66-91
+  s_e41a08a6891c43::t_5ff85e1ee06fcf 5,8
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.12",
+  "base_commit_sha": "7ba86dc0415af14b0240c82fa0aa81e0be375d1f",
+  "prompts": {},
+  "sessions": {
+    "s_e41a08a6891c43": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "fe1c60df-e471-465e-a877-388c609e3b05",
+        "model": "claude-fable-5"
+      },
+      "human_author": "muluo <mengchao1027@gmail.com>"
+    }
+  }
+}
