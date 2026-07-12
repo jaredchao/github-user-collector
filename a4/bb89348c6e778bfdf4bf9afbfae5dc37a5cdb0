@@ -1,0 +1,20 @@
+docs/学习笔记.md
+  s_e41a08a6891c43::t_bcdeb2376fd0ac 28
+  s_e41a08a6891c43::t_04ef8dd62c065b 1519-1592
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.12",
+  "base_commit_sha": "a4bb89348c6e778bfdf4bf9afbfae5dc37a5cdb0",
+  "prompts": {},
+  "sessions": {
+    "s_e41a08a6891c43": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "fe1c60df-e471-465e-a877-388c609e3b05",
+        "model": "claude-fable-5"
+      },
+      "human_author": "muluo <mengchao1027@gmail.com>"
+    }
+  }
+}
