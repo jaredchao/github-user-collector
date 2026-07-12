@@ -1,220 +1,153 @@
 # GitHub User Collector
 
-抓取 GitHub 用户信息并存入 PostgreSQL。后端以 Hono 运行于 AWS Lambda，经 API Gateway 对外；数据库为 VPC 私有子网中的 RDS。前端为 React 单页应用，部署在 Cloudflare Pages。
+输入一个 GitHub 用户名，抓取公开信息存入 PostgreSQL，并生成一段中文个人介绍。
 
-> 完整的搭建过程、43 个踩坑记录与验证方法见 [docs/学习笔记.md](docs/学习笔记.md)。
+这是一个 AWS 全栈学习项目：Lambda、ECS Fargate、ALB、Cloud Map 服务发现、RDS、每个 PR 一套隔离的临时环境。完整搭建过程与 50 个踩坑记录见 [docs/学习笔记.md](docs/学习笔记.md)。
+
+## 架构
+
+Go 服务是唯一对外前门，前端只认一个后端域名：
+
+```
+用户浏览器 ── Cloudflare Pages（前端）
+    │
+    └─ HTTPS ──> ALB:443（ACM 通配符证书 *.go-api.jccode.cc，host 头分流）
+                    │
+                    └──> Go 服务（ECS Fargate · ARM64 · 私有子网）
+                           ├─ GET /intro   → 查 RDS，拼接中文介绍
+                           └─ POST /users  → Cloud Map 发现 Lambda → Invoke → 透传
+                                                  │
+                                                  └─ Lambda：抓 GitHub（经 NAT）→ 写 RDS
+
+对内路（保留演示）：API Gateway /users/:u/intro → Lambda ── Cloud Map DNS ──> Go
+```
+
+Cloud Map 的两种形态都在使用：
+
+| | Lambda → Go（对内路） | Go → Lambda（搜索转发） |
+|---|---|---|
+| 命名空间 | `zuoye.internal`（DNS 型） | `zuoye.api`（HTTP 型） |
+| 注册内容 | 容器私网 IP（A 记录） | 函数名/ARN（属性） |
+| 发现方式 | DNS 解析 | `DiscoverInstances` API |
+| 调用方式 | HTTP 直连 | AWS SDK `Invoke`（构造 API Gateway v2 事件，Lambda 代码无感） |
+
+Lambda、Go 容器、RDS、跳板机均无公网 IP；RDS 的 5432 仅对 Lambda、Go 与跳板机的安全组开放。
 
 ## 仓库结构
 
 ```
-backend/    Hono API，SAM 模板，数据库迁移
-frontend/   Vite + React 单页应用
-.github/    GitHub Actions 工作流
+backend/     Hono API（Lambda），SAM 模板，数据库迁移
+go-service/  Go 个人介绍服务（ECS Fargate），vendor 依赖随仓库
+frontend/    Vite + React 单页应用
+scripts/     PR 环境的建立/拆除脚本（幂等）
+.github/     GitHub Actions 工作流
+docs/        学习笔记与设计文档
 ```
 
-后端命令在 `backend/` 下执行，前端命令在 `frontend/` 下执行。
+## 线上入口
 
-## 架构
+| 环境 | 地址 |
+|------|------|
+| 生产前端 | https://zuoye-frontend.pages.dev |
+| 生产 Go 前门 | https://main.go-api.jccode.cc |
+| Lambda API（对内路演示） | https://qsmyj6l2q1.execute-api.us-east-2.amazonaws.com |
+| PR 预览 | 开 PR 后机器人评论里的 `pr-N.*` 链接，关 PR 自动销毁 |
 
-```
-Cloudflare Pages (前端)
-      │ HTTPS + CORS
-      ▼
-API Gateway ──► Lambda (VPC 私有子网)
-                  ├──► NAT Gateway ──► GitHub API
-                  └──► RDS PostgreSQL (VPC 私有子网, TLS)
-
-跳板机 (私有子网, 无公网 IP) ◄── SSM 隧道 ── 本地，用于数据库迁移
-```
-
-Lambda、RDS、跳板机均无公网 IP。RDS 的 5432 端口仅对 Lambda 与跳板机所属的安全组开放。
-
-## 接口
+## 接口（Go 前门）
 
 | 方法 | 路径 | 说明 |
 |------|------|------|
-| POST | `/users` | 请求体 `{"username": "torvalds"}`，抓取该用户并写库，返回 `201` |
-| GET | `/health` | 健康检查 |
+| GET | `/intro?username=torvalds` | 返回该用户的中文介绍（需先入库） |
+| POST | `/users` | 请求体 `{"username":"torvalds"}`，转发 Lambda 抓取入库，`201`；重复调用 upsert |
+| GET | `/health` | 健康检查（含数据库连通性） |
 
-`POST /users` 对同一用户名重复调用会更新已有记录（upsert），不会产生重复行。
+错误码由 Lambda 原样透传：`400` 参数非法、`404` 用户不存在、`429` GitHub 限流、`502` GitHub 不可达、`503` 采集服务不可用。
 
-### 状态码
+## PR 临时环境
 
-| 码 | 含义 |
-|----|------|
-| `201` | 抓取并写入成功 |
-| `400` | 请求体不是合法 JSON，或 `username` 缺失／不符合 GitHub 用户名格式 |
-| `404` | GitHub 上不存在该用户 |
-| `429` | GitHub API 限流（匿名调用配额为 60 次/小时） |
-| `502` | GitHub 返回 5xx 或请求超时 |
-| `500` | 数据库等内部故障 |
+原则：**改哪块，起哪块；没改的用生产**。
+
+| PR 改了什么 | 前端预览 | Go 前门 pr-N | Lambda 栈 pr-N |
+|---|---|---|---|
+| 只改 `frontend/` | ✓（连生产 Go） | 生产 | 生产 |
+| 只改 `go-service/` | ✓ | ✓ | 生产 |
+| 只改 `backend/` | ✓ | ✓（Cloud Map 目标切到 pr-N 栈） | ✓ |
+| 全改 | ✓ | ✓ | ✓ 全链路本 PR 代码 |
+
+开 PR：OIDC 换临时凭证 → buildx 构建 ARM64 镜像推 ECR / SAM 部署 `zuoye-collector-pr-N` 栈 / Pages 预览部署 → 可点链接评论回 PR。追加提交幂等刷新。
+
+关 PR：三路并行清理——Go 前门五资源（任务定义/服务/目标组/ALB 规则/Cloud Map）+ 镜像，Lambda 整栈，Pages 预览部署。零计费残留。
 
 ## 本地开发
 
-前置：Node.js 22+、Docker。
-
-后端：
+前置：Node.js 22+、Go 1.26+、Docker。
 
 ```bash
-cd backend
-npm install
-cp .env.example .env
-docker compose up -d     # 启动 PostgreSQL
-npm run migrate          # 建表
-npm run dev              # 服务监听 localhost:3100
+# 数据库
+cd backend && docker compose up -d && npm run migrate
+
+# Lambda API（localhost:3100）
+npm install && cp .env.example .env && npm run dev
+
+# Go 服务（localhost:8080；本地无任务角色时 POST /users 返回 503，属预期）
+cd ../go-service && cp .env.example .env && go run ./cmd/server
+
+# 前端（localhost:5173）
+cd ../frontend && npm install && npm run dev
 ```
 
-验证：
+测试：
 
 ```bash
-curl -X POST localhost:3100/users \
-  -H 'Content-Type: application/json' \
-  -d '{"username":"torvalds"}'
+cd backend    && npm test && npm run typecheck
+cd frontend   && npm test && npm run typecheck
+cd go-service && go test ./...
 ```
 
-前端：
+`db.test.ts` 连接 Docker 中的真实 PostgreSQL——`ON CONFLICT` 是数据库特有行为，mock 掉就失去了测试意义。
 
-```bash
-cd frontend
-npm install
-npm run dev              # 监听 localhost:5173
-```
+## CI/CD 与身份
 
-`VITE_API_URL` 在 `.env.development` 与 `.env.production` 中配置。它是公开的 API 地址而非密钥，故纳入版本控制。
+推送 `main` 按路径自动部署：`frontend/**` → Pages 发布；`backend/**` → SAM 部署 + 冒烟。PR 事件触发上述临时环境。
 
-## 测试
+全程 GitHub Actions OIDC 临时凭证，**仓库不持有任何 AWS 长期密钥**。四个 IAM 角色各司其职：
 
-```bash
-cd backend  && npm test && npm run typecheck
-cd frontend && npm test && npm run typecheck
-```
+| 角色 | 谁扮演 | 权限边界 |
+|------|--------|---------|
+| `zuoye-github-actions-deploy` | CI（main 与 PR） | SAM 栈的创建/删除 |
+| `zuoye-github-oidc-role` | CI（PR 编排） | pr-N 的 ECS/ALB/CloudMap/ECR 资源 |
+| `zuoye-go-task-role` | Go 容器运行时 | `DiscoverInstances` + `lambda:InvokeFunction` |
+| `zuoye-ecs-execution-role` | ECS 启动任务 | 拉镜像、写日志 |
 
-`db.test.ts` 连接 Docker 中的真实 PostgreSQL 运行——`ON CONFLICT` 是数据库特有行为，mock 掉就失去了测试意义。运行前需先 `docker compose up -d`。
+OIDC 角色信任策略的 `sub` 用 `StringEquals` 精确匹配本仓库——fork 的 PR 拿不到 secrets 也签不出 OIDC 令牌，部署类 job 对外来 PR 天然失效。
 
-## 构建 Lambda 部署包
-
-```bash
-npm run package    # 产出 lambda.zip，内含打包后的单文件 dist/index.mjs
-```
-
-esbuild 将全部依赖打进一个文件，因此无需上传 `node_modules`。Lambda 配置：
-
-- 运行时 `nodejs22.x`
-- 处理程序 `index.handler`
-- 环境变量 `DATABASE_URL` 指向 RDS 端点
-- 环境变量 `CORS_ORIGINS` 填前端域名，多个用逗号分隔；不设置则放行所有来源
-
-## 结构
-
-```
-src/
-  github.ts    调用 GitHub API，返回领域对象；不涉及数据库
-  db.ts        连接池与 upsert；不涉及 HTTP
-  service.ts   编排层：fetchAndStore = fetchUser + upsertUser
-  app.ts       Hono 路由、入参校验、错误到状态码的映射
-  local.ts     本地入口（@hono/node-server）
-  lambda.ts    部署入口（hono/aws-lambda）
-```
-
-依赖方向单向：`local|lambda → app → service → {github, db}`。`github.ts` 与 `db.ts` 互不依赖，可独立测试与替换。
-
-## 设计说明
-
-**连接池位于模块作用域。** Lambda 在两次调用之间冻结容器而非销毁，池建在 handler 内部会导致每次请求新建连接并迅速耗尽 RDS 连接数。`max: 2` 是因为单个 Lambda 实例同时只处理一个请求。
-
-**唯一约束只加在 `username`。** GitHub 用户可以改名，若 `github_id` 也设唯一约束，改名后 upsert 会同时命中两个冲突键，语义不确定。
-
-**GitHub 请求设 5 秒超时。** 否则上游无响应时 Lambda 会一直挂到自身超时。
-
-**数据库密码目前存于环境变量。** 生产环境应迁移至 AWS Secrets Manager，由 Lambda 在运行时读取。本项目出于成本考虑（Secrets Manager 按密钥每月计费）保留环境变量方案，这是一个有意识的权衡。
-
-**RDS 强制 SSL。** 参数组中 `rds.force_ssl = 1`，明文连接会被拒绝，报错信息是 `no pg_hba.conf entry ... no encryption`。连接串需带 `sslmode`。
-
-**本地经 SSM 隧道连库时用 `sslmode=no-verify`。** 隧道的本地端是 `localhost`，与 RDS 证书上的域名不符，严格校验必然失败。Lambda 在 VPC 内直连真实端点，主机名匹配，应改用 `verify-full` 并配置 AWS RDS CA 证书包。
-
-## 连接数据库
-
-RDS 位于私有子网且未开放公网访问，本地须经跳板机的 SSM 端口转发：
-
-```bash
-aws ssm start-session \
-  --target <bastion-instance-id> \
-  --document-name AWS-StartPortForwardingSessionToRemoteHost \
-  --parameters '{"host":["<rds-endpoint>"],"portNumber":["5432"],"localPortNumber":["5433"]}'
-```
-
-隧道开启后，用 `.env.aws` 中的连接串（指向 `localhost:5433`）运行迁移：
-
-```bash
-npx tsx --env-file=.env.aws scripts/migrate.ts
-```
-
-`.env.aws` 不纳入版本控制。注意 Lambda 使用的连接串指向 RDS 真实端点，与此不同。
-
-## 线上地址
-
-- 前端：https://zuoye-frontend.pages.dev
-- API：https://qsmyj6l2q1.execute-api.us-east-2.amazonaws.com
-
-## 部署
-
-推送到 `main` 时按改动路径自动部署：`frontend/**` 触发 Cloudflare Pages 发布，`backend/**` 触发 SAM 部署并对线上 API 做冒烟测试。
-
-VPC、子网、路由表、NAT Gateway、安全组、RDS、跳板机均为手动创建，不由 SAM 管理。模板通过参数引用它们。
-
-### 后端凭证：GitHub Actions OIDC
-
-CI 不持有长期 AWS 密钥。它向 GitHub 索取一个 OIDC 令牌，交给 AWS STS 换取有效期 1 小时的临时凭证，扮演 `zuoye-github-actions-deploy` 角色。
-
-该角色的信任策略把 `sub` 限定为 `repo:jaredchao/github-user-collector:ref:refs/heads/main`。**缺少这个条件，任何 GitHub 仓库的 Actions 都能扮演此角色。** 条件用 `StringEquals` 而非 `StringLike`：通配符会让 fork 后的仓库同样获得权限。
-
-角色权限为 `PowerUserAccess`，外加一条内联策略把 IAM 操作限定在 `arn:aws:iam::<account>:role/zuoye-collector-*` 前缀内——SAM 需要创建 Lambda 执行角色，但不该能碰其他角色。
-
-workflow 中必须声明 `permissions: id-token: write`，否则 GitHub 不签发令牌。
+镜像构建的预期路径是 CodeBuild（项目、buildspec、S3 源桶均已就绪），但新账号并发配额被锁 0、提额被拒，目前由 workflow 里的 buildx/QEMU 交叉构建顶替，`USE_CODEBUILD` 开关一词切回。
 
 ### 仓库 Secrets
 
 | 名称 | 用途 |
 |------|------|
-| `AWS_DEPLOY_ROLE_ARN` | 待扮演的 IAM 角色 |
+| `AWS_DEPLOY_ROLE_ARN` | SAM 部署角色 |
 | `DATABASE_URL` | RDS 连接串（含密码） |
-| `SUBNET_ID_A` / `SUBNET_ID_B` | Lambda 所在私有子网 |
+| `SUBNET_ID_A` / `SUBNET_ID_B` | 私有子网 |
 | `LAMBDA_SECURITY_GROUP_ID` | Lambda 安全组 |
 | `CLOUDFLARE_API_TOKEN` | 仅授予 `Cloudflare Pages: Edit` |
 | `CLOUDFLARE_ACCOUNT_ID` | Cloudflare 账号标识 |
 
-### 手动部署后端
+## 设计说明（节选）
 
-```bash
-cd backend && npm run build
-sam deploy --stack-name zuoye-collector --region us-east-2 --resolve-s3 \
-  --capabilities CAPABILITY_IAM \
-  --parameter-overrides \
-    SubnetIdA=<private-subnet-a> SubnetIdB=<private-subnet-b> \
-    LambdaSecurityGroupId=<lambda-sg> \
-    DatabaseUrl="<postgres-url>" \
-    CorsOrigins=https://zuoye-frontend.pages.dev
-```
+- **Lambda 连接池位于模块作用域**，容器冻结复用；`max: 2` 因单实例串行处理。
+- **Go 服务 vendor 全部依赖**，构建不出网；镜像多阶段构建到 `scratch`，几 MB。
+- **Go 调 Lambda 构造 API Gateway v2 事件**，`hono/aws-lambda` 适配器无感，状态码原样透传。
+- **PR 任务定义克隆生产版**，`DATABASE_URL` 不经过 GitHub。
+- **数据库密码存于环境变量**是有意识的成本权衡，生产应迁 Secrets Manager。
+
+更多取舍见学习笔记的「已知妥协」（共 7 条）。
 
 ## 待办
 
-- [x] 搭建 VPC（公有／私有子网、Internet Gateway、NAT Gateway、路由表）
-- [x] 创建 RDS PostgreSQL 实例于私有子网
-- [x] 私有子网跳板机，经 SSM 运行数据库迁移
-- [x] CORS 中间件，白名单限定前端域名
-- [x] 部署 Lambda 并接入 VPC
-- [x] 配置 API Gateway
-- [x] 前端（Cloudflare Pages），GitHub Actions 自动部署
-- [x] 后端 GitHub Actions OIDC 自动部署
+- [ ] CodeBuild 配额批准后把 `USE_CODEBUILD` 切回 `true`（预计 8 月初重申）
 - [ ] 连接串改用 `sslmode=verify-full` 并附 RDS CA 证书
-- [ ] 将数据库密码迁移到 Secrets Manager
-- [ ] 摘除本地 IAM 用户 `ai_user` 的 `IAMFullAccess`（CI 已改用 OIDC，不再需要）
-- [ ] 演示结束后销毁全部 AWS 资源
-
-## 已知的简化
-
-**本地 IAM 用户仍持有 `IAMFullAccess`。** 手动部署时 SAM 需要 `iam:CreateRole` 创建 Lambda 执行角色，而 `PowerUserAccess` 禁止一切 IAM 写操作。CI 已改用 OIDC 且权限受限，此授权可以摘除。
-
-**数据库密码存于 Lambda 环境变量与 GitHub Secrets。** 前者在 AWS 控制台明文可见。应迁移至 AWS Secrets Manager，由 Lambda 在运行时按 IAM 权限读取。
-
-**NAT Gateway 按小时计费。** 约 $33/月，闲置也收费。演示完毕应销毁整套资源。
+- [ ] 数据库密码迁移到 Secrets Manager
+- [ ] 摘除本地 IAM 用户的 `IAMFullAccess`
+- [ ] 演示结束后销毁全部 AWS 资源（清理顺序见学习笔记 §15）
