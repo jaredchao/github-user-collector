@@ -1,0 +1,19 @@
+docs/superpowers/specs/2026-07-12-go-service-design.md
+  s_0e486e3dbb8350::t_9f02116c8c97d9 1-150
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.12",
+  "base_commit_sha": "29436ab1edbde0ed70718a4f06dfa96acf597566",
+  "prompts": {},
+  "sessions": {
+    "s_0e486e3dbb8350": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "a226d532-d057-44c8-9f9e-6d5c82d03cd3",
+        "model": "claude-opus-4-8"
+      },
+      "human_author": "muluo <mengchao1027@gmail.com>"
+    }
+  }
+}
