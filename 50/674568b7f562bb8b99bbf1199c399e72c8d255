@@ -1,0 +1,29 @@
+backend/template.yaml
+  s_e41a08a6891c43::t_52ee13eb7d6ba7 30-34
+  s_e41a08a6891c43::t_7241abee8b9e31 56
+  s_e41a08a6891c43::t_f49cf5300b23ef 47-48
+.github/workflows/backend.yml
+  s_e41a08a6891c43::t_c3f17db500084b 53-136
+.github/workflows/frontend.yml
+  s_e41a08a6891c43::t_1d941ef75ee389 10-12,15-17
+  s_e41a08a6891c43::t_385f7536a08784 59-70,74-94,96,100,104-105
+  s_e41a08a6891c43::t_8798fad46d41ec 121
+.github/workflows/pr-env-cleanup.yml
+  s_e41a08a6891c43::t_54b021d2c3994d 42-63
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.12",
+  "base_commit_sha": "50674568b7f562bb8b99bbf1199c399e72c8d255",
+  "prompts": {},
+  "sessions": {
+    "s_e41a08a6891c43": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "fe1c60df-e471-465e-a877-388c609e3b05",
+        "model": "claude-fable-5"
+      },
+      "human_author": "muluo <mengchao1027@gmail.com>"
+    }
+  }
+}
