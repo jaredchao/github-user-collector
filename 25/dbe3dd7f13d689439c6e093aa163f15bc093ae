@@ -1,0 +1,19 @@
+docs/阿里云服务对照.md
+  s_e41a08a6891c43::t_56ff73df9fe205 1-62
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.13",
+  "base_commit_sha": "25dbe3dd7f13d689439c6e093aa163f15bc093ae",
+  "prompts": {},
+  "sessions": {
+    "s_e41a08a6891c43": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "fe1c60df-e471-465e-a877-388c609e3b05",
+        "model": "claude-fable-5"
+      },
+      "human_author": "muluo <mengchao1027@gmail.com>"
+    }
+  }
+}
