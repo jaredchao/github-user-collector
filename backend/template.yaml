@@ -27,6 +27,24 @@ Parameters:
     Default: ""
     Description: Comma-separated allowed origins. Empty means any origin.
 
+  GoServiceUrl:
+    Type: String
+    Default: http://go-service.zuoye.internal:8080
+    Description: Cloud Map address of the Go intro service. PR stacks point at go-service-pr-N.
+
+  CloudMapNamespaceId:
+    Type: String
+    Default: ns-m5syodpxwy3gzlo3
+    Description: >-
+      The zuoye.api HTTP namespace. DNS namespaces reject services without a
+      DnsConfig, and Lambda has no IP to put in one, so API-type
+      registrations live in an HTTP namespace instead.
+
+  CloudMapServiceName:
+    Type: String
+    Default: collector-lambda
+    Description: Cloud Map service name registering this stack's Lambda. PR stacks use collector-lambda-pr-N.
+
 Globals:
   Function:
     Runtime: nodejs22.x
@@ -48,6 +66,7 @@ Resources:
         Variables:
           DATABASE_URL: !Ref DatabaseUrl
           CORS_ORIGINS: !Ref CorsOrigins
+          GO_SERVICE_URL: !Ref GoServiceUrl
           # The pg pool lives at module scope; keep the container alive between calls.
           NODE_OPTIONS: --enable-source-maps
       VpcConfig:
@@ -82,6 +101,25 @@ Resources:
     Properties:
       LogGroupName: !Sub /aws/lambda/${CollectorFunction}
       RetentionInDays: 7
+
+  # Lambda has no IP, so it can't live in a DNS record like the Go service
+  # does. A service with no DnsConfig is API-discoverable only: the Go
+  # service finds this function via DiscoverInstances, then invokes it.
+  CollectorDiscoveryService:
+    Type: AWS::ServiceDiscovery::Service
+    Properties:
+      Name: !Ref CloudMapServiceName
+      NamespaceId: !Ref CloudMapNamespaceId
+      Description: API-type registration of the collector Lambda
+
+  CollectorDiscoveryInstance:
+    Type: AWS::ServiceDiscovery::Instance
+    Properties:
+      ServiceId: !Ref CollectorDiscoveryService
+      InstanceId: collector
+      InstanceAttributes:
+        functionName: !Ref CollectorFunction
+        arn: !GetAtt CollectorFunction.Arn
 
 Outputs:
   ApiUrl:
