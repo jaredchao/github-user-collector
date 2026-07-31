@@ -95,6 +95,49 @@ Lambda 侧额外提供 `GET /ready`：一次调用验证 `API Gateway → Lambda
 
 关 PR：三路并行清理——Go 前门五资源（任务定义/服务/目标组/ALB 规则/Cloud Map）+ 镜像，Lambda 整栈，Pages 预览部署。零计费残留。
 
+## 验证
+
+```bash
+./scripts/verify.sh            # 三个任务的实时证据，约 1 分钟
+./scripts/verify.sh --dlq      # 额外演示死信队列，约 15 分钟
+```
+
+脚本会依次证明：采集前 `/intro` 是 404（说明读的是持久化值，不是实时拼接）、`POST /users` 同步返回 201、介绍在两三秒后由异步链路补上并留下 Worker 日志、API Gateway 打的是 `live` 别名而非 `$LATEST`、两条回滚门禁告警的状态、以及 `/ready` 一次走通整条技术链路。
+
+也可以直接打开 https://zuoye-frontend.pages.dev 搜一个没搜过的用户：卡片立即出现、介绍稍后补上，就是这套异步架构在用户侧的样子。
+
+### 演示灰度回滚
+
+想亲眼看一次"坏版本只伤 10% 流量、两分钟自动回滚"：
+
+```bash
+FN=$(aws cloudformation describe-stacks --stack-name zuoye-collector \
+  --query 'Stacks[0].Outputs[?OutputKey==`FunctionName`].OutputValue' --output text)
+STABLE=$(aws lambda get-alias --function-name $FN --name live \
+  --query FunctionVersion --output text)
+
+# 1. 发布一个必然出错的版本作为候选
+mkdir -p /tmp/bad && cd /tmp/bad
+echo 'export const handler = async () => { throw new Error("bad"); };' > index.mjs
+zip -q bad.zip index.mjs
+aws lambda update-function-code --function-name $FN --zip-file fileb://bad.zip >/dev/null
+aws lambda wait function-updated --function-name $FN
+BAD=$(aws lambda publish-version --function-name $FN --query Version --output text)
+
+# 2. 一边打流量（没有流量的灰度是无效的灰度），一边灰度发布
+API=$(aws cloudformation describe-stacks --stack-name zuoye-collector \
+  --query 'Stacks[0].Outputs[?OutputKey==`ApiUrl`].OutputValue' --output text)
+while true; do curl -s -o /dev/null "$API/health"; sleep 1; done &   # 另开一个终端也行
+STABLE=$STABLE BAKE=300 ./scripts/canary-release.sh $BAD
+
+# 3. 收尾：恢复 $LATEST 的好代码，删掉坏版本
+cd backend && npm run build && cd dist && zip -q good.zip index.mjs worker.mjs
+aws lambda update-function-code --function-name $FN --zip-file fileb://good.zip >/dev/null
+aws lambda delete-function --function-name "$FN:$BAD"
+```
+
+预期输出是告警在两分钟内触发、脚本自动把 100% 流量推回稳定版。
+
 ## 本地开发
 
 前置：Node.js 22+、Go 1.26+、Docker。
