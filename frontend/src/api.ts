@@ -23,12 +23,27 @@ const MESSAGES: Record<number, string> = {
   503: "采集服务暂时不可用，请稍后再试",
 };
 
-export async function fetchUser(username: string): Promise<GitHubUser> {
+export interface PollOptions {
+  intervalMs?: number;
+  timeoutMs?: number;
+}
+
+/**
+ * Queues a collection and waits for its result.
+ *
+ * POST only hands the request to SNS (202), so the user appears a moment
+ * later, once the worker has called GitHub and written to the database. That
+ * moment is usually 2-4 seconds, occasionally longer on a cold start.
+ */
+export async function fetchUser(
+  username: string,
+  { intervalMs = 1000, timeoutMs = 25000 }: PollOptions = {},
+): Promise<GitHubUser> {
   const baseUrl = import.meta.env.VITE_GO_API_URL;
 
-  let response: Response;
+  let accepted: Response;
   try {
-    response = await fetch(`${baseUrl}/users`, {
+    accepted = await fetch(`${baseUrl}/users`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ username }),
@@ -38,11 +53,32 @@ export async function fetchUser(username: string): Promise<GitHubUser> {
     throw new ApiError("网络连接失败，请检查网络后重试", null);
   }
 
-  if (!response.ok) {
-    throw new ApiError(MESSAGES[response.status] ?? `请求失败（${response.status}）`, response.status);
+  if (!accepted.ok) {
+    throw new ApiError(MESSAGES[accepted.status] ?? `请求失败（${accepted.status}）`, accepted.status);
   }
 
-  return (await response.json()) as GitHubUser;
+  const deadline = Date.now() + timeoutMs;
+  for (;;) {
+    let polled: Response;
+    try {
+      polled = await fetch(`${baseUrl}/users/${encodeURIComponent(username)}`);
+    } catch {
+      throw new ApiError("网络连接失败，请检查网络后重试", null);
+    }
+
+    if (polled.ok) {
+      return (await polled.json()) as GitHubUser;
+    }
+    // 404 means the worker hasn't stored it yet; anything else is a real
+    // failure and waiting longer won't fix it.
+    if (polled.status !== 404) {
+      throw new ApiError(MESSAGES[polled.status] ?? `请求失败（${polled.status}）`, polled.status);
+    }
+    if (Date.now() >= deadline) {
+      throw new ApiError("采集超时，请稍后重试", null);
+    }
+    await new Promise((resolve) => setTimeout(resolve, intervalMs));
+  }
 }
 
 // The intro comes straight from the Go service through the ALB (the

@@ -67,6 +67,7 @@ Resources:
           DATABASE_URL: !Ref DatabaseUrl
           CORS_ORIGINS: !Ref CorsOrigins
           GO_SERVICE_URL: !Ref GoServiceUrl
+          COLLECT_TOPIC_ARN: !Ref CollectRequestsTopic
           # The pg pool lives at module scope; keep the container alive between calls.
           NODE_OPTIONS: --enable-source-maps
       VpcConfig:
@@ -75,6 +76,8 @@ Resources:
       # Grants the ENI permissions a VPC-attached function needs.
       Policies:
         - VPCAccessPolicy: {}
+        - SNSPublishMessagePolicy:
+            TopicName: !GetAtt CollectRequestsTopic.TopicName
       Events:
         Root:
           Type: HttpApi
@@ -101,6 +104,134 @@ Resources:
     Properties:
       LogGroupName: !Sub /aws/lambda/${CollectorFunction}
       RetentionInDays: 7
+
+  # ---- Async collection: SNS -> SQS -> worker, with a dead letter queue ----
+  #
+  # The API only publishes here and answers 202, so a GitHub outage or a slow
+  # database can no longer turn into a failed user request: the message waits
+  # in the queue and is retried.
+
+  CollectRequestsTopic:
+    Type: AWS::SNS::Topic
+    Properties:
+      DisplayName: Collect requests accepted by the API
+
+  # Retries are capped by maxReceiveCount below; whatever still fails lands
+  # here, where it can be inspected and replayed rather than lost.
+  CollectDeadLetterQueue:
+    Type: AWS::SQS::Queue
+    Properties:
+      MessageRetentionPeriod: 1209600
+
+  CollectQueue:
+    Type: AWS::SQS::Queue
+    Properties:
+      # Must exceed the worker's own timeout, or SQS hands the same message to
+      # a second worker while the first is still busy with it.
+      VisibilityTimeout: 120
+      RedrivePolicy:
+        deadLetterTargetArn: !GetAtt CollectDeadLetterQueue.Arn
+        maxReceiveCount: 3
+
+  CollectQueueSubscription:
+    Type: AWS::SNS::Subscription
+    Properties:
+      Protocol: sqs
+      TopicArn: !Ref CollectRequestsTopic
+      Endpoint: !GetAtt CollectQueue.Arn
+      # Without this the worker would have to unwrap an SNS envelope around
+      # every message body.
+      RawMessageDelivery: true
+
+  CollectQueuePolicy:
+    Type: AWS::SQS::QueuePolicy
+    Properties:
+      Queues: [!Ref CollectQueue]
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal: {Service: sns.amazonaws.com}
+            Action: sqs:SendMessage
+            Resource: !GetAtt CollectQueue.Arn
+            Condition:
+              ArnEquals: {"aws:SourceArn": !Ref CollectRequestsTopic}
+
+  CollectWorkerFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: dist/
+      Handler: worker.handler
+      Description: Consumes collect requests and upserts GitHub users into RDS
+      Environment:
+        Variables:
+          DATABASE_URL: !Ref DatabaseUrl
+          NODE_OPTIONS: --enable-source-maps
+      VpcConfig:
+        SubnetIds: [!Ref SubnetIdA, !Ref SubnetIdB]
+        SecurityGroupIds: [!Ref LambdaSecurityGroupId]
+      Policies:
+        - VPCAccessPolicy: {}
+      Events:
+        CollectQueue:
+          Type: SQS
+          Properties:
+            Queue: !GetAtt CollectQueue.Arn
+            BatchSize: 5
+            # Lets the worker fail one message without dragging its healthy
+            # batch mates back onto the queue.
+            FunctionResponseTypes: [ReportBatchItemFailures]
+
+  WorkerLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub /aws/lambda/${CollectWorkerFunction}
+      RetentionInDays: 7
+
+  # ---- Alerting ----
+
+  AlertsTopic:
+    Type: AWS::SNS::Topic
+    Properties:
+      DisplayName: zuoye operational alerts
+
+  # A message in the DLQ means three attempts were not enough: someone has to
+  # look at it, so it pages rather than sitting there silently.
+  DeadLetterQueueAlarm:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmDescription: Collect requests landed in the dead letter queue
+      Namespace: AWS/SQS
+      MetricName: ApproximateNumberOfMessagesVisible
+      Dimensions:
+        - Name: QueueName
+          Value: !GetAtt CollectDeadLetterQueue.QueueName
+      Statistic: Maximum
+      Period: 60
+      EvaluationPeriods: 1
+      Threshold: 0
+      ComparisonOperator: GreaterThanThreshold
+      TreatMissingData: notBreaching
+      AlarmActions: [!Ref AlertsTopic]
+
+  # The queue draining slower than it fills means the worker is stuck or
+  # throttled; the age of the oldest message shows that before the DLQ does.
+  QueueBacklogAlarm:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmDescription: Collect requests are waiting too long to be processed
+      Namespace: AWS/SQS
+      MetricName: ApproximateAgeOfOldestMessage
+      Dimensions:
+        - Name: QueueName
+          Value: !GetAtt CollectQueue.QueueName
+      Statistic: Maximum
+      Period: 300
+      EvaluationPeriods: 1
+      Threshold: 600
+      ComparisonOperator: GreaterThanThreshold
+      TreatMissingData: notBreaching
+      AlarmActions: [!Ref AlertsTopic]
 
   # Lambda has no IP, so it can't live in a DNS record like the Go service
   # does. A service with no DnsConfig is API-discoverable only: the Go
@@ -129,3 +260,15 @@ Outputs:
   FunctionName:
     Description: Lambda function name
     Value: !Ref CollectorFunction
+
+  CollectQueueUrl:
+    Description: Main collect queue
+    Value: !Ref CollectQueue
+
+  DeadLetterQueueUrl:
+    Description: Dead letter queue for exhausted collect requests
+    Value: !Ref CollectDeadLetterQueue
+
+  AlertsTopicArn:
+    Description: SNS topic every operational alarm publishes to
+    Value: !Ref AlertsTopic

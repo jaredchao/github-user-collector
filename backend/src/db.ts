@@ -79,6 +79,18 @@ const UPSERT = `
   RETURNING *
 `;
 
+/**
+ * Reads a collected user. The API polls this after accepting an async
+ * collect request, so "not collected yet" is a normal answer, not an error.
+ */
+export async function getUser(username: string): Promise<StoredUser | null> {
+  const { rows } = await getPool().query<UserRow>(
+    "SELECT * FROM github_users WHERE username = $1",
+    [username],
+  );
+  return rows[0] ? toDomain(rows[0]) : null;
+}
+
 export async function upsertUser(user: GitHubUser): Promise<StoredUser> {
   const { rows } = await getPool().query<UserRow>(UPSERT, [
     user.username,

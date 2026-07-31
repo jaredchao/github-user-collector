@@ -6,11 +6,10 @@ import {
   UpstreamError,
   UserNotFoundError,
 } from "./errors.js";
+import { getUser } from "./db.js";
 import { fetchIntro } from "./introClient.js";
-import { fetchAndStore } from "./service.js";
-
-// GitHub allows alphanumerics and single inner hyphens, up to 39 characters.
-const USERNAME_PATTERN = /^[a-zA-Z0-9](?:[a-zA-Z0-9]|-(?=[a-zA-Z0-9])){0,38}$/;
+import { publishCollectRequest } from "./queue.js";
+import { isValidUsername } from "./username.js";
 
 // Unset means "any origin", which suits local development. Production sets the
 // Cloudflare Pages domain plus a `https://*.domain` wildcard entry so Pages
@@ -51,6 +50,10 @@ app.use(
 
 app.get("/health", (c) => c.json({ status: "ok" }));
 
+// Collecting a user means calling GitHub and writing to RDS, which is slow
+// and fails in ways worth retrying. So the API only queues the request and
+// answers 202; the worker behind SNS -> SQS does the work, and the caller
+// polls GET /users/:username for the result.
 app.post("/users", async (c) => {
   let body: unknown;
   try {
@@ -60,19 +63,34 @@ app.post("/users", async (c) => {
   }
 
   const username = (body as { username?: unknown })?.username;
-  if (typeof username !== "string" || !USERNAME_PATTERN.test(username)) {
+  if (!isValidUsername(username)) {
     return c.json({ error: "Field 'username' must be a valid GitHub username" }, 400);
   }
 
-  const stored = await fetchAndStore(username);
-  return c.json(stored, 201);
+  const messageId = await publishCollectRequest(username);
+  return c.json({ username, status: "accepted", messageId }, 202);
+});
+
+app.get("/users/:username", async (c) => {
+  const username = c.req.param("username");
+  if (!isValidUsername(username)) {
+    return c.json({ error: "Invalid GitHub username" }, 400);
+  }
+
+  const user = await getUser(username);
+  if (!user) {
+    // Either the worker hasn't caught up or the collection failed; the
+    // poller treats both the same way — keep waiting, then give up.
+    return c.json({ username, status: "pending" }, 404);
+  }
+  return c.json(user);
 });
 
 // Reached via Cloud Map: this Lambda calls the Go service in-VPC and returns
 // the intro it renders. Demonstrates service discovery (Lambda -> Go).
 app.get("/users/:username/intro", async (c) => {
   const username = c.req.param("username");
-  if (!USERNAME_PATTERN.test(username)) {
+  if (!isValidUsername(username)) {
     return c.json({ error: "Invalid GitHub username" }, 400);
   }
 

@@ -51,7 +51,35 @@ func New(src UserSource, fwd UsersForwarder) http.Handler {
 	})
 	mux.HandleFunc("GET /intro", handleIntro(src))
 	mux.HandleFunc("POST /users", handleUsers(fwd))
+	mux.HandleFunc("GET /users/{username}", handleGetUser(fwd))
 	return withCORS(mux)
+}
+
+// Collection is asynchronous, so the caller polls this after a 202 until the
+// worker has written the user. Forwarding keeps the Lambda the single source
+// of truth for what "collected" means.
+func handleGetUser(fwd UsersForwarder) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		username := r.PathValue("username")
+		if !validUsername(username) {
+			writeJSON(w, http.StatusBadRequest, map[string]string{"error": "username 格式非法"})
+			return
+		}
+		if fwd == nil {
+			writeJSON(w, http.StatusServiceUnavailable, map[string]string{"error": "采集服务未配置"})
+			return
+		}
+
+		status, body, err := fwd.Forward(r.Context(), http.MethodGet, "/users/"+username, nil)
+		if err != nil {
+			log.Printf("转发 GET /users/%s 失败: %v", username, err)
+			writeJSON(w, http.StatusBadGateway, map[string]string{"error": "采集服务暂时不可用"})
+			return
+		}
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		w.WriteHeader(status)
+		w.Write(body)
+	}
 }
 
 // handleUsers forwards the search/collect request to the Lambda and passes

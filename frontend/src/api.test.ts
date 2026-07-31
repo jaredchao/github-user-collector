@@ -35,22 +35,45 @@ afterEach(() => {
 });
 
 describe("fetchUser", () => {
-  it("returns the user on 201", async () => {
-    mockResponse(201, user);
-
-    await expect(fetchUser("torvalds")).resolves.toEqual(user);
-  });
-
-  it("posts the username to the users endpoint", async () => {
-    const spy = vi.fn().mockResolvedValue({ ok: true, status: 201, json: async () => user });
+  // Collection is async now: POST only queues the request, and the user
+  // shows up on a later poll of GET /users/:username.
+  it("queues the request and returns the user once the worker stores it", async () => {
+    const spy = vi
+      .fn()
+      .mockResolvedValueOnce({ ok: true, status: 202, json: async () => ({ status: "accepted" }) })
+      .mockResolvedValueOnce({ ok: false, status: 404, json: async () => ({ status: "pending" }) })
+      .mockResolvedValueOnce({ ok: true, status: 200, json: async () => user });
     vi.stubGlobal("fetch", spy);
 
-    await fetchUser("torvalds");
+    await expect(fetchUser("torvalds", { intervalMs: 1, timeoutMs: 500 })).resolves.toEqual(user);
 
-    const [url, init] = spy.mock.calls[0]!;
-    expect(url).toBe("https://go.example.com/users");
+    const [postUrl, init] = spy.mock.calls[0]!;
+    expect(postUrl).toBe("https://go.example.com/users");
     expect(init.method).toBe("POST");
     expect(JSON.parse(init.body)).toEqual({ username: "torvalds" });
+    expect(spy.mock.calls[1]![0]).toBe("https://go.example.com/users/torvalds");
+  });
+
+  it("gives up with a readable message when the collection never lands", async () => {
+    const spy = vi
+      .fn()
+      .mockResolvedValueOnce({ ok: true, status: 202, json: async () => ({ status: "accepted" }) })
+      .mockResolvedValue({ ok: false, status: 404, json: async () => ({ status: "pending" }) });
+    vi.stubGlobal("fetch", spy);
+
+    await expect(fetchUser("torvalds", { intervalMs: 1, timeoutMs: 20 })).rejects.toThrow("采集超时");
+  });
+
+  // A rejected request never reaches the queue, so polling would just waste
+  // twenty seconds before reporting the failure the API already gave us.
+  it("surfaces a rejected request immediately instead of polling", async () => {
+    const spy = vi.fn().mockResolvedValue({ ok: false, status: 400, json: async () => ({}) });
+    vi.stubGlobal("fetch", spy);
+
+    await expect(fetchUser("torvalds", { intervalMs: 1, timeoutMs: 500 })).rejects.toThrow(
+      "用户名格式不对",
+    );
+    expect(spy).toHaveBeenCalledTimes(1);
   });
 });
 
@@ -67,15 +90,19 @@ describe("fetchUser error messages", () => {
     it(`turns ${status} into a readable message`, async () => {
       mockResponse(status);
 
-      await expect(fetchUser("torvalds")).rejects.toThrow(ApiError);
-      await expect(fetchUser("torvalds")).rejects.toThrow(fragment);
+      await expect(fetchUser("torvalds", { intervalMs: 1, timeoutMs: 20 })).rejects.toThrow(
+        ApiError,
+      );
+      await expect(fetchUser("torvalds", { intervalMs: 1, timeoutMs: 20 })).rejects.toThrow(
+        fragment,
+      );
     });
   }
 
   it("has a fallback message for an unexpected status", async () => {
     mockResponse(418);
 
-    await expect(fetchUser("torvalds")).rejects.toThrow(ApiError);
+    await expect(fetchUser("torvalds", { intervalMs: 1, timeoutMs: 20 })).rejects.toThrow(ApiError);
   });
 
   // fetch throws rather than resolving when the network itself fails, so this
@@ -83,7 +110,9 @@ describe("fetchUser error messages", () => {
   it("turns a network failure into a readable message", async () => {
     vi.stubGlobal("fetch", vi.fn().mockRejectedValue(new TypeError("Failed to fetch")));
 
-    await expect(fetchUser("torvalds")).rejects.toThrow("网络连接失败");
+    await expect(fetchUser("torvalds", { intervalMs: 1, timeoutMs: 20 })).rejects.toThrow(
+      "网络连接失败",
+    );
   });
 });
 

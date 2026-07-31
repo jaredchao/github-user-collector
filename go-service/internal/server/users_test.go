@@ -85,3 +85,49 @@ func TestCORS_PreflightAllowsPost(t *testing.T) {
 		t.Errorf("Allow-Headers = %q, 期望包含 Content-Type", headers)
 	}
 }
+
+func TestGetUser_ForwardsToLambda(t *testing.T) {
+	fwd := &fakeForwarder{status: 200, body: `{"username":"torvalds","followers":313974}`}
+	h := New(fakeSource{}, fwd)
+
+	req := httptest.NewRequest(http.MethodGet, "/users/torvalds", nil)
+	rec := httptest.NewRecorder()
+	h.ServeHTTP(rec, req)
+
+	if rec.Code != 200 || rec.Body.String() != `{"username":"torvalds","followers":313974}` {
+		t.Errorf("status=%d body=%s, 期望原样透传", rec.Code, rec.Body.String())
+	}
+	if fwd.gotMethod != "GET" || fwd.gotPath != "/users/torvalds" {
+		t.Errorf("转发参数 = %s %s, 期望 GET /users/torvalds", fwd.gotMethod, fwd.gotPath)
+	}
+}
+
+func TestGetUser_PendingPassesThrough(t *testing.T) {
+	// 采集尚未完成时 Lambda 回 404，前端据此继续轮询。
+	fwd := &fakeForwarder{status: 404, body: `{"status":"pending"}`}
+	h := New(fakeSource{}, fwd)
+
+	req := httptest.NewRequest(http.MethodGet, "/users/torvalds", nil)
+	rec := httptest.NewRecorder()
+	h.ServeHTTP(rec, req)
+
+	if rec.Code != 404 {
+		t.Errorf("status = %d, 期望 404 透传", rec.Code)
+	}
+}
+
+func TestGetUser_InvalidUsernameRejectedLocally(t *testing.T) {
+	fwd := &fakeForwarder{status: 200, body: "{}"}
+	h := New(fakeSource{}, fwd)
+
+	req := httptest.NewRequest(http.MethodGet, "/users/-bad-", nil)
+	rec := httptest.NewRecorder()
+	h.ServeHTTP(rec, req)
+
+	if rec.Code != http.StatusBadRequest {
+		t.Errorf("status = %d, 期望 400", rec.Code)
+	}
+	if fwd.gotMethod != "" {
+		t.Error("非法用户名不该打到 Lambda")
+	}
+}

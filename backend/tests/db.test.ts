@@ -1,6 +1,6 @@
 import { afterAll, beforeAll, beforeEach, describe, expect, it } from "vitest";
 import type { GitHubUser } from "../src/github.js";
-import { closePool, getPool, upsertUser } from "../src/db.js";
+import { closePool, getPool, getUser, upsertUser } from "../src/db.js";
 import { runMigrations } from "../scripts/migrate.js";
 
 const torvalds: GitHubUser = {
@@ -64,5 +64,19 @@ describe("upsertUser", () => {
 
     expect(stored.bio).toBeNull();
     expect(stored.company).toBeNull();
+  });
+});
+
+describe("getUser", () => {
+  it("returns the stored user", async () => {
+    await upsertUser(torvalds);
+
+    const found = await getUser("torvalds");
+
+    expect(found).toMatchObject({ username: "torvalds", githubId: 1024025 });
+  });
+
+  it("returns null when the user has not been collected yet", async () => {
+    expect(await getUser("nobody")).toBeNull();
   });
 });
