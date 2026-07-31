@@ -180,11 +180,22 @@ jobs:
               DatabaseUrl='${{ secrets.DATABASE_URL }}' \
               CorsOrigins='https://zuoye-frontend.pages.dev,https://*.zuoye-frontend.pages.dev'
 
+      # Exercises the whole async chain, not just the API: the poll only turns
+      # 200 once SNS, SQS and the worker have all done their part.
       - name: Smoke test the deployed API
         run: |
           API=$(aws cloudformation describe-stacks --stack-name zuoye-collector \
             --region us-east-2 --query 'Stacks[0].Outputs[?OutputKey==`ApiUrl`].OutputValue' --output text)
           echo "Testing $API"
           test "$(curl -s -o /dev/null -w '%{http_code}' "$API/health")" = "200"
+
           test "$(curl -s -o /dev/null -w '%{http_code}' -X POST "$API/users" \
-            -H 'Content-Type: application/json' -d '{"username":"torvalds"}')" = "201"
+            -H 'Content-Type: application/json' -d '{"username":"torvalds"}')" = "202"
+
+          for i in $(seq 1 20); do
+            CODE=$(curl -s -o /dev/null -w '%{http_code}' "$API/users/torvalds")
+            [ "$CODE" = "200" ] && break
+            echo "  collection pending ($i/20)"
+            sleep 3
+          done
+          test "$CODE" = "200"
