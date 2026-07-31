@@ -1,0 +1,19 @@
+README.md
+  s_e41a08a6891c43::t_43c0ae2b481b6f 9,17-19,23-29,31,34,37-38,74-77,79,81,161,163-164
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.18",
+  "base_commit_sha": "fd875626f12a61926140c6fb8f8a843be3eaec07",
+  "prompts": {},
+  "sessions": {
+    "s_e41a08a6891c43": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "fe1c60df-e471-465e-a877-388c609e3b05",
+        "model": "claude-opus-5"
+      },
+      "human_author": "muluo <mengchao1027@gmail.com>"
+    }
+  }
+}
