@@ -1,0 +1,68 @@
+backend/tests/cors.test.ts
+  s_e41a08a6891c43::t_947a413815ac56 10-11,14-15,20-22,45-46,54,70
+backend/src/worker.ts
+  s_e41a08a6891c43::t_b4067c5cd08eb9 2-3,20,24,32-34,44,46,48-49,51,58-63,71-76,78-85
+go-service/internal/store/store.go
+  s_e41a08a6891c43::t_f4ef7f93e90095 1-2,70-86
+  s_e41a08a6891c43::t_7e0970188b16c4 87
+backend/tests/app.test.ts
+  s_e41a08a6891c43::t_d33acc1d977309 7,12,39,167-190
+  s_e41a08a6891c43::t_947a413815ac56 4-5,9-10,34-36,42,44-45,49,52-53,55-67,77,88,91-92,94
+  s_e41a08a6891c43::t_d197c2997a2d40 191
+docs/学习笔记.md
+  s_e41a08a6891c43::t_836d39dc22dce3 1672,1674,1676-1695,1697,1699
+backend/tests/worker.test.ts
+  s_e41a08a6891c43::t_303d7eb1f37869 2,4,6-18,30-32,37-39,41-44,48-50,52,58-62,64,69-70,72-74,76,83-86,91-106
+backend/package.json
+  s_e41a08a6891c43::t_af372b6f0e6003 12
+frontend/src/api.test.ts
+  s_e41a08a6891c43::t_3fe29a04135aed 38-39,41,44-45,48,50-53,70-71,78,86,108-131,133-135,140-142,147-149
+go-service/internal/server/users_test.go
+  s_e41a08a6891c43::t_4e59c6b369645b 9-11
+  s_e41a08a6891c43::t_743c44229f6b3b 137-193
+go-service/internal/server/server_test.go
+  s_e41a08a6891c43::t_743c44229f6b3b 19-25,32-38
+backend/src/events.ts
+  s_e41a08a6891c43::t_c3b45604fb7bac 1,3-11,17-27,31-37,39-43,45-60
+backend/tests/events.test.ts
+  s_e41a08a6891c43::t_71af4a3e55d026 13-15,20-21,24-39,41,43,45-47,49-54,57-58,60,63-70
+backend/src/introClient.ts
+  s_e41a08a6891c43::t_d33acc1d977309 61-85
+  s_e41a08a6891c43::t_47e9fa692387f5 32-60
+backend/migrations/002_add_introduction.sql
+  s_e41a08a6891c43::t_556d3948cf9da6 1-7
+go-service/internal/server/server.go
+  s_e41a08a6891c43::t_a904e91be2dd70 29,33
+  s_e41a08a6891c43::t_bc289a9d9fcaf9 56,60-92
+  s_e41a08a6891c43::t_c4ca7dc09cf00e 93-94
+backend/src/app.ts
+  s_e41a08a6891c43::t_0699552f459c0e 10,12,71-74,88-93
+  s_e41a08a6891c43::t_d33acc1d977309 11,52,55-69
+  s_e41a08a6891c43::t_3ab02edff3f26f 70
+backend/template.yaml
+  s_e41a08a6891c43::t_a2b4d464165925 53-62,65,67-70,72-78,119,129,157,159-161,163,166,170,173-174,177,180-182,184-185,187,191-192,197,200,207,209,211,216-219,222,224,231,234,243,253,258,263,277,282
+  s_e41a08a6891c43::t_722a2c87cac21d 105-113
+  s_e41a08a6891c43::t_af372b6f0e6003 343,345-355,357-370,372-448,450,452-455,457-460,462,495-497,500-505,511-513
+frontend/src/api.ts
+  s_e41a08a6891c43::t_adbc3ff57a8a4b 26,29,31,41-45,48,51-53,60-68,70,72-78,80-90,92-96
+.wrangler/cache/pages.json
+  s_e41a08a6891c43::t_534480a08f9c8c 1-4
+.wrangler/cache/wrangler-account.json
+  s_e41a08a6891c43::t_b38dbd4254d94a 1-6
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.18",
+  "base_commit_sha": "fc4f89019d7b5a86432ba616d98b79dd00a97eea",
+  "prompts": {},
+  "sessions": {
+    "s_e41a08a6891c43": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "fe1c60df-e471-465e-a877-388c609e3b05",
+        "model": "claude-opus-5"
+      },
+      "human_author": "muluo <mengchao1027@gmail.com>"
+    }
+  }
+}
