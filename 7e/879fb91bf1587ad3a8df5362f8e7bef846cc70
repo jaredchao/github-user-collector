@@ -1,0 +1,28 @@
+go-service/internal/server/server_test.go
+  s_e41a08a6891c43::t_3e78f79bcc4b14 16-22,34-36
+  s_e41a08a6891c43::t_537833b1ee002c 53,85-89,91,96
+go-service/internal/server/server.go
+  s_e41a08a6891c43::t_3e78f79bcc4b14 33,173-175,184,186-188,192,197
+.gitignore
+  s_e41a08a6891c43::t_488c484b16ce94 15-16
+.github/workflows/backend.yml
+  s_e41a08a6891c43::t_488c484b16ce94 183-185,192,195,198-200,203-204
+go-service/internal/store/store.go
+  s_e41a08a6891c43::t_3e78f79bcc4b14 71-93
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.18",
+  "base_commit_sha": "7e879fb91bf1587ad3a8df5362f8e7bef846cc70",
+  "prompts": {},
+  "sessions": {
+    "s_e41a08a6891c43": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "fe1c60df-e471-465e-a877-388c609e3b05",
+        "model": "claude-opus-5"
+      },
+      "human_author": "muluo <mengchao1027@gmail.com>"
+    }
+  }
+}
