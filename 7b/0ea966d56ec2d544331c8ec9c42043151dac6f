@@ -1,0 +1,28 @@
+scripts/canary-release.sh
+  s_e41a08a6891c43::t_1c48673dc97b44 1-85
+scripts/canary-demo.sh
+  s_e41a08a6891c43::t_241247a154f1e1 1-54
+backend/template.yaml
+  s_e41a08a6891c43::t_968447502b4294 265-267,287
+  s_e41a08a6891c43::t_c4a8a9c9f7d975 75-81
+  s_e41a08a6891c43::t_feef1d5befbe81 254,256-260,262,282,284,304
+docs/学习笔记.md
+  s_e41a08a6891c43::t_10fb9043a579ae 1594-1676
+  s_e41a08a6891c43::t_55d9b8f4cb4077 29
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.18",
+  "base_commit_sha": "7b0ea966d56ec2d544331c8ec9c42043151dac6f",
+  "prompts": {},
+  "sessions": {
+    "s_e41a08a6891c43": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "fe1c60df-e471-465e-a877-388c609e3b05",
+        "model": "claude-opus-5"
+      },
+      "human_author": "muluo <mengchao1027@gmail.com>"
+    }
+  }
+}
