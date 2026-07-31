@@ -6,7 +6,7 @@
 
 ## 架构
 
-Go 服务是唯一对外前门，前端只认一个后端域名；采集本身是异步的：
+Go 服务是唯一对外前门；保存 Profile 是同步的，生成介绍是异步的：
 
 ```
 用户浏览器 ── Cloudflare Pages（前端）
@@ -14,22 +14,27 @@ Go 服务是唯一对外前门，前端只认一个后端域名；采集本身�
     └─ HTTPS ──> ALB:443（ACM 通配符证书 *.go-api.jccode.cc，host 头分流）
                     │
                     └──> Go 服务（ECS Fargate · ARM64 · 私有子网）
-                           ├─ GET  /intro           → 查 RDS，拼接中文介绍
-                           ├─ POST /users           → Cloud Map 发现 Lambda → Invoke
-                           └─ GET  /users/{u}       → 同上（供轮询结果）
+                           ├─ POST /users     → Cloud Map 发现 Lambda → Invoke
+                           ├─ GET  /users/{u} → 同上
+                           └─ GET  /intro     → 读已生成的介绍（未生成回 404）
                                                   │
                                                   ▼
                                     Lambda（live 别名，非 $LATEST）
-                                      POST → 投递 SNS，立即回 202
-                                             │
-                                    SNS ──> SQS ──> Worker Lambda ──> GitHub + RDS
-                                                     │ 3 次仍失败
+                                      抓 GitHub → 写 RDS → 201 Created
+                                             │ 保存成功后 best-effort
+                                             ▼
+                        SNS profile.saved ──> SQS IntroductionQueue
+                                                     │
+                                              Worker Lambda ──> Go 服务 ──> RDS
+                                                     │ 重试 5 次仍失败
                                                      ▼
-                                                死信队列 ──> 告警 ──> AlertsTopic
+                                          死信队列（14 天）──> 告警 ──> AlertsTopic
 
 对内路（保留演示）：API Gateway /users/:u/intro → Lambda ── Cloud Map DNS ──> Go
-巡检：Synthetics canary（每小时）打完整链路并校验数据新鲜度 ──> 告警 ──> AlertsTopic
+就绪检查：GET /ready 一次走通 API GW → Lambda → Go → PostgreSQL，供巡检调用
 ```
+
+**主请求不因异步失败而回滚**：Profile 已经提交，发布事件失败只让响应带上 `introductionQueued: false`，不会把成功的保存变成失败的请求。
 
 Cloud Map 的两种形态都在使用：
 
@@ -66,14 +71,14 @@ docs/        学习笔记与设计文档
 
 | 方法 | 路径 | 说明 |
 |------|------|------|
-| POST | `/users` | 请求体 `{"username":"torvalds"}`，投递采集请求，立即返回 `202` |
-| GET | `/users/{username}` | 轮询采集结果；`404` + `{"status":"pending"}` 表示还在路上 |
-| GET | `/intro?username=torvalds` | 返回该用户的中文介绍（需先入库） |
-| GET | `/health` | 健康检查（含数据库连通性） |
+| POST | `/users` | 请求体 `{"username":"torvalds"}`，同步抓取入库并返回 `201` |
+| GET | `/users/{username}` | 读取已保存的 Profile |
+| GET | `/intro?username=torvalds` | 读取已生成的介绍；`404` 表示还在生成中 |
+| GET | `/health` | 存活检查（含数据库连通性） |
 
-采集是异步的：`POST` 只把请求交给 SNS，真正调用 GitHub 与写库由队列后面的 worker 完成，所以调用方拿到 202 后轮询 `GET /users/{username}` 取结果（通常 2-4 秒）。失败重试 3 次后进死信队列并告警。
+Lambda 侧额外提供 `GET /ready`：一次调用验证 `API Gateway → Lambda → Go → PostgreSQL` 整条链路，不碰用户数据，供巡检使用。
 
-错误码由 Lambda 原样透传：`400` 参数非法、`404` 尚未采集完成、`502` 采集服务不可达、`503` 采集服务未配置。
+介绍是异步生成的：保存成功后发出 `profile.saved`，Worker 消费后调 Go 服务渲染并落库，所以前端拿到 Profile 后轮询 `/intro` 等它出现（通常 2-4 秒）。失败重试 5 次后进死信队列并告警。
 
 ## PR 临时环境
 
@@ -153,9 +158,10 @@ OIDC 角色信任策略的 `sub` 用 `StringEquals` 精确匹配本仓库——f
 - **Go 调 Lambda 构造 API Gateway v2 事件**，`hono/aws-lambda` 适配器无感，状态码原样透传。
 - **PR 任务定义克隆生产版**，`DATABASE_URL` 不经过 GitHub。
 - **数据库密码存于环境变量**是有意识的成本权衡，生产应迁 Secrets Manager。
-- **重试边界**：GitHub 404 视为已处理（重试无意义），限流/5xx/DB 错误才重试，坏消息进 DLQ。
+- **重试边界**：Profile 不存在视为已处理（重试无意义），Go 不可达/5xx 才重试，坏事件进 DLQ。
 - **灰度靠别名加权路由自建**（`scripts/canary-release.sh`），因为本账号无 CodeDeploy 订阅。
-- **巡检校验数据新鲜度而非仅 200**：upsert 幂等，旧数据会让健康检查假绿。
+- **`/intro` 读持久化值而非实时拼接**：否则 Worker 全挂时读接口照样返回内容，巡检假绿。
+- **两处受账号限制**：无 CodeDeploy 订阅、Lambda 内存上限 512MB，所以灰度用别名加权路由脚本、Synthetics 开关默认关闭（配额申请中）。
 
 更多取舍见学习笔记的「已知妥协」（共 7 条）。
 
