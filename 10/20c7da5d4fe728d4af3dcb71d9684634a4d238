@@ -1,0 +1,21 @@
+docs/控制台导览.md
+  s_e41a08a6891c43::t_57f2e7f2ef6b84 1-66
+README.md
+  s_e41a08a6891c43::t_b2fd4077fb1915 109-110
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.18",
+  "base_commit_sha": "1020c7da5d4fe728d4af3dcb71d9684634a4d238",
+  "prompts": {},
+  "sessions": {
+    "s_e41a08a6891c43": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "fe1c60df-e471-465e-a877-388c609e3b05",
+        "model": "claude-opus-5"
+      },
+      "human_author": "muluo <mengchao1027@gmail.com>"
+    }
+  }
+}
