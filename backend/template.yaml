@@ -102,15 +102,18 @@ Resources:
       # subscription, so scripts/canary-release.sh drives the same rollout
       # through the alias's own weighted routing instead.
       AutoPublishAlias: live
-      # The SAM transform needs Type and a list-shaped Alarms even when the
-      # preference is disabled, so the condition sits on Enabled and on each
-      # list member rather than wrapping the whole property.
-      DeploymentPreference:
-        Enabled: !If [UseCanaryDeployment, true, false]
-        Type: Canary10Percent5Minutes
-        Alarms:
-          - !If [UseCanaryDeployment, !Ref ReleaseErrorAlarm, !Ref "AWS::NoValue"]
-          - !If [UseCanaryDeployment, !Ref ReleaseLatencyAlarm, !Ref "AWS::NoValue"]
+      # The managed way to shift traffic would be:
+      #
+      #   DeploymentPreference:
+      #     Type: Canary10Percent5Minutes
+      #     Alarms: [!Ref ReleaseErrorAlarm, !Ref ReleaseLatencyAlarm]
+      #
+      # It stays commented out because SAM turns it into CodeDeploy resources
+      # even with Enabled: false, and this account has no CodeDeploy
+      # subscription — CloudFormation rejects the changeset outright. Until
+      # that changes, scripts/canary-release.sh performs the same rollout
+      # through the alias's own weighted routing, gated on the two alarms
+      # below.
       Environment:
         Variables:
           DATABASE_URL: !Ref DatabaseUrl
@@ -457,7 +460,9 @@ Resources:
         - Name: CanaryName
           Value: !Ref ApiReadinessCanary
       Statistic: Average
-      Period: !Sub "${SyntheticsScheduleMinutes}"
+      # Seconds, and deliberately a little wider than the default 60-minute
+      # schedule so one late run isn't read as a missing data point.
+      Period: 3900
       EvaluationPeriods: 1
       Threshold: 100
       ComparisonOperator: LessThanThreshold
