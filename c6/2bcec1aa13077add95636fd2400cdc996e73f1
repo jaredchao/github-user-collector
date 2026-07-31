@@ -1,0 +1,22 @@
+scripts/canary-release.sh
+  s_e41a08a6891c43::t_fe335dfad351d5 58-59,61
+  s_e41a08a6891c43::t_17960574c5ab29 26-30
+  s_e41a08a6891c43::t_1926e5dd2f011b 38,62
+  s_e41a08a6891c43::t_319ac486f869f3 49-54,71,84
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.18",
+  "base_commit_sha": "c62bcec1aa13077add95636fd2400cdc996e73f1",
+  "prompts": {},
+  "sessions": {
+    "s_e41a08a6891c43": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "fe1c60df-e471-465e-a877-388c609e3b05",
+        "model": "claude-opus-5"
+      },
+      "human_author": "muluo <mengchao1027@gmail.com>"
+    }
+  }
+}
