@@ -1,13 +1,15 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { IntroUnavailableError, UserNotFoundError } from "../src/errors.js";
 
-vi.mock("../src/queue.js", () => ({ publishCollectRequest: vi.fn() }));
+vi.mock("../src/service.js", () => ({ fetchAndStore: vi.fn() }));
+vi.mock("../src/events.js", () => ({ publishProfileSaved: vi.fn() }));
 vi.mock("../src/db.js", () => ({ getUser: vi.fn() }));
-vi.mock("../src/introClient.js", () => ({ fetchIntro: vi.fn() }));
+vi.mock("../src/introClient.js", () => ({ fetchIntro: vi.fn(), checkDataServiceReady: vi.fn() }));
 
-const { publishCollectRequest } = await import("../src/queue.js");
+const { fetchAndStore } = await import("../src/service.js");
+const { publishProfileSaved } = await import("../src/events.js");
 const { getUser } = await import("../src/db.js");
-const { fetchIntro } = await import("../src/introClient.js");
+const { fetchIntro, checkDataServiceReady } = await import("../src/introClient.js");
 const { app } = await import("../src/app.js");
 
 const stored = {
@@ -29,26 +31,40 @@ function post(body: unknown): Response | Promise<Response> {
 }
 
 beforeEach(() => {
-  vi.mocked(publishCollectRequest).mockReset();
+  vi.mocked(fetchAndStore).mockReset();
+  vi.mocked(publishProfileSaved).mockReset();
+  vi.mocked(publishProfileSaved).mockResolvedValue(true);
   vi.mocked(getUser).mockReset();
   vi.mocked(fetchIntro).mockReset();
+  vi.mocked(checkDataServiceReady).mockReset();
 });
 
-// POST no longer waits for GitHub: it hands the request to SNS and answers
-// 202, and the caller polls GET /users/:username for the result.
+// Saving stays synchronous; only the introduction is deferred to the queue.
 describe("POST /users", () => {
-  it("accepts the request and returns 202 with a tracking id", async () => {
-    vi.mocked(publishCollectRequest).mockResolvedValue("msg-1");
+  it("saves the profile and announces it for async introduction generation", async () => {
+    vi.mocked(fetchAndStore).mockResolvedValue(stored as never);
 
     const res = await post({ username: "torvalds" });
 
-    expect(res.status).toBe(202);
+    expect(res.status).toBe(201);
     await expect(res.json()).resolves.toMatchObject({
       username: "torvalds",
-      status: "accepted",
-      messageId: "msg-1",
+      followers: 234000,
+      introductionQueued: true,
     });
-    expect(publishCollectRequest).toHaveBeenCalledWith("torvalds");
+    expect(publishProfileSaved).toHaveBeenCalledWith(stored);
+  });
+
+  // The profile is already committed; a messaging outage must not turn a
+  // successful save into a failed request.
+  it("still returns 201 when the event could not be published", async () => {
+    vi.mocked(fetchAndStore).mockResolvedValue(stored as never);
+    vi.mocked(publishProfileSaved).mockResolvedValue(false);
+
+    const res = await post({ username: "torvalds" });
+
+    expect(res.status).toBe(201);
+    await expect(res.json()).resolves.toMatchObject({ introductionQueued: false });
   });
 
   it.each([
@@ -58,7 +74,7 @@ describe("POST /users", () => {
     const res = await post(body);
 
     expect(res.status).toBe(400);
-    expect(publishCollectRequest).not.toHaveBeenCalled();
+    expect(fetchAndStore).not.toHaveBeenCalled();
   });
 
   it("returns 400 when the body is not valid JSON", async () => {
@@ -69,18 +85,13 @@ describe("POST /users", () => {
     });
 
     expect(res.status).toBe(400);
-    expect(publishCollectRequest).not.toHaveBeenCalled();
+    expect(fetchAndStore).not.toHaveBeenCalled();
   });
 
-  // If the queue is unreachable the request was never accepted, and saying
-  // 202 would promise a collection that will never happen.
-  it("returns 500 when the request cannot be queued", async () => {
-    vi.mocked(publishCollectRequest).mockRejectedValue(new Error("SNS unreachable"));
-    vi.spyOn(console, "error").mockImplementation(() => {});
+  it("maps a failed GitHub lookup onto 404", async () => {
+    vi.mocked(fetchAndStore).mockRejectedValue(new UserNotFoundError("nobody"));
 
-    const res = await post({ username: "torvalds" });
-
-    expect(res.status).toBe(500);
+    expect((await post({ username: "nobody" })).status).toBe(404);
   });
 });
 
@@ -151,5 +162,30 @@ describe("GET /health", () => {
     const res = await app.request("/health");
 
     expect(res.status).toBe(200);
+  });
+});
+
+describe("GET /ready", () => {
+  it("reports ready when the data service answers", async () => {
+    vi.mocked(checkDataServiceReady).mockResolvedValue(undefined);
+
+    const res = await app.request("/ready");
+
+    expect(res.status).toBe(200);
+    await expect(res.json()).resolves.toMatchObject({ status: "ready" });
+  });
+
+  // Readiness is what the probe alarms on, so a broken dependency has to be
+  // a 503 — a cheerful 200 would hide exactly the outage it exists to catch.
+  it("reports 503 with the failing dependency when the chain is broken", async () => {
+    vi.mocked(checkDataServiceReady).mockRejectedValue(new IntroUnavailableError("down"));
+
+    const res = await app.request("/ready");
+
+    expect(res.status).toBe(503);
+    await expect(res.json()).resolves.toMatchObject({
+      status: "unavailable",
+      dependency: "go-service",
+    });
   });
 });

@@ -1,4 +1,5 @@
-// Package store reads github_users rows from PostgreSQL. It is read-only.
+// Package store reads github_users rows from PostgreSQL and persists the
+// generated introduction back onto them.
 package store
 
 import (
@@ -65,4 +66,22 @@ func (s *Store) GetUser(ctx context.Context, username string) (intro.User, error
 		return intro.User{}, err
 	}
 	return u, nil
+}
+
+const upsertIntroduction = `
+	UPDATE github_users
+	SET introduction = $2, introduction_generated_at = now()
+	WHERE username = $1`
+
+// SaveIntroduction persists a generated introduction. The row is expected to
+// exist: the introduction is only generated after the profile was saved.
+func (s *Store) SaveIntroduction(ctx context.Context, username, introduction string) error {
+	tag, err := s.pool.Exec(ctx, upsertIntroduction, username, introduction)
+	if err != nil {
+		return err
+	}
+	if tag.RowsAffected() == 0 {
+		return ErrNotFound
+	}
+	return nil
 }

@@ -1,10 +1,21 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { RateLimitError, UpstreamError, UserNotFoundError } from "../src/errors.js";
+import { IntroUnavailableError, UserNotFoundError } from "../src/errors.js";
 
-vi.mock("../src/service.js", () => ({ fetchAndStore: vi.fn() }));
+vi.mock("../src/introClient.js", () => ({ generateIntroduction: vi.fn() }));
 
-const { fetchAndStore } = await import("../src/service.js");
-const { handler } = await import("../src/worker.js");
+const { generateIntroduction } = await import("../src/introClient.js");
+const { handler, parseProfileSavedEvent } = await import("../src/worker.js");
+
+function event(username: string, overrides: Record<string, unknown> = {}) {
+  return {
+    eventId: "11111111-2222-3333-4444-555555555555",
+    eventType: "profile.saved",
+    occurredAt: "2026-07-31T10:00:00.000Z",
+    username,
+    profileId: 7,
+    ...overrides,
+  };
+}
 
 function sqsEvent(...bodies: unknown[]) {
   return {
@@ -16,63 +27,82 @@ function sqsEvent(...bodies: unknown[]) {
 }
 
 beforeEach(() => {
-  vi.mocked(fetchAndStore).mockReset();
+  vi.mocked(generateIntroduction).mockReset();
+  vi.mocked(generateIntroduction).mockResolvedValue("Linus Torvalds ...");
+  vi.spyOn(console, "info").mockImplementation(() => {});
   vi.spyOn(console, "warn").mockImplementation(() => {});
   vi.spyOn(console, "error").mockImplementation(() => {});
 });
 
-describe("collect worker", () => {
-  it("collects every message and reports no failures", async () => {
-    vi.mocked(fetchAndStore).mockResolvedValue({ id: 1, username: "torvalds" } as never);
+describe("profile.saved worker", () => {
+  it("generates an introduction for every event in the batch", async () => {
+    const result = await handler(sqsEvent(event("torvalds"), event("gaearon")));
 
-    const result = await handler(sqsEvent({ username: "torvalds" }, { username: "gaearon" }));
-
-    expect(vi.mocked(fetchAndStore).mock.calls.map(([u]) => u)).toEqual(["torvalds", "gaearon"]);
+    expect(vi.mocked(generateIntroduction).mock.calls.map(([u]) => u)).toEqual([
+      "torvalds",
+      "gaearon",
+    ]);
     expect(result.batchItemFailures).toEqual([]);
   });
 
-  // A missing GitHub user will never appear no matter how often we retry, so
-  // burning three attempts and a DLQ slot on it would be pure noise.
-  it("treats an unknown GitHub user as handled, not as a retryable failure", async () => {
-    vi.mocked(fetchAndStore).mockRejectedValue(new UserNotFoundError("nobody"));
+  // The profile is gone; no number of retries brings it back.
+  it("treats a missing profile as handled, not as a retryable failure", async () => {
+    vi.mocked(generateIntroduction).mockRejectedValue(new UserNotFoundError("nobody"));
 
-    const result = await handler(sqsEvent({ username: "nobody" }));
+    const result = await handler(sqsEvent(event("nobody")));
 
     expect(result.batchItemFailures).toEqual([]);
   });
 
   it.each([
-    ["rate limiting", new RateLimitError("rate limited")],
-    ["an upstream outage", new UpstreamError("GitHub 503")],
-    ["a database error", new Error("connection reset")],
-  ])("retries after %s", async (_label, error) => {
-    vi.mocked(fetchAndStore).mockRejectedValue(error);
+    ["the Go service is unreachable", new IntroUnavailableError("connection refused")],
+    ["the Go service errors", new IntroUnavailableError("Go service responded with 500")],
+    ["something unexpected breaks", new Error("boom")],
+  ])("retries when %s", async (_label, error) => {
+    vi.mocked(generateIntroduction).mockRejectedValue(error);
 
-    const result = await handler(sqsEvent({ username: "torvalds" }));
+    const result = await handler(sqsEvent(event("torvalds")));
 
     expect(result.batchItemFailures).toEqual([{ itemIdentifier: "m0" }]);
   });
 
-  // Only the broken message goes back on the queue; the healthy one in the
-  // same batch must not be collected twice.
+  // Only the broken message goes back on the queue; its healthy batch mate
+  // must not have its introduction generated twice.
   it("fails only the offending message in a mixed batch", async () => {
-    vi.mocked(fetchAndStore)
-      .mockResolvedValueOnce({ id: 1 } as never)
-      .mockRejectedValueOnce(new UpstreamError("GitHub 503"));
+    vi.mocked(generateIntroduction)
+      .mockResolvedValueOnce("ok")
+      .mockRejectedValueOnce(new IntroUnavailableError("down"));
 
-    const result = await handler(sqsEvent({ username: "torvalds" }, { username: "gaearon" }));
+    const result = await handler(sqsEvent(event("torvalds"), event("gaearon")));
 
     expect(result.batchItemFailures).toEqual([{ itemIdentifier: "m1" }]);
   });
 
   it.each([
     ["a non-JSON body", "not json at all"],
-    ["a message without a username", { requestedAt: "2026-07-31T00:00:00Z" }],
-    ["an invalid username", { username: "-bad-" }],
+    ["a foreign event type", event("torvalds", { eventType: "profile.deleted" })],
+    ["a missing eventId", event("torvalds", { eventId: undefined })],
+    ["an invalid username", event("-bad-")],
+    ["a missing profileId", event("torvalds", { profileId: 0 })],
   ])("sends %s to the dead letter queue", async (_label, body) => {
     const result = await handler(sqsEvent(body));
 
     expect(result.batchItemFailures).toEqual([{ itemIdentifier: "m0" }]);
-    expect(fetchAndStore).not.toHaveBeenCalled();
+    expect(generateIntroduction).not.toHaveBeenCalled();
+  });
+});
+
+describe("parseProfileSavedEvent", () => {
+  it("returns the event when it is well formed", () => {
+    expect(parseProfileSavedEvent(JSON.stringify(event("torvalds")))).toMatchObject({
+      username: "torvalds",
+      profileId: 7,
+    });
+  });
+
+  it("explains what was wrong", () => {
+    expect(() => parseProfileSavedEvent(JSON.stringify(event("torvalds", { profileId: -1 })))).toThrow(
+      "profileId",
+    );
   });
 });

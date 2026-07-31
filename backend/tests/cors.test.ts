@@ -7,15 +7,19 @@ const PREVIEW_ORIGIN = "https://pr-7.zuoye-frontend.pages.dev";
 // app.ts reads CORS_ORIGINS at module load, so it must be set before the import.
 process.env.CORS_ORIGINS = `${ORIGIN},https://*.zuoye-frontend.pages.dev`;
 
-vi.mock("../src/queue.js", () => ({ publishCollectRequest: vi.fn() }));
+vi.mock("../src/service.js", () => ({ fetchAndStore: vi.fn() }));
+vi.mock("../src/events.js", () => ({ publishProfileSaved: vi.fn() }));
 vi.mock("../src/db.js", () => ({ getUser: vi.fn() }));
 
-const { publishCollectRequest } = await import("../src/queue.js");
+const { fetchAndStore } = await import("../src/service.js");
+const { publishProfileSaved } = await import("../src/events.js");
 const { getUser } = await import("../src/db.js");
 const { app } = await import("../src/app.js");
 
 beforeEach(() => {
-  vi.mocked(publishCollectRequest).mockReset();
+  vi.mocked(fetchAndStore).mockReset();
+  vi.mocked(publishProfileSaved).mockReset();
+  vi.mocked(publishProfileSaved).mockResolvedValue(true);
   vi.mocked(getUser).mockReset();
 });
 
@@ -38,8 +42,8 @@ describe("CORS preflight", () => {
 });
 
 describe("CORS on real responses", () => {
-  it("sets the origin header on an accepted POST", async () => {
-    vi.mocked(publishCollectRequest).mockResolvedValue("msg-1");
+  it("sets the origin header on a saved POST", async () => {
+    vi.mocked(fetchAndStore).mockResolvedValue({ id: 1, username: "torvalds" } as never);
 
     const res = await app.request("/users", {
       method: "POST",
@@ -47,7 +51,7 @@ describe("CORS on real responses", () => {
       body: JSON.stringify({ username: "torvalds" }),
     });
 
-    expect(res.status).toBe(202);
+    expect(res.status).toBe(201);
     expect(res.headers.get("Access-Control-Allow-Origin")).toBe(ORIGIN);
   });
 
@@ -63,7 +67,7 @@ describe("CORS on real responses", () => {
   });
 
   it("allows any subdomain matched by a wildcard entry", async () => {
-    vi.mocked(publishCollectRequest).mockResolvedValue("msg-1");
+    vi.mocked(fetchAndStore).mockResolvedValue({ id: 1, username: "torvalds" } as never);
 
     const res = await app.request("/users", {
       method: "POST",

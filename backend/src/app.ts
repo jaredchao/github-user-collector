@@ -7,8 +7,9 @@ import {
   UserNotFoundError,
 } from "./errors.js";
 import { getUser } from "./db.js";
-import { fetchIntro } from "./introClient.js";
-import { publishCollectRequest } from "./queue.js";
+import { publishProfileSaved } from "./events.js";
+import { checkDataServiceReady, fetchIntro } from "./introClient.js";
+import { fetchAndStore } from "./service.js";
 import { isValidUsername } from "./username.js";
 
 // Unset means "any origin", which suits local development. Production sets the
@@ -48,12 +49,29 @@ app.use(
   }),
 );
 
+// Liveness: is this Lambda running at all.
 app.get("/health", (c) => c.json({ status: "ok" }));
 
-// Collecting a user means calling GitHub and writing to RDS, which is slow
-// and fails in ways worth retrying. So the API only queues the request and
-// answers 202; the worker behind SNS -> SQS does the work, and the caller
-// polls GET /users/:username for the result.
+// Readiness: is the whole chain behind it usable — Lambda -> Go on ECS ->
+// PostgreSQL. Deliberately touches no user data, so a probe can call it
+// without credentials.
+app.get("/ready", async (c) => {
+  const started = Date.now();
+  try {
+    await checkDataServiceReady();
+  } catch (err) {
+    return c.json(
+      { status: "unavailable", dependency: "go-service", error: (err as Error).message },
+      503,
+    );
+  }
+  return c.json({ status: "ready", checkedMs: Date.now() - started });
+});
+
+// Saving the profile stays synchronous — that is what the caller asked for.
+// Generating the introduction does not: it is announced as an event and
+// handled by the worker, so a slow or broken Go service can never roll back
+// a profile that was already stored.
 app.post("/users", async (c) => {
   let body: unknown;
   try {
@@ -67,8 +85,12 @@ app.post("/users", async (c) => {
     return c.json({ error: "Field 'username' must be a valid GitHub username" }, 400);
   }
 
-  const messageId = await publishCollectRequest(username);
-  return c.json({ username, status: "accepted", messageId }, 202);
+  const stored = await fetchAndStore(username);
+  // Best effort: publishProfileSaved never throws, so a messaging outage
+  // downgrades the introduction to "missing for now" instead of failing a
+  // request whose main work already succeeded.
+  const published = await publishProfileSaved(stored);
+  return c.json({ ...stored, introductionQueued: published }, 201);
 });
 
 app.get("/users/:username", async (c) => {

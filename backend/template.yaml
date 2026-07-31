@@ -50,17 +50,32 @@ Parameters:
     Default: main.go-api.jccode.cc
     Description: Public host of the Go front door, probed by the synthetics canary.
 
-  ProbeIntervalMinutes:
+  EnableSyntheticsCanary:
+    Type: String
+    Default: "false"
+    AllowedValues: ["true", "false"]
+    Description: >-
+      Whether to create the CloudWatch Synthetics canary. Off by default: it
+      bills per run, and its underlying Lambda needs 960 MB, which this
+      account's 512 MB cap currently refuses.
+
+  SyntheticsScheduleMinutes:
     Type: Number
     Default: 60
-    Description: How often the end-to-end probe runs.
+    Description: How often the synthetics canary probes /ready.
 
-  ProbeAlarmPeriodSeconds:
-    Type: Number
-    Default: 3900
+  EnableCanaryDeployment:
+    Type: String
+    Default: "false"
+    AllowedValues: ["true", "false"]
     Description: >-
-      Alarm window for the probe metric. Slightly wider than the probe
-      interval so one late run doesn't look like a missing data point.
+      Whether to shift traffic through CodeDeploy. Off by default: this
+      account has no CodeDeploy subscription, so scripts/canary-release.sh
+      drives the same rollout through the alias's weighted routing instead.
+
+Conditions:
+  CreateSyntheticsCanary: !Equals [!Ref EnableSyntheticsCanary, "true"]
+  UseCanaryDeployment: !Equals [!Ref EnableCanaryDeployment, "true"]
 
 Globals:
   Function:
@@ -87,12 +102,21 @@ Resources:
       # subscription, so scripts/canary-release.sh drives the same rollout
       # through the alias's own weighted routing instead.
       AutoPublishAlias: live
+      # The SAM transform needs Type and a list-shaped Alarms even when the
+      # preference is disabled, so the condition sits on Enabled and on each
+      # list member rather than wrapping the whole property.
+      DeploymentPreference:
+        Enabled: !If [UseCanaryDeployment, true, false]
+        Type: Canary10Percent5Minutes
+        Alarms:
+          - !If [UseCanaryDeployment, !Ref ReleaseErrorAlarm, !Ref "AWS::NoValue"]
+          - !If [UseCanaryDeployment, !Ref ReleaseLatencyAlarm, !Ref "AWS::NoValue"]
       Environment:
         Variables:
           DATABASE_URL: !Ref DatabaseUrl
           CORS_ORIGINS: !Ref CorsOrigins
           GO_SERVICE_URL: !Ref GoServiceUrl
-          COLLECT_TOPIC_ARN: !Ref CollectRequestsTopic
+          PROFILE_EVENTS_TOPIC_ARN: !Ref ProfileEventsTopic
           # The pg pool lives at module scope; keep the container alive between calls.
           NODE_OPTIONS: --enable-source-maps
       VpcConfig:
@@ -102,7 +126,7 @@ Resources:
       Policies:
         - VPCAccessPolicy: {}
         - SNSPublishMessagePolicy:
-            TopicName: !GetAtt CollectRequestsTopic.TopicName
+            TopicName: !GetAtt ProfileEventsTopic.TopicName
       Events:
         Root:
           Type: HttpApi
@@ -130,78 +154,84 @@ Resources:
       LogGroupName: !Sub /aws/lambda/${CollectorFunction}
       RetentionInDays: 7
 
-  # ---- Async collection: SNS -> SQS -> worker, with a dead letter queue ----
+  # ---- Async introduction: profile.saved -> SNS -> SQS -> worker -> Go ----
   #
-  # The API only publishes here and answers 202, so a GitHub outage or a slow
-  # database can no longer turn into a failed user request: the message waits
-  # in the queue and is retried.
+  # Saving a profile stays synchronous. Generating its introduction does not:
+  # it is announced as an event, so a slow or broken Go service can never roll
+  # back a profile that was already committed.
 
-  CollectRequestsTopic:
+  ProfileEventsTopic:
     Type: AWS::SNS::Topic
     Properties:
-      DisplayName: Collect requests accepted by the API
+      DisplayName: Profile lifecycle events (profile.saved)
 
   # Retries are capped by maxReceiveCount below; whatever still fails lands
   # here, where it can be inspected and replayed rather than lost.
-  CollectDeadLetterQueue:
+  IntroductionDeadLetterQueue:
     Type: AWS::SQS::Queue
     Properties:
+      # Two weeks is long enough to notice a DLQ alarm on a Friday and still
+      # replay the messages on Monday.
       MessageRetentionPeriod: 1209600
 
-  CollectQueue:
+  IntroductionQueue:
     Type: AWS::SQS::Queue
     Properties:
-      # Must exceed the worker's own timeout, or SQS hands the same message to
-      # a second worker while the first is still busy with it.
-      VisibilityTimeout: 120
+      # Comfortably above the worker's 30s timeout, or SQS would hand the same
+      # message to a second worker while the first is still busy with it.
+      VisibilityTimeout: 180
       RedrivePolicy:
-        deadLetterTargetArn: !GetAtt CollectDeadLetterQueue.Arn
-        maxReceiveCount: 3
+        deadLetterTargetArn: !GetAtt IntroductionDeadLetterQueue.Arn
+        maxReceiveCount: 5
 
-  CollectQueueSubscription:
+  IntroductionQueueSubscription:
     Type: AWS::SNS::Subscription
     Properties:
       Protocol: sqs
-      TopicArn: !Ref CollectRequestsTopic
-      Endpoint: !GetAtt CollectQueue.Arn
+      TopicArn: !Ref ProfileEventsTopic
+      Endpoint: !GetAtt IntroductionQueue.Arn
       # Without this the worker would have to unwrap an SNS envelope around
       # every message body.
       RawMessageDelivery: true
 
-  CollectQueuePolicy:
+  IntroductionQueuePolicy:
     Type: AWS::SQS::QueuePolicy
     Properties:
-      Queues: [!Ref CollectQueue]
+      Queues: [!Ref IntroductionQueue]
       PolicyDocument:
         Version: "2012-10-17"
         Statement:
           - Effect: Allow
             Principal: {Service: sns.amazonaws.com}
             Action: sqs:SendMessage
-            Resource: !GetAtt CollectQueue.Arn
+            Resource: !GetAtt IntroductionQueue.Arn
             Condition:
-              ArnEquals: {"aws:SourceArn": !Ref CollectRequestsTopic}
+              ArnEquals: {"aws:SourceArn": !Ref ProfileEventsTopic}
 
-  CollectWorkerFunction:
+  IntroductionWorkerFunction:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: dist/
       Handler: worker.handler
-      Description: Consumes collect requests and upserts GitHub users into RDS
+      Description: Turns profile.saved into a generated introduction via the Go service
+      # Generous next to the Go call's own 5s timeout, so a slow container
+      # costs a retry rather than a truncated request.
+      Timeout: 30
       Environment:
         Variables:
-          DATABASE_URL: !Ref DatabaseUrl
+          GO_SERVICE_URL: !Ref GoServiceUrl
           NODE_OPTIONS: --enable-source-maps
+      # In the VPC because the Go service is only reachable there.
       VpcConfig:
         SubnetIds: [!Ref SubnetIdA, !Ref SubnetIdB]
         SecurityGroupIds: [!Ref LambdaSecurityGroupId]
       Policies:
         - VPCAccessPolicy: {}
       Events:
-        CollectQueue:
+        IntroductionQueue:
           Type: SQS
           Properties:
-            Queue: !GetAtt CollectQueue.Arn
+            Queue: !GetAtt IntroductionQueue.Arn
             BatchSize: 5
             # Lets the worker fail one message without dragging its healthy
             # batch mates back onto the queue.
@@ -210,7 +240,7 @@ Resources:
   WorkerLogGroup:
     Type: AWS::Logs::LogGroup
     Properties:
-      LogGroupName: !Sub /aws/lambda/${CollectWorkerFunction}
+      LogGroupName: !Sub /aws/lambda/${IntroductionWorkerFunction}
       RetentionInDays: 7
 
   # ---- Alerting ----
@@ -220,17 +250,17 @@ Resources:
     Properties:
       DisplayName: zuoye operational alerts
 
-  # A message in the DLQ means three attempts were not enough: someone has to
+  # A message in the DLQ means five attempts were not enough: someone has to
   # look at it, so it pages rather than sitting there silently.
   DeadLetterQueueAlarm:
     Type: AWS::CloudWatch::Alarm
     Properties:
-      AlarmDescription: Collect requests landed in the dead letter queue
+      AlarmDescription: Introduction events landed in the dead letter queue
       Namespace: AWS/SQS
       MetricName: ApproximateNumberOfMessagesVisible
       Dimensions:
         - Name: QueueName
-          Value: !GetAtt CollectDeadLetterQueue.QueueName
+          Value: !GetAtt IntroductionDeadLetterQueue.QueueName
       Statistic: Maximum
       Period: 60
       EvaluationPeriods: 1
@@ -244,12 +274,12 @@ Resources:
   QueueBacklogAlarm:
     Type: AWS::CloudWatch::Alarm
     Properties:
-      AlarmDescription: Collect requests are waiting too long to be processed
+      AlarmDescription: Introduction events are waiting too long to be processed
       Namespace: AWS/SQS
       MetricName: ApproximateAgeOfOldestMessage
       Dimensions:
         - Name: QueueName
-          Value: !GetAtt CollectQueue.QueueName
+          Value: !GetAtt IntroductionQueue.QueueName
       Statistic: Maximum
       Period: 300
       EvaluationPeriods: 1
@@ -310,58 +340,126 @@ Resources:
       TreatMissingData: notBreaching
       AlarmActions: [!Ref AlertsTopic]
 
-  # ---- Scheduled probe: keep checking the real chain between deployments ----
+  # ---- Synthetics: probe the real chain on a schedule ----
   #
-  # CloudWatch Synthetics would be the managed answer, but its canary needs at
-  # least 960 MB and this account caps Lambda memory at 512 MB, so the probe
-  # runs as an ordinary scheduled function instead.
+  # Everything here is conditional. The canary bills per run, and its
+  # underlying Lambda asks for 960 MB, which this account's 512 MB cap
+  # rejects — so it stays off until the quota increase lands.
 
-  ProberFunction:
-    Type: AWS::Serverless::Function
+  SyntheticsArtifactBucket:
+    Type: AWS::S3::Bucket
+    Condition: CreateSyntheticsCanary
+    # Retained on purpose: a non-empty bucket would otherwise block the whole
+    # stack from deleting.
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
     Properties:
-      CodeUri: dist/
-      Handler: prober.handler
-      Description: Probes the collect chain end to end and emits a success metric
-      # Long enough for the settle wait plus every poll attempt; the 15s
-      # default from Globals would cut the probe off mid-poll.
-      Timeout: 60
-      Environment:
-        Variables:
-          PROBE_API_URL: !Sub "https://${HttpApi}.execute-api.${AWS::Region}.amazonaws.com"
-          PROBE_GO_URL: !Sub "https://${GoPublicHost}"
-          PROBE_USER: torvalds
-          NODE_OPTIONS: --enable-source-maps
-      # Deliberately outside the VPC: the probe should reach the API the same
-      # way a user does, over the public internet.
-      Events:
-        Schedule:
-          Type: ScheduleV2
-          Properties:
-            ScheduleExpression: !Sub "rate(${ProbeIntervalMinutes} minutes)"
-            Description: Periodic end-to-end probe of the collect chain
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+      LifecycleConfiguration:
+        Rules:
+          - Id: ExpireCanaryArtifacts
+            Status: Enabled
+            ExpirationInDays: 14
 
-  ProberLogGroup:
-    Type: AWS::Logs::LogGroup
+  SyntheticsCanaryRole:
+    Type: AWS::IAM::Role
+    Condition: CreateSyntheticsCanary
     Properties:
-      LogGroupName: !Sub /aws/lambda/${ProberFunction}
-      RetentionInDays: 7
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal: {Service: lambda.amazonaws.com}
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: WriteSyntheticsResults
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action: [s3:PutObject, s3:GetBucketLocation]
+                Resource:
+                  - !GetAtt SyntheticsArtifactBucket.Arn
+                  - !Sub "${SyntheticsArtifactBucket.Arn}/*"
+              - Effect: Allow
+                Action: s3:ListAllMyBuckets
+                Resource: "*"
+              - Effect: Allow
+                Action: [logs:CreateLogGroup, logs:CreateLogStream, logs:PutLogEvents]
+                Resource: !Sub "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/cwsyn-*"
+              - Effect: Allow
+                Action: cloudwatch:PutMetricData
+                Resource: "*"
+                Condition:
+                  StringEquals: {"cloudwatch:namespace": CloudWatchSynthetics}
 
-  # The probe publishes Success=1/0 through Embedded Metric Format, so this
-  # alarm needs no custom metric plumbing beyond the log line itself.
-  ProbeFailureAlarm:
+  ApiReadinessCanary:
+    Type: AWS::Synthetics::Canary
+    Condition: CreateSyntheticsCanary
+    Properties:
+      Name: zuoye-api-ready
+      ArtifactS3Location: !Sub "s3://${SyntheticsArtifactBucket}/canary"
+      ExecutionRoleArn: !GetAtt SyntheticsCanaryRole.Arn
+      # The plain nodejs runtime is enough — and cheaper — for a check that
+      # never renders a page.
+      RuntimeVersion: syn-nodejs-5.2
+      Schedule:
+        Expression: !Sub "rate(${SyntheticsScheduleMinutes} minutes)"
+      RunConfig:
+        TimeoutInSeconds: 60
+        EnvironmentVariables:
+          API_HOST: !Sub "${HttpApi}.execute-api.${AWS::Region}.amazonaws.com"
+      StartCanaryAfterCreation: true
+      SuccessRetentionPeriod: 7
+      FailureRetentionPeriod: 14
+      Code:
+        Handler: index.handler
+        Script: |
+          const synthetics = require('Synthetics');
+          const log = require('SyntheticsLogger');
+
+          // /ready walks API Gateway -> Lambda -> Go on ECS -> PostgreSQL and
+          // touches no user data, so the probe needs no credentials.
+          exports.handler = async function () {
+            const options = {
+              hostname: process.env.API_HOST,
+              method: 'GET',
+              path: '/ready',
+              port: 443,
+              protocol: 'https:',
+              headers: { 'User-Agent': 'zuoye-synthetics' },
+            };
+
+            await synthetics.executeHttpStep('ready', options, async (res) => {
+              let body = '';
+              res.on('data', (d) => { body += d; });
+              await new Promise((resolve) => res.on('end', resolve));
+              if (res.statusCode !== 200) {
+                throw new Error(`ready returned ${res.statusCode}: ${body.slice(0, 300)}`);
+              }
+              log.info(`ready ok: ${body.slice(0, 200)}`);
+            });
+          };
+
+  SyntheticsFailureAlarm:
     Type: AWS::CloudWatch::Alarm
+    Condition: CreateSyntheticsCanary
     Properties:
-      AlarmName: !Sub "${AWS::StackName}-probe-failed"
-      AlarmDescription: End-to-end probe of the collect chain is failing
-      Namespace: ZuoyeProbe
-      MetricName: Success
+      AlarmName: !Sub "${AWS::StackName}-synthetics-failed"
+      AlarmDescription: Readiness canary is failing
+      Namespace: CloudWatchSynthetics
+      MetricName: SuccessPercent
       Dimensions:
-        - Name: Chain
-          Value: collect
-      Statistic: Minimum
-      Period: !Sub "${ProbeAlarmPeriodSeconds}"
+        - Name: CanaryName
+          Value: !Ref ApiReadinessCanary
+      Statistic: Average
+      Period: !Sub "${SyntheticsScheduleMinutes}"
       EvaluationPeriods: 1
-      Threshold: 1
+      Threshold: 100
       ComparisonOperator: LessThanThreshold
       TreatMissingData: notBreaching
       AlarmActions: [!Ref AlertsTopic]
@@ -394,18 +492,22 @@ Outputs:
     Description: Lambda function name
     Value: !Ref CollectorFunction
 
-  CollectQueueUrl:
-    Description: Main collect queue
-    Value: !Ref CollectQueue
+  IntroductionQueueUrl:
+    Description: Main introduction queue
+    Value: !Ref IntroductionQueue
 
   DeadLetterQueueUrl:
-    Description: Dead letter queue for exhausted collect requests
-    Value: !Ref CollectDeadLetterQueue
+    Description: Dead letter queue for exhausted introduction events
+    Value: !Ref IntroductionDeadLetterQueue
+
+  ProfileEventsTopicArn:
+    Description: SNS topic carrying profile.saved
+    Value: !Ref ProfileEventsTopic
 
   AlertsTopicArn:
     Description: SNS topic every operational alarm publishes to
     Value: !Ref AlertsTopic
 
-  ProberFunctionName:
-    Description: Scheduled end-to-end probe
-    Value: !Ref ProberFunction
+  ReadinessUrl:
+    Description: One call that exercises Lambda, the Go service and PostgreSQL
+    Value: !Sub "https://${HttpApi}.execute-api.${AWS::Region}.amazonaws.com/ready"

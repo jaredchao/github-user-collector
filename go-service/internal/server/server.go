@@ -26,10 +26,11 @@ func validUsername(s string) bool {
 	return usernameChars.MatchString(s) && !usernameHyphen.MatchString(s)
 }
 
-// UserSource is the read-only dependency the server needs. Defining it here
+// UserSource is the database dependency the server needs. Defining it here
 // (not in store) lets tests supply a fake without a database.
 type UserSource interface {
 	GetUser(ctx context.Context, username string) (intro.User, error)
+	SaveIntroduction(ctx context.Context, username, introduction string) error
 	Ping(ctx context.Context) error
 }
 
@@ -52,7 +53,43 @@ func New(src UserSource, fwd UsersForwarder) http.Handler {
 	mux.HandleFunc("GET /intro", handleIntro(src))
 	mux.HandleFunc("POST /users", handleUsers(fwd))
 	mux.HandleFunc("GET /users/{username}", handleGetUser(fwd))
+	mux.HandleFunc("POST /users/{username}/introduction", handleGenerateIntroduction(src))
 	return withCORS(mux)
+}
+
+// Called by the SQS worker after a profile is saved. Rendering the text is
+// cheap; persisting it is the point, so that reads don't have to rebuild it
+// and the async chain leaves a visible trace.
+func handleGenerateIntroduction(src UserSource) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		username := r.PathValue("username")
+		if !validUsername(username) {
+			writeJSON(w, http.StatusBadRequest, map[string]string{"error": "username 格式非法"})
+			return
+		}
+
+		user, err := src.GetUser(r.Context(), username)
+		if errors.Is(err, store.ErrNotFound) {
+			writeJSON(w, http.StatusNotFound, map[string]string{"error": "找不到这个 GitHub 用户"})
+			return
+		}
+		if err != nil {
+			log.Printf("GetUser(%q) 失败: %v", username, err)
+			writeJSON(w, http.StatusInternalServerError, map[string]string{"error": "服务器内部错误"})
+			return
+		}
+
+		text := intro.Build(user)
+		// The worker retries on a non-2xx, so a failed write must not look
+		// like success — otherwise the introduction is silently lost.
+		if err := src.SaveIntroduction(r.Context(), username, text); err != nil {
+			log.Printf("保存 %q 的介绍失败: %v", username, err)
+			writeJSON(w, http.StatusInternalServerError, map[string]string{"error": "保存介绍失败"})
+			return
+		}
+
+		writeJSON(w, http.StatusOK, map[string]string{"username": username, "intro": text})
+	}
 }
 
 // Collection is asynchronous, so the caller polls this after a 202 until the

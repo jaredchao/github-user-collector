@@ -16,12 +16,26 @@ type fakeSource struct {
 	user    intro.User
 	getErr  error
 	pingErr error
+	saveErr error
+	saved   *savedIntro
+}
+
+type savedIntro struct {
+	username string
+	text     string
 }
 
 func (f fakeSource) GetUser(_ context.Context, _ string) (intro.User, error) {
 	return f.user, f.getErr
 }
 func (f fakeSource) Ping(_ context.Context) error { return f.pingErr }
+func (f fakeSource) SaveIntroduction(_ context.Context, username, text string) error {
+	if f.saved != nil {
+		f.saved.username = username
+		f.saved.text = text
+	}
+	return f.saveErr
+}
 
 func do(t *testing.T, h http.Handler, target string) *httptest.ResponseRecorder {
 	t.Helper()

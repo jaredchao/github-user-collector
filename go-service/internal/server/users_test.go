@@ -6,6 +6,9 @@ import (
 	"net/http/httptest"
 	"strings"
 	"testing"
+
+	"github.com/jaredchao/zuowen-go-service/internal/intro"
+	"github.com/jaredchao/zuowen-go-service/internal/store"
 )
 
 type fakeForwarder struct {
@@ -129,5 +132,62 @@ func TestGetUser_InvalidUsernameRejectedLocally(t *testing.T) {
 	}
 	if fwd.gotMethod != "" {
 		t.Error("非法用户名不该打到 Lambda")
+	}
+}
+
+func postJSON(t *testing.T, h http.Handler, path string) *httptest.ResponseRecorder {
+	t.Helper()
+	req := httptest.NewRequest(http.MethodPost, path, nil)
+	rec := httptest.NewRecorder()
+	h.ServeHTTP(rec, req)
+	return rec
+}
+
+func TestGenerateIntroduction_RendersAndPersists(t *testing.T) {
+	name := "Linus Torvalds"
+	saved := &savedIntro{}
+	src := fakeSource{
+		user:  intro.User{Username: "torvalds", Name: &name, PublicRepos: 12, Followers: 300},
+		saved: saved,
+	}
+	h := New(src, nil)
+
+	rec := postJSON(t, h, "/users/torvalds/introduction")
+
+	if rec.Code != http.StatusOK {
+		t.Fatalf("status = %d, 期望 200，body=%s", rec.Code, rec.Body.String())
+	}
+	if saved.username != "torvalds" || !strings.Contains(saved.text, "Linus Torvalds") {
+		t.Errorf("落库内容不对: %+v", saved)
+	}
+	if !strings.Contains(rec.Body.String(), "Linus Torvalds") {
+		t.Errorf("响应未包含介绍: %s", rec.Body.String())
+	}
+}
+
+func TestGenerateIntroduction_UnknownUserIs404(t *testing.T) {
+	h := New(fakeSource{getErr: store.ErrNotFound}, nil)
+
+	if rec := postJSON(t, h, "/users/nobody/introduction"); rec.Code != http.StatusNotFound {
+		t.Errorf("status = %d, 期望 404", rec.Code)
+	}
+}
+
+// The worker retries on failure, so a write error has to surface as 5xx
+// rather than a cheerful 200 that silently drops the introduction.
+func TestGenerateIntroduction_SaveFailureIs500(t *testing.T) {
+	name := "Linus"
+	h := New(fakeSource{user: intro.User{Username: "torvalds", Name: &name}, saveErr: context.DeadlineExceeded}, nil)
+
+	if rec := postJSON(t, h, "/users/torvalds/introduction"); rec.Code != http.StatusInternalServerError {
+		t.Errorf("status = %d, 期望 500", rec.Code)
+	}
+}
+
+func TestGenerateIntroduction_InvalidUsernameIs400(t *testing.T) {
+	h := New(fakeSource{}, nil)
+
+	if rec := postJSON(t, h, "/users/-bad-/introduction"); rec.Code != http.StatusBadRequest {
+		t.Errorf("status = %d, 期望 400", rec.Code)
 	}
 }
