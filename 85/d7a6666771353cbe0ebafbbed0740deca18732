@@ -1,0 +1,21 @@
+backend/template.yaml
+  s_e41a08a6891c43::t_f008fdc450bb0d 256-444
+  s_e41a08a6891c43::t_e5043bfc6aa7d6 48-57
+  s_e41a08a6891c43::t_ad8ed1cc45a1ae 74-84
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.18",
+  "base_commit_sha": "85d7a6666771353cbe0ebafbbed0740deca18732",
+  "prompts": {},
+  "sessions": {
+    "s_e41a08a6891c43": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "fe1c60df-e471-465e-a877-388c609e3b05",
+        "model": "claude-opus-5"
+      },
+      "human_author": "muluo <mengchao1027@gmail.com>"
+    }
+  }
+}
