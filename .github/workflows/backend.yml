@@ -9,6 +9,9 @@ on:
   pull_request:
     paths:
       - "backend/**"
+  # Manual entry point for redeploying after an infrastructure rebuild, when
+  # no source file has changed and the paths filter would skip the push.
+  workflow_dispatch:
 
 # Required for the OIDC token exchange. Without id-token: write, GitHub will not
 # mint a token and the AWS credential step fails with a confusing 400.
