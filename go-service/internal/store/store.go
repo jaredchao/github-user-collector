@@ -68,6 +68,29 @@ func (s *Store) GetUser(ctx context.Context, username string) (intro.User, error
 	return u, nil
 }
 
+const selectIntroduction = `
+	SELECT introduction
+	FROM github_users
+	WHERE username = $1`
+
+// GetIntroduction returns the stored introduction. ErrNotFound means either
+// no such profile or no introduction generated yet — from a reader's point of
+// view those are the same "not available".
+func (s *Store) GetIntroduction(ctx context.Context, username string) (string, error) {
+	var introduction *string
+	err := s.pool.QueryRow(ctx, selectIntroduction, username).Scan(&introduction)
+	if errors.Is(err, pgx.ErrNoRows) {
+		return "", ErrNotFound
+	}
+	if err != nil {
+		return "", err
+	}
+	if introduction == nil || *introduction == "" {
+		return "", ErrNotFound
+	}
+	return *introduction, nil
+}
+
 const upsertIntroduction = `
 	UPDATE github_users
 	SET introduction = $2, introduction_generated_at = now()

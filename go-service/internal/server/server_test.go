@@ -13,11 +13,13 @@ import (
 
 // fakeSource implements UserSource without a database.
 type fakeSource struct {
-	user    intro.User
-	getErr  error
-	pingErr error
-	saveErr error
-	saved   *savedIntro
+	user     intro.User
+	getErr   error
+	pingErr  error
+	saveErr  error
+	saved    *savedIntro
+	stored   string
+	introErr error
 }
 
 type savedIntro struct {
@@ -29,6 +31,9 @@ func (f fakeSource) GetUser(_ context.Context, _ string) (intro.User, error) {
 	return f.user, f.getErr
 }
 func (f fakeSource) Ping(_ context.Context) error { return f.pingErr }
+func (f fakeSource) GetIntroduction(_ context.Context, _ string) (string, error) {
+	return f.stored, f.introErr
+}
 func (f fakeSource) SaveIntroduction(_ context.Context, username, text string) error {
 	if f.saved != nil {
 		f.saved.username = username
@@ -45,8 +50,7 @@ func do(t *testing.T, h http.Handler, target string) *httptest.ResponseRecorder 
 }
 
 func TestIntro_OK(t *testing.T) {
-	name := "Linus Torvalds"
-	h := New(fakeSource{user: intro.User{Username: "torvalds", Name: &name, Followers: 100}}, nil)
+	h := New(fakeSource{stored: "Linus Torvalds（@torvalds）……"}, nil)
 
 	rec := do(t, h, "/intro?username=torvalds")
 	if rec.Code != http.StatusOK {
@@ -78,15 +82,18 @@ func TestIntro_InvalidUsername(t *testing.T) {
 	}
 }
 
-func TestIntro_NotFound(t *testing.T) {
-	h := New(fakeSource{getErr: store.ErrNotFound}, nil)
+// Not yet generated and no such profile look the same to a reader: keep
+// polling. This is also why /intro must read the stored text rather than
+// render it — a rendered answer would hide a dead generation chain.
+func TestIntro_NotGeneratedYet(t *testing.T) {
+	h := New(fakeSource{introErr: store.ErrNotFound}, nil)
 	if rec := do(t, h, "/intro?username=nobody"); rec.Code != http.StatusNotFound {
-		t.Errorf("不存在用户状态码 = %d, 期望 404", rec.Code)
+		t.Errorf("未生成时状态码 = %d, 期望 404", rec.Code)
 	}
 }
 
 func TestIntro_DBError(t *testing.T) {
-	h := New(fakeSource{getErr: context.DeadlineExceeded}, nil)
+	h := New(fakeSource{introErr: context.DeadlineExceeded}, nil)
 	if rec := do(t, h, "/intro?username=torvalds"); rec.Code != http.StatusInternalServerError {
 		t.Errorf("数据库错误状态码 = %d, 期望 500", rec.Code)
 	}

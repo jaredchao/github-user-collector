@@ -30,6 +30,7 @@ func validUsername(s string) bool {
 // (not in store) lets tests supply a fake without a database.
 type UserSource interface {
 	GetUser(ctx context.Context, username string) (intro.User, error)
+	GetIntroduction(ctx context.Context, username string) (string, error)
 	SaveIntroduction(ctx context.Context, username, introduction string) error
 	Ping(ctx context.Context) error
 }
@@ -169,6 +170,9 @@ func withCORS(next http.Handler) http.Handler {
 	})
 }
 
+// Reads the stored introduction rather than rendering one on the fly. That
+// keeps this endpoint honest: if it answered with freshly built text, it would
+// look healthy even when the async generation chain is completely dead.
 func handleIntro(src UserSource) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		username := r.URL.Query().Get("username")
@@ -177,21 +181,20 @@ func handleIntro(src UserSource) http.HandlerFunc {
 			return
 		}
 
-		user, err := src.GetUser(r.Context(), username)
+		introduction, err := src.GetIntroduction(r.Context(), username)
 		if errors.Is(err, store.ErrNotFound) {
-			writeJSON(w, http.StatusNotFound, map[string]string{"error": "找不到这个 GitHub 用户"})
+			// Either no such profile or the worker hasn't generated it yet;
+			// the caller polls, so both mean "come back in a moment".
+			writeJSON(w, http.StatusNotFound, map[string]string{"error": "介绍尚未生成"})
 			return
 		}
 		if err != nil {
-			log.Printf("GetUser(%q) 失败: %v", username, err)
+			log.Printf("GetIntroduction(%q) 失败: %v", username, err)
 			writeJSON(w, http.StatusInternalServerError, map[string]string{"error": "服务器内部错误"})
 			return
 		}
 
-		writeJSON(w, http.StatusOK, map[string]string{
-			"username": user.Username,
-			"intro":    intro.Build(user),
-		})
+		writeJSON(w, http.StatusOK, map[string]string{"username": username, "intro": introduction})
 	}
 }
 

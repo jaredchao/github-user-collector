@@ -12,3 +12,5 @@ samconfig.toml
 .env.aws
 .env.deploy
 .cf-token
+.wrangler/
+frontend/.wrangler/
