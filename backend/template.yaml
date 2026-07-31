@@ -45,6 +45,16 @@ Parameters:
     Default: collector-lambda
     Description: Cloud Map service name registering this stack's Lambda. PR stacks use collector-lambda-pr-N.
 
+  GoPublicHost:
+    Type: String
+    Default: main.go-api.jccode.cc
+    Description: Public host of the Go front door, probed by the synthetics canary.
+
+  CanaryIntervalMinutes:
+    Type: Number
+    Default: 60
+    Description: How often the synthetics canary runs. Hourly keeps it near free.
+
 Globals:
   Function:
     Runtime: nodejs22.x
@@ -61,7 +71,17 @@ Resources:
       # per-PR stacks (zuoye-collector-pr-N) don't collide with production.
       CodeUri: dist/
       Handler: index.handler
-      Description: Fetches a GitHub user and upserts it into RDS
+      Description: Accepts collect requests and serves reads
+      # Every deployment publishes a new version and shifts the alias onto it
+      # gradually: 10% of traffic for five minutes, then the rest. If either
+      # alarm below fires while that is happening, CodeDeploy puts all traffic
+      # back on the previous version.
+      AutoPublishAlias: live
+      DeploymentPreference:
+        Type: Canary10Percent5Minutes
+        Alarms:
+          - !Ref CanaryDeploymentErrorAlarm
+          - !Ref CanaryDeploymentLatencyAlarm
       Environment:
         Variables:
           DATABASE_URL: !Ref DatabaseUrl
@@ -230,6 +250,195 @@ Resources:
       EvaluationPeriods: 1
       Threshold: 600
       ComparisonOperator: GreaterThanThreshold
+      TreatMissingData: notBreaching
+      AlarmActions: [!Ref AlertsTopic]
+
+  # ---- Canary deployment guard rails ----
+  #
+  # Both alarms are scoped to the version being rolled out (ExecutedVersion),
+  # so a pre-existing error on the old version can't block a good deployment,
+  # and a bad new version trips them within the canary window.
+
+  CanaryDeploymentErrorAlarm:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmDescription: The version being rolled out is throwing errors
+      Namespace: AWS/Lambda
+      MetricName: Errors
+      Dimensions:
+        - Name: Resource
+          Value: !Sub "${CollectorFunction}:live"
+        - Name: FunctionName
+          Value: !Ref CollectorFunction
+        - Name: ExecutedVersion
+          Value: !GetAtt CollectorFunction.Version.Version
+      Statistic: Sum
+      Period: 60
+      EvaluationPeriods: 1
+      Threshold: 0
+      ComparisonOperator: GreaterThanThreshold
+      TreatMissingData: notBreaching
+
+  CanaryDeploymentLatencyAlarm:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmDescription: The version being rolled out is far slower than usual
+      Namespace: AWS/Lambda
+      MetricName: Duration
+      Dimensions:
+        - Name: Resource
+          Value: !Sub "${CollectorFunction}:live"
+        - Name: FunctionName
+          Value: !Ref CollectorFunction
+        - Name: ExecutedVersion
+          Value: !GetAtt CollectorFunction.Version.Version
+      # p90 rather than average: a handful of cold starts shouldn't roll back
+      # an otherwise healthy release.
+      ExtendedStatistic: p90
+      Period: 60
+      EvaluationPeriods: 1
+      Threshold: 8000
+      ComparisonOperator: GreaterThanThreshold
+      TreatMissingData: notBreaching
+
+  # ---- Synthetics: keep probing the real chain between deployments ----
+
+  CanaryArtifactsBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+      LifecycleConfiguration:
+        Rules:
+          - Id: expire-canary-runs
+            Status: Enabled
+            ExpirationInDays: 14
+
+  SyntheticsRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal: {Service: lambda.amazonaws.com}
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: synthetics-run
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action: [s3:PutObject, s3:GetBucketLocation]
+                Resource:
+                  - !GetAtt CanaryArtifactsBucket.Arn
+                  - !Sub "${CanaryArtifactsBucket.Arn}/*"
+              - Effect: Allow
+                Action: s3:ListAllMyBuckets
+                Resource: "*"
+              - Effect: Allow
+                Action: [logs:CreateLogGroup, logs:CreateLogStream, logs:PutLogEvents]
+                Resource: !Sub "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/cwsyn-*"
+              - Effect: Allow
+                Action: cloudwatch:PutMetricData
+                Resource: "*"
+                Condition:
+                  StringEquals: {"cloudwatch:namespace": CloudWatchSynthetics}
+
+  ApiCanary:
+    Type: AWS::Synthetics::Canary
+    Properties:
+      Name: zuoye-api-canary
+      ArtifactS3Location: !Sub "s3://${CanaryArtifactsBucket}/canary"
+      ExecutionRoleArn: !GetAtt SyntheticsRole.Arn
+      # The plain nodejs runtime is enough — and cheaper — for checks that
+      # never need to render a page.
+      RuntimeVersion: syn-nodejs-5.2
+      Schedule:
+        Expression: !Sub "rate(${CanaryIntervalMinutes} minutes)"
+      RunConfig:
+        TimeoutInSeconds: 120
+        EnvironmentVariables:
+          API_HOST: !Sub "${HttpApi}.execute-api.${AWS::Region}.amazonaws.com"
+          GO_HOST: !Ref GoPublicHost
+          PROBE_USER: torvalds
+      StartCanaryAfterCreation: true
+      SuccessRetentionPeriod: 7
+      FailureRetentionPeriod: 14
+      Code:
+        Handler: index.handler
+        Script: |
+          const synthetics = require('Synthetics');
+          const log = require('SyntheticsLogger');
+
+          const API = process.env.API_HOST;
+          const GO = process.env.GO_HOST;
+          const USER = process.env.PROBE_USER;
+          const FRESH_MS = 15 * 60 * 1000;
+
+          function req(host, method, path, body) {
+            const o = { hostname: host, method, path, port: 443, protocol: 'https:',
+              headers: { 'User-Agent': 'zuoye-synthetics', 'Content-Type': 'application/json' } };
+            if (body) o.body = body;
+            return o;
+          }
+
+          function expect(codes) {
+            return async (res) => {
+              let body = '';
+              res.on('data', (d) => { body += d; });
+              await new Promise((resolve) => res.on('end', resolve));
+              if (!codes.includes(res.statusCode)) {
+                throw new Error(`expected ${codes} got ${res.statusCode}: ${body.slice(0, 300)}`);
+              }
+              log.info(`${res.statusCode} ${body.slice(0, 200)}`);
+              return body;
+            };
+          }
+
+          exports.handler = async function () {
+            await synthetics.executeHttpStep('lambda-health', req(API, 'GET', '/health'), expect([200]));
+            await synthetics.executeHttpStep('front-door-health', req(GO, 'GET', '/health'), expect([200]));
+
+            await synthetics.executeHttpStep('queue-collect',
+              req(GO, 'POST', '/users', JSON.stringify({ username: USER })), expect([202]));
+
+            // Give SNS, SQS and the worker time to do their part.
+            await new Promise((resolve) => setTimeout(resolve, 12000));
+
+            let stored = null;
+            await synthetics.executeHttpStep('read-back',
+              req(GO, 'GET', `/users/${USER}`),
+              async (res) => { stored = JSON.parse(await expect([200])(res)); });
+
+            // A 200 alone proves nothing — the row could be days old. Only a
+            // freshly stamped updatedAt proves the async chain still runs.
+            const age = Date.now() - new Date(stored.updatedAt).getTime();
+            if (age > FRESH_MS) {
+              throw new Error(`stale record: updated ${Math.round(age / 1000)}s ago, worker may be stuck`);
+            }
+
+            await synthetics.executeHttpStep('intro',
+              req(GO, 'GET', `/intro?username=${USER}`), expect([200]));
+          };
+
+  CanaryFailureAlarm:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmDescription: Synthetics probe of the collect chain is failing
+      Namespace: CloudWatchSynthetics
+      MetricName: SuccessPercent
+      Dimensions:
+        - Name: CanaryName
+          Value: !Ref ApiCanary
+      Statistic: Average
+      Period: !Sub "${CanaryIntervalMinutes}"
+      EvaluationPeriods: 1
+      Threshold: 100
+      ComparisonOperator: LessThanThreshold
       TreatMissingData: notBreaching
       AlarmActions: [!Ref AlertsTopic]
 
