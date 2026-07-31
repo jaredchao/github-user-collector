@@ -1,0 +1,19 @@
+docs/学习笔记.md
+  s_e41a08a6891c43::t_6d5923570c3afc 1672-1683,1701-1703,1724-1725
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.18",
+  "base_commit_sha": "0247eb643668cd4981e44257b6a592404522082b",
+  "prompts": {},
+  "sessions": {
+    "s_e41a08a6891c43": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "fe1c60df-e471-465e-a877-388c609e3b05",
+        "model": "claude-opus-5"
+      },
+      "human_author": "muluo <mengchao1027@gmail.com>"
+    }
+  }
+}
