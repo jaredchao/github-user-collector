@@ -72,16 +72,14 @@ Resources:
       CodeUri: dist/
       Handler: index.handler
       Description: Accepts collect requests and serves reads
-      # Every deployment publishes a new version and shifts the alias onto it
-      # gradually: 10% of traffic for five minutes, then the rest. If either
-      # alarm below fires while that is happening, CodeDeploy puts all traffic
-      # back on the previous version.
+      # Every deployment publishes an immutable version and points the `live`
+      # alias at it; the API is wired to the alias, never to $LATEST.
+      #
+      # SAM would normally hand the gradual shift to CodeDeploy
+      # (DeploymentPreference), but this account has no CodeDeploy
+      # subscription, so scripts/canary-release.sh drives the same rollout
+      # through the alias's own weighted routing instead.
       AutoPublishAlias: live
-      DeploymentPreference:
-        Type: Canary10Percent5Minutes
-        Alarms:
-          - !Ref CanaryDeploymentErrorAlarm
-          - !Ref CanaryDeploymentLatencyAlarm
       Environment:
         Variables:
           DATABASE_URL: !Ref DatabaseUrl
@@ -253,15 +251,20 @@ Resources:
       TreatMissingData: notBreaching
       AlarmActions: [!Ref AlertsTopic]
 
-  # ---- Canary deployment guard rails ----
+  # ---- Release guard rails ----
   #
-  # Both alarms are scoped to the version being rolled out (ExecutedVersion),
-  # so a pre-existing error on the old version can't block a good deployment,
-  # and a bad new version trips them within the canary window.
+  # Both alarms watch the `live` alias, which is what real traffic goes
+  # through. During a canary release the alias is split between the old and
+  # new versions, so a broken new version shows up here within a minute —
+  # that is the signal scripts/canary-release.sh rolls back on. Between
+  # releases the same two alarms serve as ordinary health alarms.
 
-  CanaryDeploymentErrorAlarm:
+  ReleaseErrorAlarm:
     Type: AWS::CloudWatch::Alarm
     Properties:
+      # Fixed name so the release script can poll it without looking up
+      # CloudFormation's generated identifier.
+      AlarmName: !Sub "${AWS::StackName}-release-errors"
       AlarmDescription: The version being rolled out is throwing errors
       Namespace: AWS/Lambda
       MetricName: Errors
@@ -270,18 +273,18 @@ Resources:
           Value: !Sub "${CollectorFunction}:live"
         - Name: FunctionName
           Value: !Ref CollectorFunction
-        - Name: ExecutedVersion
-          Value: !GetAtt CollectorFunction.Version.Version
       Statistic: Sum
       Period: 60
       EvaluationPeriods: 1
       Threshold: 0
       ComparisonOperator: GreaterThanThreshold
       TreatMissingData: notBreaching
+      AlarmActions: [!Ref AlertsTopic]
 
-  CanaryDeploymentLatencyAlarm:
+  ReleaseLatencyAlarm:
     Type: AWS::CloudWatch::Alarm
     Properties:
+      AlarmName: !Sub "${AWS::StackName}-release-latency"
       AlarmDescription: The version being rolled out is far slower than usual
       Namespace: AWS/Lambda
       MetricName: Duration
@@ -290,8 +293,6 @@ Resources:
           Value: !Sub "${CollectorFunction}:live"
         - Name: FunctionName
           Value: !Ref CollectorFunction
-        - Name: ExecutedVersion
-          Value: !GetAtt CollectorFunction.Version.Version
       # p90 rather than average: a handful of cold starts shouldn't roll back
       # an otherwise healthy release.
       ExtendedStatistic: p90
@@ -300,6 +301,7 @@ Resources:
       Threshold: 8000
       ComparisonOperator: GreaterThanThreshold
       TreatMissingData: notBreaching
+      AlarmActions: [!Ref AlertsTopic]
 
   # ---- Synthetics: keep probing the real chain between deployments ----
 
