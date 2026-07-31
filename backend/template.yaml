@@ -50,10 +50,17 @@ Parameters:
     Default: main.go-api.jccode.cc
     Description: Public host of the Go front door, probed by the synthetics canary.
 
-  CanaryIntervalMinutes:
+  ProbeIntervalMinutes:
     Type: Number
     Default: 60
-    Description: How often the synthetics canary runs. Hourly keeps it near free.
+    Description: How often the end-to-end probe runs.
+
+  ProbeAlarmPeriodSeconds:
+    Type: Number
+    Default: 3900
+    Description: >-
+      Alarm window for the probe metric. Slightly wider than the probe
+      interval so one late run doesn't look like a missing data point.
 
 Globals:
   Function:
@@ -303,143 +310,58 @@ Resources:
       TreatMissingData: notBreaching
       AlarmActions: [!Ref AlertsTopic]
 
-  # ---- Synthetics: keep probing the real chain between deployments ----
+  # ---- Scheduled probe: keep checking the real chain between deployments ----
+  #
+  # CloudWatch Synthetics would be the managed answer, but its canary needs at
+  # least 960 MB and this account caps Lambda memory at 512 MB, so the probe
+  # runs as an ordinary scheduled function instead.
 
-  CanaryArtifactsBucket:
-    Type: AWS::S3::Bucket
+  ProberFunction:
+    Type: AWS::Serverless::Function
     Properties:
-      PublicAccessBlockConfiguration:
-        BlockPublicAcls: true
-        BlockPublicPolicy: true
-        IgnorePublicAcls: true
-        RestrictPublicBuckets: true
-      LifecycleConfiguration:
-        Rules:
-          - Id: expire-canary-runs
-            Status: Enabled
-            ExpirationInDays: 14
-
-  SyntheticsRole:
-    Type: AWS::IAM::Role
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: "2012-10-17"
-        Statement:
-          - Effect: Allow
-            Principal: {Service: lambda.amazonaws.com}
-            Action: sts:AssumeRole
-      Policies:
-        - PolicyName: synthetics-run
-          PolicyDocument:
-            Version: "2012-10-17"
-            Statement:
-              - Effect: Allow
-                Action: [s3:PutObject, s3:GetBucketLocation]
-                Resource:
-                  - !GetAtt CanaryArtifactsBucket.Arn
-                  - !Sub "${CanaryArtifactsBucket.Arn}/*"
-              - Effect: Allow
-                Action: s3:ListAllMyBuckets
-                Resource: "*"
-              - Effect: Allow
-                Action: [logs:CreateLogGroup, logs:CreateLogStream, logs:PutLogEvents]
-                Resource: !Sub "arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/cwsyn-*"
-              - Effect: Allow
-                Action: cloudwatch:PutMetricData
-                Resource: "*"
-                Condition:
-                  StringEquals: {"cloudwatch:namespace": CloudWatchSynthetics}
-
-  ApiCanary:
-    Type: AWS::Synthetics::Canary
-    Properties:
-      Name: zuoye-api-canary
-      ArtifactS3Location: !Sub "s3://${CanaryArtifactsBucket}/canary"
-      ExecutionRoleArn: !GetAtt SyntheticsRole.Arn
-      # The plain nodejs runtime is enough — and cheaper — for checks that
-      # never need to render a page.
-      RuntimeVersion: syn-nodejs-5.2
-      Schedule:
-        Expression: !Sub "rate(${CanaryIntervalMinutes} minutes)"
-      RunConfig:
-        TimeoutInSeconds: 120
-        EnvironmentVariables:
-          API_HOST: !Sub "${HttpApi}.execute-api.${AWS::Region}.amazonaws.com"
-          GO_HOST: !Ref GoPublicHost
+      CodeUri: dist/
+      Handler: prober.handler
+      Description: Probes the collect chain end to end and emits a success metric
+      # Long enough for the settle wait plus every poll attempt; the 15s
+      # default from Globals would cut the probe off mid-poll.
+      Timeout: 60
+      Environment:
+        Variables:
+          PROBE_API_URL: !Sub "https://${HttpApi}.execute-api.${AWS::Region}.amazonaws.com"
+          PROBE_GO_URL: !Sub "https://${GoPublicHost}"
           PROBE_USER: torvalds
-      StartCanaryAfterCreation: true
-      SuccessRetentionPeriod: 7
-      FailureRetentionPeriod: 14
-      Code:
-        Handler: index.handler
-        Script: |
-          const synthetics = require('Synthetics');
-          const log = require('SyntheticsLogger');
+          NODE_OPTIONS: --enable-source-maps
+      # Deliberately outside the VPC: the probe should reach the API the same
+      # way a user does, over the public internet.
+      Events:
+        Schedule:
+          Type: ScheduleV2
+          Properties:
+            ScheduleExpression: !Sub "rate(${ProbeIntervalMinutes} minutes)"
+            Description: Periodic end-to-end probe of the collect chain
 
-          const API = process.env.API_HOST;
-          const GO = process.env.GO_HOST;
-          const USER = process.env.PROBE_USER;
-          const FRESH_MS = 15 * 60 * 1000;
+  ProberLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub /aws/lambda/${ProberFunction}
+      RetentionInDays: 7
 
-          function req(host, method, path, body) {
-            const o = { hostname: host, method, path, port: 443, protocol: 'https:',
-              headers: { 'User-Agent': 'zuoye-synthetics', 'Content-Type': 'application/json' } };
-            if (body) o.body = body;
-            return o;
-          }
-
-          function expect(codes) {
-            return async (res) => {
-              let body = '';
-              res.on('data', (d) => { body += d; });
-              await new Promise((resolve) => res.on('end', resolve));
-              if (!codes.includes(res.statusCode)) {
-                throw new Error(`expected ${codes} got ${res.statusCode}: ${body.slice(0, 300)}`);
-              }
-              log.info(`${res.statusCode} ${body.slice(0, 200)}`);
-              return body;
-            };
-          }
-
-          exports.handler = async function () {
-            await synthetics.executeHttpStep('lambda-health', req(API, 'GET', '/health'), expect([200]));
-            await synthetics.executeHttpStep('front-door-health', req(GO, 'GET', '/health'), expect([200]));
-
-            await synthetics.executeHttpStep('queue-collect',
-              req(GO, 'POST', '/users', JSON.stringify({ username: USER })), expect([202]));
-
-            // Give SNS, SQS and the worker time to do their part.
-            await new Promise((resolve) => setTimeout(resolve, 12000));
-
-            let stored = null;
-            await synthetics.executeHttpStep('read-back',
-              req(GO, 'GET', `/users/${USER}`),
-              async (res) => { stored = JSON.parse(await expect([200])(res)); });
-
-            // A 200 alone proves nothing — the row could be days old. Only a
-            // freshly stamped updatedAt proves the async chain still runs.
-            const age = Date.now() - new Date(stored.updatedAt).getTime();
-            if (age > FRESH_MS) {
-              throw new Error(`stale record: updated ${Math.round(age / 1000)}s ago, worker may be stuck`);
-            }
-
-            await synthetics.executeHttpStep('intro',
-              req(GO, 'GET', `/intro?username=${USER}`), expect([200]));
-          };
-
-  CanaryFailureAlarm:
+  # The probe publishes Success=1/0 through Embedded Metric Format, so this
+  # alarm needs no custom metric plumbing beyond the log line itself.
+  ProbeFailureAlarm:
     Type: AWS::CloudWatch::Alarm
     Properties:
-      AlarmDescription: Synthetics probe of the collect chain is failing
-      Namespace: CloudWatchSynthetics
-      MetricName: SuccessPercent
+      AlarmName: !Sub "${AWS::StackName}-probe-failed"
+      AlarmDescription: End-to-end probe of the collect chain is failing
+      Namespace: ZuoyeProbe
+      MetricName: Success
       Dimensions:
-        - Name: CanaryName
-          Value: !Ref ApiCanary
-      Statistic: Average
-      Period: !Sub "${CanaryIntervalMinutes}"
+        - Name: Chain
+          Value: collect
+      Statistic: Minimum
+      Period: !Sub "${ProbeAlarmPeriodSeconds}"
       EvaluationPeriods: 1
-      Threshold: 100
+      Threshold: 1
       ComparisonOperator: LessThanThreshold
       TreatMissingData: notBreaching
       AlarmActions: [!Ref AlertsTopic]
@@ -483,3 +405,7 @@ Outputs:
   AlertsTopicArn:
     Description: SNS topic every operational alarm publishes to
     Value: !Ref AlertsTopic
+
+  ProberFunctionName:
+    Description: Scheduled end-to-end probe
+    Value: !Ref ProberFunction

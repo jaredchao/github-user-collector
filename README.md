@@ -6,7 +6,7 @@
 
 ## 架构
 
-Go 服务是唯一对外前门，前端只认一个后端域名：
+Go 服务是唯一对外前门，前端只认一个后端域名；采集本身是异步的：
 
 ```
 用户浏览器 ── Cloudflare Pages（前端）
@@ -14,12 +14,21 @@ Go 服务是唯一对外前门，前端只认一个后端域名：
     └─ HTTPS ──> ALB:443（ACM 通配符证书 *.go-api.jccode.cc，host 头分流）
                     │
                     └──> Go 服务（ECS Fargate · ARM64 · 私有子网）
-                           ├─ GET /intro   → 查 RDS，拼接中文介绍
-                           └─ POST /users  → Cloud Map 发现 Lambda → Invoke → 透传
+                           ├─ GET  /intro           → 查 RDS，拼接中文介绍
+                           ├─ POST /users           → Cloud Map 发现 Lambda → Invoke
+                           └─ GET  /users/{u}       → 同上（供轮询结果）
                                                   │
-                                                  └─ Lambda：抓 GitHub（经 NAT）→ 写 RDS
+                                                  ▼
+                                    Lambda（live 别名，非 $LATEST）
+                                      POST → 投递 SNS，立即回 202
+                                             │
+                                    SNS ──> SQS ──> Worker Lambda ──> GitHub + RDS
+                                                     │ 3 次仍失败
+                                                     ▼
+                                                死信队列 ──> 告警 ──> AlertsTopic
 
 对内路（保留演示）：API Gateway /users/:u/intro → Lambda ── Cloud Map DNS ──> Go
+巡检：Synthetics canary（每小时）打完整链路并校验数据新鲜度 ──> 告警 ──> AlertsTopic
 ```
 
 Cloud Map 的两种形态都在使用：
@@ -50,18 +59,21 @@ docs/        学习笔记与设计文档
 |------|------|
 | 生产前端 | https://zuoye-frontend.pages.dev |
 | 生产 Go 前门 | https://main.go-api.jccode.cc |
-| Lambda API（对内路演示） | https://qsmyj6l2q1.execute-api.us-east-2.amazonaws.com |
+| Lambda API（对内路演示） | https://kp6eccqn9h.execute-api.us-east-2.amazonaws.com |
 | PR 预览 | 开 PR 后机器人评论里的 `pr-N.*` 链接，关 PR 自动销毁 |
 
 ## 接口（Go 前门）
 
 | 方法 | 路径 | 说明 |
 |------|------|------|
+| POST | `/users` | 请求体 `{"username":"torvalds"}`，投递采集请求，立即返回 `202` |
+| GET | `/users/{username}` | 轮询采集结果；`404` + `{"status":"pending"}` 表示还在路上 |
 | GET | `/intro?username=torvalds` | 返回该用户的中文介绍（需先入库） |
-| POST | `/users` | 请求体 `{"username":"torvalds"}`，转发 Lambda 抓取入库，`201`；重复调用 upsert |
 | GET | `/health` | 健康检查（含数据库连通性） |
 
-错误码由 Lambda 原样透传：`400` 参数非法、`404` 用户不存在、`429` GitHub 限流、`502` GitHub 不可达、`503` 采集服务不可用。
+采集是异步的：`POST` 只把请求交给 SNS，真正调用 GitHub 与写库由队列后面的 worker 完成，所以调用方拿到 202 后轮询 `GET /users/{username}` 取结果（通常 2-4 秒）。失败重试 3 次后进死信队列并告警。
+
+错误码由 Lambda 原样透传：`400` 参数非法、`404` 尚未采集完成、`502` 采集服务不可达、`503` 采集服务未配置。
 
 ## PR 临时环境
 
@@ -141,6 +153,9 @@ OIDC 角色信任策略的 `sub` 用 `StringEquals` 精确匹配本仓库——f
 - **Go 调 Lambda 构造 API Gateway v2 事件**，`hono/aws-lambda` 适配器无感，状态码原样透传。
 - **PR 任务定义克隆生产版**，`DATABASE_URL` 不经过 GitHub。
 - **数据库密码存于环境变量**是有意识的成本权衡，生产应迁 Secrets Manager。
+- **重试边界**：GitHub 404 视为已处理（重试无意义），限流/5xx/DB 错误才重试，坏消息进 DLQ。
+- **灰度靠别名加权路由自建**（`scripts/canary-release.sh`），因为本账号无 CodeDeploy 订阅。
+- **巡检校验数据新鲜度而非仅 200**：upsert 幂等，旧数据会让健康检查假绿。
 
 更多取舍见学习笔记的「已知妥协」（共 7 条）。
 
