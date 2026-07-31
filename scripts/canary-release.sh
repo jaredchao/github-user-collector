@@ -23,8 +23,11 @@ FUNCTION=$(aws cloudformation describe-stacks --stack-name "$STACK" \
   --query 'Stacks[0].Outputs[?OutputKey==`FunctionName`].OutputValue' --output text)
 ALARMS=("${STACK}-release-errors" "${STACK}-release-latency")
 
-STABLE=$(aws lambda get-alias --function-name "$FUNCTION" --name "$ALIAS" \
-  --query 'FunctionVersion' --output text)
+# Normally the stable version is whatever the alias points at. After a SAM
+# deploy that already moved the alias onto the new version, pass STABLE=<n>
+# to name the version to fall back to.
+STABLE=${STABLE:-$(aws lambda get-alias --function-name "$FUNCTION" --name "$ALIAS" \
+  --query 'FunctionVersion' --output text)}
 TARGET=${1:-$(aws lambda list-versions-by-function --function-name "$FUNCTION" \
   --query 'Versions[-1].Version' --output text)}
 
@@ -32,7 +35,7 @@ echo "函数:   $FUNCTION"
 echo "稳定版: $STABLE    候选版: $TARGET"
 
 if [ "$STABLE" = "$TARGET" ]; then
-  echo "别名已经指向 $TARGET，无需发布。"
+  echo "别名已经指向 ${TARGET}，无需发布。"
   exit 0
 fi
 
@@ -43,14 +46,20 @@ rollback() {
   echo "已回滚：100% 流量回到 $STABLE"
 }
 
+# From here on the alias is carrying canary traffic, so any unexpected exit
+# has to put it back. Without this a crash between shifting traffic and the
+# alarm loop would leave the candidate serving requests unwatched — which is
+# exactly how this script once left a broken version live.
+trap 'echo "发布中断，执行回滚"; rollback' ERR INT TERM
+
 # The alias keeps pointing at the stable version; the candidate only gets the
 # extra weight. That way a rollback is one API call and never has a moment
 # where the bad version serves everything.
+WEIGHT=$(awk "BEGIN{print $PERCENT/100}")
+ROUTING=$(printf '{"AdditionalVersionWeights":{"%s":%s}}' "$TARGET" "$WEIGHT")
 aws lambda update-alias --function-name "$FUNCTION" --name "$ALIAS" \
-  --function-version "$STABLE" \
-  --routing-config "{\"AdditionalVersionWeights\":{\"$TARGET\":$(awk "BEGIN{print $PERCENT/100}")}}" \
-  >/dev/null
-echo "灰度中：${PERCENT}% → $TARGET，其余留在 $STABLE。观察 ${BAKE}s"
+  --function-version "$STABLE" --routing-config "$ROUTING" >/dev/null
+echo "灰度中：${PERCENT}% → ${TARGET}，其余留在 ${STABLE}。观察 ${BAKE}s"
 
 # Alarms that were already firing before the release would roll back a
 # perfectly good version, so wait for them to clear first.
@@ -59,6 +68,7 @@ for A in "${ALARMS[@]}"; do
     --query 'MetricAlarms[0].StateValue' --output text 2>/dev/null || echo "MISSING")
   if [ "$STATE" = "ALARM" ]; then
     echo "告警 $A 在发布前就是 ALARM，先修好再发布。"
+    trap - ERR INT TERM
     rollback
     exit 1
   fi
@@ -71,6 +81,7 @@ while [ $SECONDS -lt $deadline ]; do
       --query 'MetricAlarms[0].StateValue' --output text 2>/dev/null || echo "MISSING")
     if [ "$STATE" = "ALARM" ]; then
       echo "$(date +%T) 告警 $A 触发 → 回滚"
+      trap - ERR INT TERM
       rollback
       exit 1
     fi
