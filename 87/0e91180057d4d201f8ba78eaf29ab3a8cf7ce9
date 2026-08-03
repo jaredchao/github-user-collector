@@ -1,0 +1,40 @@
+aiops-mcp/src/tools/metrics.ts
+  s_a35dfb951786c3::t_8a04ed9087edb5 1-112,161-211
+  s_a35dfb951786c3::t_29f77f307db8cd 113-160
+aiops-mcp/src/tools/dlqDepth.ts
+  s_a35dfb951786c3::t_5904a73b47e296 19-30
+  s_a35dfb951786c3::t_66378428bd96d6 134-135
+  s_a35dfb951786c3::t_ddd8fffd757903 4
+  s_a35dfb951786c3::t_bf2da2c169a7e4 104-109,111,115-121,127
+  s_a35dfb951786c3::t_3718ba55a55890 37-42
+aiops-mcp/src/tools/metricQueries.ts
+  s_a35dfb951786c3::t_4c03cbc3d7a845 121-123,125
+  s_a35dfb951786c3::t_e989abde131a2b 1-120,124,126-205
+aiops-mcp/tests/dlqDepth.test.ts
+  s_a35dfb951786c3::t_933b94b0c63068 43,45,50-53,56-82,88-90
+  s_a35dfb951786c3::t_d294e8d56735d3 4,7
+  s_a35dfb951786c3::t_290a1d87584698 28-31,39-42,44,46-49,54-55,83-87
+aiops-mcp/src/server.ts
+  s_a35dfb951786c3::t_3677060321e09e 138-140
+  s_a35dfb951786c3::t_3ec950305a798b 214-236
+  s_a35dfb951786c3::t_e60c157f04f330 11
+  s_a35dfb951786c3::t_f164b0a0fd75dc 213
+aiops-mcp/tests/metrics.test.ts
+  s_a35dfb951786c3::t_595c3c454385bb 1-148
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.20",
+  "base_commit_sha": "870e91180057d4d201f8ba78eaf29ab3a8cf7ce9",
+  "prompts": {},
+  "sessions": {
+    "s_a35dfb951786c3": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "2cffedf4-d708-4d9a-bd89-26326d6dfb98",
+        "model": "claude-opus-5"
+      },
+      "human_author": "muluo <mengchao1027@gmail.com>"
+    }
+  }
+}
