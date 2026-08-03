@@ -1,0 +1,50 @@
+aiops-mcp/tests/redact.test.ts
+  s_a35dfb951786c3::t_1bd1c47a5be2e8 1-102
+aiops-mcp/src/tools/tailLogs.ts
+  s_a35dfb951786c3::t_30aed86347eba1 8
+  s_a35dfb951786c3::t_12a08924743618 103-104
+aiops-mcp/src/tools/alarmTimeline.ts
+  s_a35dfb951786c3::t_b10dae815da991 66
+  s_a35dfb951786c3::t_5710c150a2c1bc 3
+aiops-mcp/src/tools/checkReady.ts
+  s_a35dfb951786c3::t_e7752cf9773ea3 29
+  s_a35dfb951786c3::t_4a5b4932f1ac05 2
+  s_a35dfb951786c3::t_29dd75fb2e82fa 44
+aiops-mcp/tests/dlqControl.test.ts
+  s_a35dfb951786c3::t_d6abb5704138ee 190-211
+aiops-mcp/tests/toolResult.test.ts
+  s_a35dfb951786c3::t_ef3fbe430f73ee 1-67
+aiops-mcp/src/toolResult.ts
+  s_a35dfb951786c3::t_4ddf69787f2565 1-44
+aiops-mcp/src/redact.ts
+  s_a35dfb951786c3::t_4e201153fca473 1-57
+aiops-mcp/src/tools/listAlarms.ts
+  s_a35dfb951786c3::t_ced96cf4311c70 4
+  s_a35dfb951786c3::t_f923f60c6bc85c 52
+aiops-mcp/src/server.ts
+  s_a35dfb951786c3::t_8a5e75e1968c06 4
+aiops-mcp/src/tools/dlqDepth.ts
+  s_a35dfb951786c3::t_343246799e75e9 4
+  s_a35dfb951786c3::t_61dea29d2d22a7 98-99
+aiops-mcp/src/tools/dlqControl.ts
+  s_a35dfb951786c3::t_3784b3e18e54f0 78-83
+  s_a35dfb951786c3::t_a1b91851ba7c39 8
+  s_a35dfb951786c3::t_477ca764bc58c8 224
+  s_a35dfb951786c3::t_30dfc0c35ba62d 132
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.20",
+  "base_commit_sha": "b1bca6b57b879c86ef6ea99fd2b905caa5796aa9",
+  "prompts": {},
+  "sessions": {
+    "s_a35dfb951786c3": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "2cffedf4-d708-4d9a-bd89-26326d6dfb98",
+        "model": "claude-opus-5"
+      },
+      "human_author": "muluo <mengchao1027@gmail.com>"
+    }
+  }
+}
