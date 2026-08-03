@@ -1,0 +1,35 @@
+aiops-mcp/src/server.ts
+  s_a35dfb951786c3::t_207bfc57018f81 188,190-193
+aiops-mcp/scripts/smoke.ts
+  s_a35dfb951786c3::t_c52f6d7ce1da71 43
+aiops-mcp/src/ecsDiscovery.ts
+  s_a35dfb951786c3::t_4410860f6e8289 1-48
+aiops-mcp/package.json
+  s_a35dfb951786c3::t_c3d08063d995a3 18
+aiops-mcp/src/config.ts
+  s_a35dfb951786c3::t_fbd635d2621128 83-91
+  s_a35dfb951786c3::t_7278d116a765b3 26-27
+  s_a35dfb951786c3::t_4904cabe718d45 7
+  s_a35dfb951786c3::t_cbc048dc1aee41 106
+aiops-mcp/src/tools/tailLogs.ts
+  s_a35dfb951786c3::t_3a5b4ad3584b04 23-28
+  s_a35dfb951786c3::t_8fb072efbdf884 56,58-62
+aiops-mcp/package-lock.json
+  s_a35dfb951786c3::t_c125f40c4c8408 14,86-104
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.20",
+  "base_commit_sha": "73b5182db1c5e67ce89f8ddf3e6e881f35d8dc36",
+  "prompts": {},
+  "sessions": {
+    "s_a35dfb951786c3": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "2cffedf4-d708-4d9a-bd89-26326d6dfb98",
+        "model": "claude-opus-5"
+      },
+      "human_author": "muluo <mengchao1027@gmail.com>"
+    }
+  }
+}
