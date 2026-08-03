@@ -1,0 +1,33 @@
+aiops-mcp/src/config.ts
+  s_a35dfb951786c3::t_ed19261657b154 60
+  s_a35dfb951786c3::t_e95172b13bd5f4 1-4,6-59,61-107
+  s_a35dfb951786c3::t_acd7c3439ad9b5 5
+aiops-mcp/.gitignore
+  s_a35dfb951786c3::t_e0a90f5ce0a7f1 1-3
+aiops-mcp/package.json
+  s_a35dfb951786c3::t_0fd38dbf3436bc 1-30
+aiops-mcp/src/aws.ts
+  s_a35dfb951786c3::t_5fdb9d1eb6ca5e 1-15
+aiops-mcp/vitest.config.ts
+  s_a35dfb951786c3::t_8de6fc43d145bf 1-7
+aiops-mcp/tsconfig.json
+  s_a35dfb951786c3::t_eb7cce7263c00f 1-16
+aiops-mcp/package-lock.json
+  s_a35dfb951786c3::t_b33d529bd06e49 1-4069
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.20",
+  "base_commit_sha": "2e6f9352056cc3cd9672a8307aa0cda7ec81ee9d",
+  "prompts": {},
+  "sessions": {
+    "s_a35dfb951786c3": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "2cffedf4-d708-4d9a-bd89-26326d6dfb98",
+        "model": "claude-opus-5"
+      },
+      "human_author": "muluo <mengchao1027@gmail.com>"
+    }
+  }
+}
