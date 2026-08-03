@@ -14,6 +14,8 @@ export type AlarmTimelineResult = Readonly<{
   transitions: readonly StateTransition[];
   /** 最近一次进入 ALARM 的时刻，诊断时用来和部署时间做关联。 */
   enteredAlarmAt: string | null;
+  /** 窗口内变更过多，只返回了最近一批——最早的那次变更可能不在里面。 */
+  truncated: boolean;
   summary: string;
 }>;
 
@@ -68,12 +70,21 @@ export const alarmTimeline = async (
   });
 
   const enteredAlarmAt = transitions.find((t) => t.to === "ALARM")?.at ?? null;
+  // 按时间倒序取最近 50 条。还有更多时要说出来，否则"最早的变更"会被读错。
+  const truncated = Boolean(history.NextToken);
 
   const summary =
     transitions.length === 0
       ? `${alarmName} 在过去 ${hours} 小时内没有状态变更——要么一直稳定，要么已经卡在同一状态超过这个窗口`
       : `${alarmName} 在过去 ${hours} 小时内变更 ${transitions.length} 次` +
-        (enteredAlarmAt ? `，最近一次进入 ALARM 是 ${enteredAlarmAt}` : "");
+        (enteredAlarmAt ? `，最近一次进入 ALARM 是 ${enteredAlarmAt}` : "") +
+        (truncated ? "；窗口内变更过多，只返回了最近的一批" : "");
 
-  return { alarmName, transitions: Object.freeze(transitions), enteredAlarmAt, summary };
+  return {
+    alarmName,
+    transitions: Object.freeze(transitions),
+    enteredAlarmAt,
+    truncated,
+    summary,
+  };
 };

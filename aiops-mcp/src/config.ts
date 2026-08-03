@@ -5,6 +5,7 @@ import {
   type StackResourceSummary,
 } from "@aws-sdk/client-cloudformation";
 import { discoverGoServiceLogGroup } from "./ecsDiscovery.js";
+import { collectPages } from "./paginate.js";
 
 /**
  * 被运维系统的资源坐标。
@@ -59,21 +60,24 @@ const discover = async (): Promise<Topology> => {
   if (!stack) throw new Error(`找不到 CloudFormation 栈 ${name}`);
   const outputs = outputsOf(stack);
 
-  const resources: StackResourceSummary[] = [];
-  let token: string | undefined;
-  do {
+  const { items: resources } = await collectPages<StackResourceSummary>(async (token) => {
     const page = await cfn.send(
       new ListStackResourcesCommand({ StackName: name, NextToken: token }),
     );
-    resources.push(...(page.StackResourceSummaries ?? []));
-    token = page.NextToken;
-  } while (token);
+    return { items: page.StackResourceSummaries ?? [], nextToken: page.NextToken };
+  });
 
   const physicalId = (logicalId: string): string =>
     resources.find((r) => r.LogicalResourceId === logicalId)?.PhysicalResourceId ?? "";
 
+  // 组合告警是另一个资源类型。只收指标告警的话，将来加了组合告警会静默
+  // 失效——告警在响，而 Agent 说一切正常。
   const alarmNames = resources
-    .filter((r) => r.ResourceType === "AWS::CloudWatch::Alarm")
+    .filter(
+      (r) =>
+        r.ResourceType === "AWS::CloudWatch::Alarm" ||
+        r.ResourceType === "AWS::CloudWatch::CompositeAlarm",
+    )
     .map((r) => r.PhysicalResourceId)
     .filter((id): id is string => Boolean(id));
 

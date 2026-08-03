@@ -5,6 +5,7 @@ import {
 } from "@aws-sdk/client-lambda";
 import { lambda } from "../aws.js";
 import { topology } from "../config.js";
+import { collectPages } from "../paginate.js";
 
 export type VersionInfo = Readonly<{
   version: string;
@@ -70,12 +71,25 @@ export const deploymentState = async (
     };
   });
 
-  const published = await client.send(
-    new ListVersionsByFunctionCommand({ FunctionName: topo.functionName }),
-  );
-  const numeric = (published.Versions ?? [])
-    .map((v) => v.Version)
-    .filter((v): v is string => Boolean(v) && v !== "$LATEST")
+  // 版本列表必须翻完。只取第一页会把"最新发布的版本"算错，而这个数字
+  // 正是用来判断"有版本发布了却没接流量"的依据。
+  const published = await collectPages<string>(async (marker) => {
+    const page = await client.send(
+      new ListVersionsByFunctionCommand({
+        FunctionName: topo.functionName,
+        Marker: marker,
+      }),
+    );
+    return {
+      items: (page.Versions ?? [])
+        .map((v) => v.Version)
+        .filter((v): v is string => Boolean(v)),
+      nextToken: page.NextMarker,
+    };
+  });
+
+  const numeric = published.items
+    .filter((v) => v !== "$LATEST")
     .map(Number)
     .filter((n) => Number.isFinite(n));
   const latestPublishedVersion =
