@@ -1,0 +1,40 @@
+aiops-mcp/scripts/smoke.ts
+  s_a35dfb951786c3::t_f4135483ef9696 1-48
+aiops-mcp/src/tools/dlqDepth.ts
+  s_a35dfb951786c3::t_bb692c245492cc 1-30,35-67,71,76-77,79-109
+  s_a35dfb951786c3::t_ff21e17b75f9f1 31-34
+  s_a35dfb951786c3::t_15678848a4347a 68-70,72-75,78
+aiops-mcp/src/tools/tailLogs.ts
+  s_a35dfb951786c3::t_2509e2bed235d1 1-117
+aiops-mcp/src/tools/listAlarms.ts
+  s_a35dfb951786c3::t_d947b7c943941c 1-73
+aiops-mcp/tests/listAlarms.test.ts
+  s_a35dfb951786c3::t_d2a0a07b7f1d0d 1-75
+aiops-mcp/tests/deploymentState.test.ts
+  s_a35dfb951786c3::t_760d0b6cfa2854 1-79
+aiops-mcp/src/tools/alarmTimeline.ts
+  s_a35dfb951786c3::t_ac993e07d90558 1-78
+aiops-mcp/tests/dlqDepth.test.ts
+  s_a35dfb951786c3::t_6f0e7a22c05910 1-80
+aiops-mcp/src/tools/deploymentState.ts
+  s_a35dfb951786c3::t_5d99e9f4cd1a42 85
+  s_a35dfb951786c3::t_f871d636784e18 1-84,86-101
+aiops-mcp/src/tools/checkReady.ts
+  s_a35dfb951786c3::t_c3280af033035d 1-53
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.20",
+  "base_commit_sha": "fdb1c0ca7402471db5d5e6a1ecdd62c1126d5d47",
+  "prompts": {},
+  "sessions": {
+    "s_a35dfb951786c3": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "2cffedf4-d708-4d9a-bd89-26326d6dfb98",
+        "model": "claude-opus-5"
+      },
+      "human_author": "muluo <mengchao1027@gmail.com>"
+    }
+  }
+}
