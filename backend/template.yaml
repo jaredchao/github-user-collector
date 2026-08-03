@@ -444,7 +444,19 @@ Resources:
               if (res.statusCode !== 200) {
                 throw new Error(`ready returned ${res.statusCode}: ${body.slice(0, 300)}`);
               }
-              log.info(`ready ok: ${body.slice(0, 200)}`);
+              // A 200 on its own is not readiness. Anything in front of the
+              // API that answers with an empty body would pass a status-only
+              // check while the chain behind it is down.
+              let payload;
+              try {
+                payload = JSON.parse(body);
+              } catch {
+                throw new Error(`ready body is not JSON: ${body.slice(0, 300)}`);
+              }
+              if (payload.status !== 'ready') {
+                throw new Error(`ready status is "${payload.status}", expected "ready"`);
+              }
+              log.info(`ready ok in ${payload.checkedMs}ms`);
             });
           };
 
@@ -466,7 +478,10 @@ Resources:
       EvaluationPeriods: 1
       Threshold: 100
       ComparisonOperator: LessThanThreshold
-      TreatMissingData: notBreaching
+      # A canary that stopped running reports nothing at all, and nothing must
+      # not read as healthy — that is how a probe dies unnoticed. The period
+      # above is already wide enough that a late run is not a missing one.
+      TreatMissingData: breaching
       AlarmActions: [!Ref AlertsTopic]
 
   # Lambda has no IP, so it can't live in a DNS record like the Go service
