@@ -6,6 +6,7 @@ import { rollbackCanary, setAliasWeight } from "./tools/aliasControl.js";
 import { alarmTimeline } from "./tools/alarmTimeline.js";
 import { checkReady } from "./tools/checkReady.js";
 import { deploymentState } from "./tools/deploymentState.js";
+import { diagnose } from "./tools/diagnose.js";
 import { discardDlqMessages, redriveDlq } from "./tools/dlqControl.js";
 import { queueDepth } from "./tools/dlqDepth.js";
 import { listAlarms } from "./tools/listAlarms.js";
@@ -174,6 +175,34 @@ export const createServer = (): McpServer => {
     async ({ target, minutes, pattern, limit }) =>
       guard(async () => {
         const result = await tailLogs(target, minutes, pattern, limit);
+        return ok(result.summary, result);
+      }),
+  );
+
+  server.registerTool(
+    "diagnose",
+    {
+      title: "跑一轮完整诊断",
+      description:
+        "一次调用完成整套排查：找出正在触发的告警、定位故障起点、比对最近的发布时间、" +
+        "按告警类型收集对应证据（队列样本或错误日志）、检查链路当前是否通、看指标趋势。" +
+        "返回结构化证据包和已经算好的时间关联。" +
+        "怀疑系统有问题时先调这个，它比逐个调工具更完整，也不会漏掉步骤。" +
+        "注意它只摆事实和关联，最终判断由你来下。",
+      inputSchema: {
+        minutes: z
+          .number()
+          .int()
+          .min(5)
+          .max(1440)
+          .default(60)
+          .describe("日志与指标的回溯窗口，分钟"),
+      },
+      annotations: readOnly,
+    },
+    async ({ minutes }) =>
+      guard(async () => {
+        const result = await diagnose(minutes);
         return ok(result.summary, result);
       }),
   );
