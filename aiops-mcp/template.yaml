@@ -1,0 +1,201 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  AIOps 自动诊断。告警进入 ALARM 时跑一轮只读诊断，把结论写进日志、
+  推送到飞书、并落成多维表格里的工单。
+
+  刻意独立于被诊断的采集器栈：诊断能力不该与被诊断对象同生共死，
+  后者被删掉时前者还要能回答"它是怎么没的"。
+
+Parameters:
+  CollectorStackName:
+    Type: String
+    Default: zuoye-collector
+    Description: 被诊断的栈名，资源坐标全部从它的输出里发现
+
+  AlertsTopicArn:
+    Type: String
+    Description: 采集器栈的告警主题 ARN，诊断函数订阅它
+
+  EcsClusterName:
+    Type: String
+    Default: zuoye-cluster
+    Description: Go 服务所在的 ECS 集群，用来发现它的日志组
+
+  DiagnosisWindowMinutes:
+    Type: Number
+    Default: 60
+    MinValue: 5
+    MaxValue: 1440
+    Description: 日志与指标的回溯窗口
+
+  FeishuWebhook:
+    Type: String
+    Default: ""
+    NoEcho: true
+    Description: 飞书自定义机器人的 webhook 地址，留空则不发通知
+
+  FeishuSecret:
+    Type: String
+    Default: ""
+    NoEcho: true
+    Description: 机器人的签名密钥，机器人未开签名校验时留空
+
+  FeishuAppId:
+    Type: String
+    Default: ""
+    Description: 自建应用的 App ID，用于写多维表格
+
+  FeishuAppSecret:
+    Type: String
+    Default: ""
+    NoEcho: true
+    Description: 自建应用的 App Secret
+
+  BaseAppToken:
+    Type: String
+    Default: ""
+    Description: 多维表格的 app_token，留空则不开工单
+
+  BaseTableId:
+    Type: String
+    Default: ""
+    Description: 多维表格里那张表的 table_id
+
+Resources:
+  DiagnosisFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: dist/
+      Handler: aiops.handler
+      Runtime: nodejs22.x
+      Architectures: [arm64]
+      # 本账号的 Lambda 内存上限就是 512MB，不要往上调
+      MemorySize: 512
+      # 一轮诊断要跑 Logs Insights 查询（有界轮询最长 30 秒）加十几个
+      # AWS 调用，60 秒不够用
+      Timeout: 120
+      # 显式固定日志格式。默认值漂移会改变日志形状，而 incident 记录的
+      # 检索方式依赖于这个形状
+      LoggingConfig:
+        LogFormat: Text
+      Environment:
+        Variables:
+          AIOPS_STACK_NAME: !Ref CollectorStackName
+          AIOPS_REGION: !Ref AWS::Region
+          AIOPS_ECS_CLUSTER: !Ref EcsClusterName
+          AIOPS_WINDOW_MINUTES: !Ref DiagnosisWindowMinutes
+          AIOPS_FEISHU_WEBHOOK: !Ref FeishuWebhook
+          AIOPS_FEISHU_SECRET: !Ref FeishuSecret
+          AIOPS_FEISHU_APP_ID: !Ref FeishuAppId
+          AIOPS_FEISHU_APP_SECRET: !Ref FeishuAppSecret
+          AIOPS_BASE_APP_TOKEN: !Ref BaseAppToken
+          AIOPS_BASE_TABLE_ID: !Ref BaseTableId
+      Events:
+        AlarmRaised:
+          Type: SNS
+          Properties:
+            Topic: !Ref AlertsTopicArn
+      Policies:
+        - Version: "2012-10-17"
+          Statement:
+            # 资源发现
+            - Effect: Allow
+              Action:
+                - cloudformation:DescribeStacks
+                - cloudformation:ListStackResources
+              Resource: !Sub arn:${AWS::Partition}:cloudformation:${AWS::Region}:${AWS::AccountId}:stack/${CollectorStackName}/*
+
+            # 告警状态与历史、指标趋势
+            - Effect: Allow
+              Action:
+                - cloudwatch:DescribeAlarms
+                - cloudwatch:DescribeAlarmHistory
+                - cloudwatch:GetMetricData
+              Resource: "*"
+
+            # Logs Insights。查询 ID 不是资源，GetQueryResults 与 StopQuery
+            # 不支持资源级授权，只能写 *；它们仅能读回本账号已发起的查询
+            - Effect: Allow
+              Action: logs:StartQuery
+              Resource: !Sub arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:*
+            - Effect: Allow
+              Action:
+                - logs:GetQueryResults
+                - logs:StopQuery
+              Resource: "*"
+
+            # 队列积压与消息样本。ReceiveMessage 是"只读"里的唯一例外：
+            # 它会让消息的 ApproximateReceiveCount 加一。SQS 没有真正的
+            # 只读读法，而不看消息体就分不清毒丸消息和可重放消息
+            - Effect: Allow
+              Action:
+                - sqs:GetQueueAttributes
+                - sqs:ReceiveMessage
+              Resource: !Sub arn:${AWS::Partition}:sqs:${AWS::Region}:${AWS::AccountId}:${CollectorStackName}-*
+
+            # 发布状态
+            - Effect: Allow
+              Action:
+                - lambda:GetAlias
+                - lambda:GetFunctionConfiguration
+                - lambda:ListVersionsByFunction
+              Resource: !Sub arn:${AWS::Partition}:lambda:${AWS::Region}:${AWS::AccountId}:function:${CollectorStackName}-*
+
+            # 发现 Go 服务的日志组
+            - Effect: Allow
+              Action:
+                - ecs:ListServices
+                - ecs:DescribeServices
+                - ecs:DescribeTaskDefinition
+              Resource: "*"
+
+            # 显式 Deny 覆盖一切变更动作，且优先于任何后来追加的 Allow。
+            # 这个函数是无人值守的，它可以判断"该回滚了"，但不可以自己动手
+            - Effect: Deny
+              Action:
+                - lambda:UpdateAlias
+                - lambda:UpdateFunctionCode
+                - lambda:UpdateFunctionConfiguration
+                - lambda:PublishVersion
+                - lambda:DeleteFunction
+                - sqs:DeleteMessage
+                - sqs:SendMessage
+                - sqs:PurgeQueue
+                - ecs:UpdateService
+                - ecs:StopTask
+                - ecs:RegisterTaskDefinition
+                - rds:ModifyDBInstance
+                - rds:RebootDBInstance
+                - rds:DeleteDBInstance
+                - cloudformation:UpdateStack
+                - cloudformation:DeleteStack
+                - cloudwatch:DeleteAlarms
+                - cloudwatch:PutMetricAlarm
+                - cloudwatch:SetAlarmState
+                - elasticloadbalancing:ModifyRule
+                - route53:ChangeResourceRecordSets
+              Resource: "*"
+
+  # incident 记录保留，不随栈删除而消失——事后复盘要靠它
+  DiagnosisLogGroup:
+    Type: AWS::Logs::LogGroup
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+    Properties:
+      LogGroupName: !Sub /aws/lambda/${DiagnosisFunction}
+      RetentionInDays: 30
+
+Outputs:
+  DiagnosisFunctionName:
+    Description: 自动诊断函数名
+    Value: !Ref DiagnosisFunction
+
+  DiagnosisLogGroupName:
+    Description: incident 记录所在的日志组
+    Value: !Ref DiagnosisLogGroup
+
+  IncidentQuery:
+    Description: 查 incident 记录的 Logs Insights 语句
+    Value: >-
+      fields @timestamp, @message | filter @message like "aiops_incident" | sort @timestamp desc

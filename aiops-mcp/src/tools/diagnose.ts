@@ -3,6 +3,7 @@ import { checkReady, type ReadinessResult } from "./checkReady.js";
 import { deploymentState, type DeploymentStateResult } from "./deploymentState.js";
 import { queueDepth, type QueueDepthResult } from "./dlqDepth.js";
 import { listAlarms, type AlarmSnapshot } from "./listAlarms.js";
+import { isDegradationSignal } from "./metricQueries.js";
 import { getMetrics, type MetricsResult } from "./metrics.js";
 import { triageMessage } from "./messageTriage.js";
 import { tailLogs, type TailLogsResult } from "./tailLogs.js";
@@ -135,9 +136,10 @@ export const diagnose = async (minutes = 60): Promise<Diagnosis> => {
     }
   }
 
-  // 关联四：指标在恶化——告警还没响，但方向不对
+  // 关联四：指标在恶化——告警还没响，但方向不对。
+  // 只看错误类和延迟类：流量上升是中性的，积压类指标天然单调增长。
   const rising = metrics.metrics.filter(
-    (m) => m.trend === "rising" && /错误|5xx|限流|时长/.test(m.label) && (m.latest ?? 0) > 0,
+    (m) => m.trend === "rising" && isDegradationSignal(m.kind) && (m.latest ?? 0) > 0,
   );
   if (rising.length > 0) {
     correlations.push(

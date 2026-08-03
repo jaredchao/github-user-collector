@@ -3,14 +3,31 @@ import type { Topology } from "../config.js";
 
 export type MetricScope = "lambda" | "api" | "queue" | "ecs";
 
+/**
+ * 指标的语义类别，决定"上升"该怎么解读。
+ *
+ * 靠标签正则去猜哪些指标上升即恶化并不可靠——"最老消息可见时长"里有
+ * "时长"两个字，但它只要队列非空就单调增长，上升毫无意义。把这个判断
+ * 编码进指标定义，而不是留给下游猜。
+ *
+ * error/latency 上升是坏消息；throughput 上升只是流量变大，中性；
+ * backlog 天然单调，单看趋势没有意义，要看绝对值。
+ */
+export type MetricKind = "error" | "latency" | "throughput" | "backlog";
+
 export type MetricSpec = Readonly<{
   id: string;
   label: string;
+  kind: MetricKind;
   namespace: string;
   metricName: string;
   stat: string;
   dimensions: Readonly<Record<string, string>>;
 }>;
+
+/** 这类指标上升就是系统在恶化，值得在还没触发告警时就提出来。 */
+export const isDegradationSignal = (kind: MetricKind): boolean =>
+  kind === "error" || kind === "latency";
 
 /** 从 API 地址里取出 API ID：https://kp6eccqn9h.execute-api... -> kp6eccqn9h */
 export const apiIdOf = (apiUrl: string): string => {
@@ -37,6 +54,7 @@ const lambdaSpecs = (topo: Topology): MetricSpec[] =>
       {
         id: `${role}_errors`,
         label: `${role} 错误数`,
+        kind: "error",
         namespace: "AWS/Lambda",
         metricName: "Errors",
         stat: "Sum",
@@ -45,6 +63,7 @@ const lambdaSpecs = (topo: Topology): MetricSpec[] =>
       {
         id: `${role}_invocations`,
         label: `${role} 调用次数`,
+        kind: "throughput",
         namespace: "AWS/Lambda",
         metricName: "Invocations",
         stat: "Sum",
@@ -53,6 +72,7 @@ const lambdaSpecs = (topo: Topology): MetricSpec[] =>
       {
         id: `${role}_duration`,
         label: `${role} 耗时 p95(ms)`,
+        kind: "latency",
         namespace: "AWS/Lambda",
         metricName: "Duration",
         stat: "p95",
@@ -61,6 +81,7 @@ const lambdaSpecs = (topo: Topology): MetricSpec[] =>
       {
         id: `${role}_throttles`,
         label: `${role} 被限流次数`,
+        kind: "error",
         namespace: "AWS/Lambda",
         metricName: "Throttles",
         stat: "Sum",
@@ -76,6 +97,7 @@ const apiSpecs = (topo: Topology): MetricSpec[] => {
     {
       id: "api_count",
       label: "API 请求数",
+      kind: "throughput",
       namespace: "AWS/ApiGateway",
       metricName: "Count",
       stat: "Sum",
@@ -84,6 +106,7 @@ const apiSpecs = (topo: Topology): MetricSpec[] => {
     {
       id: "api_5xx",
       label: "API 5xx 数",
+      kind: "error",
       namespace: "AWS/ApiGateway",
       metricName: "5xx",
       stat: "Sum",
@@ -92,6 +115,7 @@ const apiSpecs = (topo: Topology): MetricSpec[] => {
     {
       id: "api_4xx",
       label: "API 4xx 数",
+      kind: "error",
       namespace: "AWS/ApiGateway",
       metricName: "4xx",
       stat: "Sum",
@@ -100,6 +124,7 @@ const apiSpecs = (topo: Topology): MetricSpec[] => {
     {
       id: "api_latency",
       label: "API 延迟 p95(ms)",
+      kind: "latency",
       namespace: "AWS/ApiGateway",
       metricName: "Latency",
       stat: "p95",
@@ -123,6 +148,7 @@ const queueSpecs = (topo: Topology): MetricSpec[] =>
         // 重新可见就重置。想知道消息真正卡了多久，得看它的 SentTimestamp。
         id: `${role}_age`,
         label: `${role} 最老消息可见时长(秒)`,
+        kind: "backlog",
         namespace: "AWS/SQS",
         metricName: "ApproximateAgeOfOldestMessage",
         stat: "Maximum",
@@ -131,6 +157,7 @@ const queueSpecs = (topo: Topology): MetricSpec[] =>
       {
         id: `${role}_visible`,
         label: `${role} 可见消息数`,
+        kind: "backlog",
         namespace: "AWS/SQS",
         metricName: "ApproximateNumberOfMessagesVisible",
         stat: "Maximum",
@@ -146,6 +173,7 @@ const ecsSpecs = (): MetricSpec[] => {
     {
       id: "ecs_cpu",
       label: "Go 服务 CPU(%)",
+      kind: "latency",
       namespace: "AWS/ECS",
       metricName: "CPUUtilization",
       stat: "Average",
@@ -154,6 +182,7 @@ const ecsSpecs = (): MetricSpec[] => {
     {
       id: "ecs_memory",
       label: "Go 服务内存(%)",
+      kind: "latency",
       namespace: "AWS/ECS",
       metricName: "MemoryUtilization",
       stat: "Average",

@@ -2,9 +2,11 @@ import { GetMetricDataCommand } from "@aws-sdk/client-cloudwatch";
 import { cloudwatch } from "../aws.js";
 import { topology } from "../config.js";
 import {
+  isDegradationSignal,
   periodFor,
   specsFor,
   toQuery,
+  type MetricKind,
   type MetricScope,
   type MetricSpec,
 } from "./metricQueries.js";
@@ -13,6 +15,8 @@ export type Trend = "rising" | "falling" | "flat" | "unknown";
 
 export type MetricSummary = Readonly<{
   label: string;
+  /** 决定"上升"该怎么解读，见 MetricKind 的说明。 */
+  kind: MetricKind;
   metricName: string;
   stat: string;
   latest: number | null;
@@ -70,6 +74,7 @@ const chunk = <T>(items: readonly T[], size: number): T[][] => {
 
 const summarize = (spec: MetricSpec, values: readonly number[]): MetricSummary => ({
   label: spec.label,
+  kind: spec.kind,
   metricName: spec.metricName,
   stat: spec.stat,
   // CloudWatch 按时间升序返回，最后一个才是最新的
@@ -89,9 +94,13 @@ const describe = (metrics: readonly MetricSummary[]): string => {
     return "窗口内所有指标都没有数据点——可能是没有流量，也可能是维度取值不对";
   }
 
-  const rising = withData.filter((m) => m.trend === "rising" && (m.latest ?? 0) > 0);
+  // 只有错误类和延迟类的上升才是恶化。流量上升是中性的，而积压类指标
+  // 天然单调增长——队列非空时"最老消息可见时长"每秒都在涨，报它毫无意义。
+  const rising = withData.filter(
+    (m) => m.trend === "rising" && isDegradationSignal(m.kind) && (m.latest ?? 0) > 0,
+  );
   const notable = withData.filter(
-    (m) => /错误|5xx|限流|年龄/.test(m.label) && (m.max ?? 0) > 0,
+    (m) => (m.kind === "error" || m.kind === "backlog") && (m.max ?? 0) > 0,
   );
 
   const parts = [`${withData.length} 个指标有数据`];

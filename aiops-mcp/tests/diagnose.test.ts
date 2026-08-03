@@ -232,12 +232,12 @@ describe("diagnose", () => {
     expect(result.assessment.likelyCauses.join()).toContain("组件当前不可用");
   });
 
-  it("指标在上升时提醒，哪怕还没触发告警", async () => {
+  it("错误类指标在上升时提醒，哪怕还没触发告警", async () => {
     getMetrics.mockResolvedValue({
       windowMinutes: 60,
       periodSeconds: 300,
       metrics: [
-        { label: "collector 错误数", metricName: "Errors", stat: "Sum", latest: 3, average: 2, max: 3, trend: "rising", dataPoints: 8 },
+        { label: "collector 错误数", kind: "error", metricName: "Errors", stat: "Sum", latest: 3, average: 2, max: 3, trend: "rising", dataPoints: 8 },
       ],
       summary: "",
     });
@@ -246,6 +246,36 @@ describe("diagnose", () => {
 
     expect(result.correlations.join()).toContain("正在上升");
     expect(result.correlations.join()).toContain("即使尚未触发告警");
+  });
+
+  it("积压类指标上升不算恶化——队列非空时它本来就单调增长", async () => {
+    getMetrics.mockResolvedValue({
+      windowMinutes: 60,
+      periodSeconds: 300,
+      metrics: [
+        { label: "dlq 最老消息可见时长(秒)", kind: "backlog", metricName: "ApproximateAgeOfOldestMessage", stat: "Maximum", latest: 1892, average: 900, max: 1892, trend: "rising", dataPoints: 20 },
+      ],
+      summary: "",
+    });
+
+    const result = await diagnose(60);
+
+    expect(result.correlations.join()).not.toContain("正在上升");
+  });
+
+  it("流量上升也不算恶化", async () => {
+    getMetrics.mockResolvedValue({
+      windowMinutes: 60,
+      periodSeconds: 300,
+      metrics: [
+        { label: "API 请求数", kind: "throughput", metricName: "Count", stat: "Sum", latest: 500, average: 200, max: 500, trend: "rising", dataPoints: 20 },
+      ],
+      summary: "",
+    });
+
+    const result = await diagnose(60);
+
+    expect(result.correlations.join()).not.toContain("正在上升");
   });
 
   it("队列类告警不去捞日志，错误类告警才捞——不无差别地把数据全抓一遍", async () => {
