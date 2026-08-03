@@ -1,0 +1,31 @@
+aiops-mcp/src/ticket/types.ts
+  s_a35dfb951786c3::t_b795b750f1248c 1-27
+aiops-mcp/src/ticket/feishuBase.ts
+  s_a35dfb951786c3::t_83f4fa3d17fab0 1-153
+aiops-mcp/tests/feishuNotifier.test.ts
+  s_a35dfb951786c3::t_757652727568ef 1-123
+aiops-mcp/tests/feishuBase.test.ts
+  s_a35dfb951786c3::t_b4cf7e18d45678 1-134
+aiops-mcp/src/ticket/feishuAuth.ts
+  s_a35dfb951786c3::t_f8268fdf6f3aa7 1-52
+aiops-mcp/src/lambda/handler.ts
+  s_a35dfb951786c3::t_186a27780dc157 70-86
+  s_a35dfb951786c3::t_4b1c3d104be06b 115-117,123
+  s_a35dfb951786c3::t_2d74d210af6c28 5-6
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.20",
+  "base_commit_sha": "f10c6e84d1d31c82639353034b011cec3fc58aec",
+  "prompts": {},
+  "sessions": {
+    "s_a35dfb951786c3": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "2cffedf4-d708-4d9a-bd89-26326d6dfb98",
+        "model": "claude-opus-5"
+      },
+      "human_author": "muluo <mengchao1027@gmail.com>"
+    }
+  }
+}
