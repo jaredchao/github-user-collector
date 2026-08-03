@@ -2,6 +2,8 @@ import { redact } from "../redact.js";
 import { fingerprintOf } from "../notify/fingerprint.js";
 import type { DeliveryResult, Incident } from "../notify/types.js";
 import { notifiers } from "../notify/registry.js";
+import { asFailure, feishuBaseTickets } from "../ticket/feishuBase.js";
+import type { TicketResult } from "../ticket/types.js";
 import { diagnose } from "../tools/diagnose.js";
 import { isEnteringAlarm, parseAlarmNotifications } from "./alarmEvent.js";
 
@@ -65,6 +67,23 @@ const deliver = async (incident: Incident): Promise<DeliveryResult[]> => {
   return results;
 };
 
+const openTicket = async (incident: Incident): Promise<TicketResult> => {
+  if (!feishuBaseTickets.configured()) {
+    return {
+      system: feishuBaseTickets.system,
+      outcome: "not-configured",
+      recordId: null,
+      detail: "未配置多维表格，跳过",
+    };
+  }
+  try {
+    return await feishuBaseTickets.create(incident);
+  } catch (error) {
+    // 开单失败同样不能让诊断失败
+    return asFailure(feishuBaseTickets.system, error);
+  }
+};
+
 export type HandlerResult = Readonly<{
   processed: number;
   skipped: number;
@@ -93,12 +112,15 @@ export const handler = async (event: unknown): Promise<HandlerResult> => {
     };
 
     recordIncident(incident);
-    const delivery = await deliver(incident);
+
+    // 通知和开单互不阻塞：任一失败都不该拖累另一个，也不该拖累诊断结论
+    const [delivery, ticket] = await Promise.all([deliver(incident), openTicket(incident)]);
     console.log(
       JSON.stringify({
         marker: "aiops_delivery",
         fingerprint: incident.fingerprint,
         delivery,
+        ticket,
       }),
     );
 
