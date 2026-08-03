@@ -1,0 +1,38 @@
+aiops-mcp/package.json
+  s_a35dfb951786c3::t_3af7d3a35f38db 13
+  s_a35dfb951786c3::t_52560092465ad6 12,14
+aiops-mcp/template.yaml
+  s_a35dfb951786c3::t_7327926403ed8a 1-201
+aiops-mcp/src/tools/metrics.ts
+  s_a35dfb951786c3::t_e4557c46ce54ca 97-101,103
+  s_a35dfb951786c3::t_fca44e2d0d485e 5,9
+  s_a35dfb951786c3::t_7581ab8a68c844 18-19
+  s_a35dfb951786c3::t_b750304bff3590 77
+aiops-mcp/src/tools/diagnose.ts
+  s_a35dfb951786c3::t_afefea43791f7e 6
+  s_a35dfb951786c3::t_0872700b80bf00 139-140,142
+aiops-mcp/src/tools/metricQueries.ts
+  s_a35dfb951786c3::t_2be503aa9b500a 100,109,118,127,176,185
+  s_a35dfb951786c3::t_24ca75ecf34c0d 57,66,75,84,151,160
+  s_a35dfb951786c3::t_c96d39fe0dd3d1 6-17,21,28-30
+  s_a35dfb951786c3::t_c83da43d07e1b6 31
+aiops-mcp/tests/diagnose.test.ts
+  s_a35dfb951786c3::t_8568894e593035 235,240,251-279
+  s_a35dfb951786c3::t_4482424a7af06d 280
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.20",
+  "base_commit_sha": "4447ce9ac39b0b1a56e85fc068243f7a68f27bb6",
+  "prompts": {},
+  "sessions": {
+    "s_a35dfb951786c3": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "2cffedf4-d708-4d9a-bd89-26326d6dfb98",
+        "model": "claude-opus-5"
+      },
+      "human_author": "muluo <mengchao1027@gmail.com>"
+    }
+  }
+}
