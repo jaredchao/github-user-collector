@@ -1,0 +1,27 @@
+aiops-mcp/.gitignore
+  s_a35dfb951786c3::t_373a4454cc542d 4
+scripts/aiops-deploy.sh
+  s_a35dfb951786c3::t_7e3ea7ce49958f 1-30,36-52,74-81,83-86
+  s_a35dfb951786c3::t_765b4315174bd2 31-35
+  s_a35dfb951786c3::t_1b23da24ea21f0 53-73,82
+aiops-mcp/deploy.env.example
+  s_a35dfb951786c3::t_c26234a2549984 1-28
+aiops-mcp/README.md
+  s_a35dfb951786c3::t_cc604dc5d27953 102-129,132-134,136
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.20",
+  "base_commit_sha": "415269a34293a7f1318fc590638c36e7a78b0377",
+  "prompts": {},
+  "sessions": {
+    "s_a35dfb951786c3": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "2cffedf4-d708-4d9a-bd89-26326d6dfb98",
+        "model": "claude-opus-5"
+      },
+      "human_author": "muluo <mengchao1027@gmail.com>"
+    }
+  }
+}
