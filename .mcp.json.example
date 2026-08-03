@@ -1,0 +1,34 @@
+{
+  "_说明": [
+    "复制为 .mcp.json 后填入实际值。.mcp.json 已被 gitignore——本仓库是公开的，",
+    "端点地址与令牌一旦入库就等于公开发布，别人能调你的工具、刷你的 Lambda 账单。",
+    "",
+    "两种接法，按这台电脑有没有 AWS 凭证来选：",
+    "",
+    "【远程只读】9 个诊断工具，不需要 AWS 凭证，适合没配 ~/.aws 的电脑。",
+    "  url 取自: aws cloudformation describe-stacks --stack-name zuoye-aiops \\",
+    "              --query 'Stacks[0].Outputs[?OutputKey==`RemoteMcpUrl`].OutputValue' --output text",
+    "  令牌在部署机的 aiops-mcp/deploy.env 里的 REMOTE_MCP_TOKEN",
+    "",
+    "【本地全量】14 个工具（含 5 个写工具），用本机 ~/.aws 凭证，",
+    "  必须在仓库根目录启动 claude（下面用的是相对路径），且先 npm install。",
+    "  处置操作（回滚、清死信）只能走这条。"
+  ],
+  "mcpServers": {
+    "aiops-remote": {
+      "type": "http",
+      "url": "https://<函数地址>.lambda-url.us-east-2.on.aws/",
+      "headers": {
+        "Authorization": "Bearer <REMOTE_MCP_TOKEN>"
+      }
+    },
+    "aiops-local": {
+      "command": "./aiops-mcp/node_modules/.bin/tsx",
+      "args": ["./aiops-mcp/src/stdio.ts"],
+      "env": {
+        "AIOPS_STACK_NAME": "zuoye-collector",
+        "AIOPS_REGION": "us-east-2"
+      }
+    }
+  }
+}

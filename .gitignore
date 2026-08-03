@@ -14,3 +14,6 @@ samconfig.toml
 .cf-token
 .wrangler/
 frontend/.wrangler/
+
+# 含远程 MCP 端点与访问令牌，仓库是公开的，绝不能入库
+.mcp.json
