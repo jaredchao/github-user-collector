@@ -53,6 +53,7 @@ Lambda、Go 容器、RDS、跳板机均无公网 IP；RDS 的 5432 仅对 Lambda
 backend/     Hono API（Lambda），SAM 模板，数据库迁移
 go-service/  Go 个人介绍服务（ECS Fargate），vendor 依赖随仓库
 frontend/    Vite + React 单页应用
+aiops-mcp/   AI Ops Agent 的 MCP 服务器与自动诊断 Lambda
 scripts/     PR 环境的建立/拆除脚本（幂等）
 .github/     GitHub Actions 工作流
 docs/        学习笔记与设计文档
@@ -101,6 +102,7 @@ Lambda 侧额外提供 `GET /ready`：一次调用验证 `API Gateway → Lambda
 ./scripts/verify.sh                  # 三个任务的实时证据，约 1 分钟
 ./scripts/verify.sh --dlq            # 额外演示死信队列，约 15 分钟
 ./scripts/synthetics-changeset.sh    # 巡检资源就绪证据，不改动生产栈
+./scripts/aiops-demo.sh              # AI Ops Agent 全链路，约 2 分钟
 ```
 
 脚本会依次证明：采集前 `/intro` 是 404（说明读的是持久化值，不是实时拼接）、`POST /users` 同步返回 201、介绍在两三秒后由异步链路补上并留下 Worker 日志、API Gateway 打的是 `live` 别名而非 `$LATEST`、两条回滚门禁告警的状态、以及 `/ready` 一次走通整条技术链路。
@@ -108,6 +110,63 @@ Lambda 侧额外提供 `GET /ready`：一次调用验证 `API Gateway → Lambda
 也可以直接打开 https://zuoye-frontend.pages.dev 搜一个没搜过的用户：卡片立即出现、介绍稍后补上，就是这套异步架构在用户侧的样子。
 
 想在 AWS 控制台里逐个点开看（队列的重试策略、别名的灰度权重、告警状态、真实日志），见 [docs/控制台导览.md](docs/控制台导览.md)。
+
+## AI Ops Agent
+
+上面这套系统会出故障，而这一层负责诊断它。
+
+**大脑不自己造**——用你本地已有的 Claude Code 或 Codex。这里提供的是**手**：一个自建的 MCP 服务器，把运维能力封装成 Agent 能安全调用的工具。
+
+```
+本地 Claude Code / Codex ──MCP──> aiops-mcp（14 个工具）──AWS SDK──> 真实资源
+                                        ▲
+CloudWatch 告警 ──SNS──> 诊断 Lambda ────┘   同一份 tools/，两种承载
+                              │
+                              └─> incident 记录 + 飞书通知 + 多维表格工单
+```
+
+### 为什么不直接用通用的 AWS MCP
+
+| | 通用 AWS MCP | 本项目 |
+|---|---|---|
+| 交给 Agent 的 | 一万个 API | 十几个运维动作 |
+| 看死信队列 | 一不留神 `ReceiveMessage` 就把消息藏起 30 秒 | 强制零可见性超时，偷看不消费 |
+| 回滚 | 现拼别名权重 JSON，拼错就是事故 | 固化过的动作，且强制先备份 |
+| 安全边界 | 有凭证就能删库 | 工具即边界，只读的永远只读 |
+
+**通用 MCP 给的是 API，专用 MCP 给的是被固化的判断力。**
+
+`diagnose` 一次调用跑完整套 runbook（定位故障起点 → 比对发布时间 → 按告警类型取证 → 检查链路 → 看指标趋势），并把时间关联算好。对生产环境实测的输出：
+
+```
+1 个告警正在触发。但系统此刻是健康的，重点看告警是否陈旧。发现 4 条关联。
+  - 进入 ALARM 的时刻与最近一次发布相差 66 小时，与发布无关
+  - 就绪检查通过且窗口内没有新的错误日志——故障可能已经过去，告警是陈旧的
+  - 死信队列里的样本全部格式非法，重放必然再次失败——这是数据问题，不是系统故障
+  - 最老的死信消息已入队 67 小时，说明没人处理过它
+建议动作: 用 discard_dlq_messages 归档后丢弃，不要重放
+```
+
+### 写操作的三道闸
+
+9 个只读工具带 `readOnlyHint`，5 个写工具带 `destructiveHint`。写操作要过三道闸：
+
+1. **默认演练**——`dryRun` 默认 `true`，只返回执行计划；加上 Claude Code 自带的人工确认，等于两道关卡
+2. **备份先于变更**——先存还原点，**备份失败则整个操作失败**。宁可什么都不做，也不做一件无法撤销的事
+3. **重放前预检**——格式非法的毒丸消息重放必然再次失败，默认拒绝并改荐丢弃
+
+配套 `restore` 工具，撤销本身也是 Agent 能调的能力。还原点落成本地 JSON 文件而非 S3：备份必须在最坏情况下也能读出来，不该依赖一个可能与故障同时发生的云服务。
+
+### 无人值守
+
+`zuoye-aiops` 栈订阅告警主题，告警进入 ALARM 时自动跑一轮**只读**诊断，写下 incident 记录并推送通知。它可以判断"该回滚了"，但 IAM 角色带一条覆盖全部变更动作的**显式 Deny**——无人值守的东西不该自己动手。
+
+```bash
+./scripts/aiops-demo.sh            # 只读演示，约 2 分钟
+./scripts/aiops-demo.sh --inject   # 先注入一条毒丸消息制造真故障
+```
+
+细节见 [aiops-mcp/README.md](aiops-mcp/README.md)，踩坑记录见学习笔记第 18 节。
 
 ### 演示灰度回滚
 
