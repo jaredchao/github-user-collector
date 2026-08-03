@@ -187,6 +187,28 @@ describe("discardDlqMessages", () => {
     expect(result.summary).toContain(store.saved[0]!.id);
   });
 
+  it("还原点存原文、预览脱敏——两者不能搞反", async () => {
+    const secret = JSON.stringify({
+      eventType: "profile.saved",
+      dsn: "postgres://admin:hunter2@db.internal:5432/collector",
+    });
+    drainReplies(message("m-1", secret));
+    send.mockResolvedValue({});
+
+    const result = await discardDlqMessages(10, false);
+
+    // 备份必须是原文：存脱敏后的内容等于备份了一份假数据，还原时投递
+    // 回去的会是 [REDACTED]
+    const payload = store.saved[0]?.payload as { messages: { body: string }[] };
+    expect(payload.messages[0]?.body).toBe(secret);
+
+    // 而给 Agent 看的那份不能带出密码
+    const inventory = (result.details as { inventory?: unknown } & { [k: string]: unknown })
+      .inventory as { bodyPreview: string }[] | undefined;
+    const previews = JSON.stringify(inventory ?? result.details);
+    expect(previews).not.toContain("hunter2");
+  });
+
   it("演练时不删除任何东西", async () => {
     drainReplies(message("m-1", "not-a-json-event"));
 

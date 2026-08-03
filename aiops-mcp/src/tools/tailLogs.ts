@@ -5,6 +5,7 @@ import {
 } from "@aws-sdk/client-cloudwatch-logs";
 import { logs } from "../aws.js";
 import { topology } from "../config.js";
+import { redact } from "../redact.js";
 
 export type LogEntry = Readonly<{
   timestamp: string;
@@ -99,7 +100,8 @@ export const tailLogs = async (
 
   const entries: LogEntry[] = (results.results ?? []).map((row) => {
     const field = (name: string) => row.find((f) => f.field === name)?.value ?? "";
-    const message = field("@message").trim();
+    // 先脱敏再截断：反过来可能把一个密钥从中间切开，前半截照样泄露
+    const message = redact(field("@message").trim());
     return {
       timestamp: field("@timestamp"),
       message:

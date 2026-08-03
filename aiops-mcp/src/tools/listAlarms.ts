@@ -1,6 +1,7 @@
 import { DescribeAlarmsCommand } from "@aws-sdk/client-cloudwatch";
 import { cloudwatch } from "../aws.js";
 import { topology } from "../config.js";
+import { redact } from "../redact.js";
 
 export type AlarmSnapshot = Readonly<{
   name: string;
@@ -48,7 +49,7 @@ export const listAlarms = async (): Promise<ListAlarmsResult> => {
   const alarms: AlarmSnapshot[] = (described.MetricAlarms ?? []).map((alarm) => ({
     name: alarm.AlarmName ?? "(未命名)",
     state: asState(alarm.StateValue),
-    reason: alarm.StateReason ?? "",
+    reason: redact(alarm.StateReason ?? ""),
     since: alarm.StateUpdatedTimestamp?.toISOString() ?? null,
     metric: alarm.MetricName ?? "(复合告警)",
     threshold: alarm.Threshold ?? null,

@@ -1,6 +1,7 @@
 import { GetQueueAttributesCommand, ReceiveMessageCommand } from "@aws-sdk/client-sqs";
 import { sqs } from "../aws.js";
 import { topology } from "../config.js";
+import { redact } from "../redact.js";
 import { queueOldestMessageAge } from "./metrics.js";
 
 export type PeekedMessage = Readonly<{
@@ -94,7 +95,8 @@ export const queueDepth = async (
       const sentTimestamp = message.Attributes?.SentTimestamp;
       sample.push({
         messageId,
-        body: message.Body ?? "",
+        // 死信消息是用户数据的原样副本，什么都可能在里面
+        body: redact(message.Body ?? ""),
         receiveCount: toInt(message.Attributes?.ApproximateReceiveCount),
         sentAt: sentTimestamp ? new Date(Number(sentTimestamp)).toISOString() : null,
       });

@@ -1,5 +1,6 @@
 import { DescribeAlarmHistoryCommand } from "@aws-sdk/client-cloudwatch";
 import { cloudwatch } from "../aws.js";
+import { redact } from "../redact.js";
 
 export type StateTransition = Readonly<{
   at: string;
@@ -62,7 +63,7 @@ export const alarmTimeline = async (
       at: item.Timestamp?.toISOString() ?? "",
       from,
       to,
-      reason: item.HistorySummary ?? "",
+      reason: redact(item.HistorySummary ?? ""),
     };
   });
 

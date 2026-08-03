@@ -1,6 +1,7 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
 import { topology } from "./config.js";
+import { guard, ok } from "./toolResult.js";
 import { rollbackCanary, setAliasWeight } from "./tools/aliasControl.js";
 import { alarmTimeline } from "./tools/alarmTimeline.js";
 import { checkReady } from "./tools/checkReady.js";
@@ -11,39 +12,6 @@ import { listAlarms } from "./tools/listAlarms.js";
 import { getMetrics } from "./tools/metrics.js";
 import { listRestorePoints, restore } from "./tools/restoreTool.js";
 import { tailLogs } from "./tools/tailLogs.js";
-
-type TextResult = {
-  content: { type: "text"; text: string }[];
-  isError?: boolean;
-};
-
-/**
- * 摘要在前，结构化数据在后。
- *
- * Agent 读到的第一行就是结论，不必先解析 JSON 才知道发生了什么；
- * 需要细节时再往下看。这个顺序对上下文预算很重要。
- */
-const ok = (summary: string, data: unknown): TextResult => ({
-  content: [{ type: "text", text: `${summary}\n\n${JSON.stringify(data, null, 2)}` }],
-});
-
-const failed = (error: unknown): TextResult => ({
-  content: [
-    {
-      type: "text",
-      text: `工具执行失败: ${error instanceof Error ? error.message : String(error)}`,
-    },
-  ],
-  isError: true,
-});
-
-const guard = async (run: () => Promise<TextResult>): Promise<TextResult> => {
-  try {
-    return await run();
-  } catch (error) {
-    return failed(error);
-  }
-};
 
 /** 只读工具的统一标注：可以放心重复调用，不会改变任何状态。 */
 const readOnly = { readOnlyHint: true, destructiveHint: false, idempotentHint: true };

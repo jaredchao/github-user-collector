@@ -1,4 +1,5 @@
 import { topology } from "../config.js";
+import { redact, redactError } from "../redact.js";
 
 export type ReadinessResult = Readonly<{
   url: string;
@@ -25,7 +26,7 @@ export const checkReady = async (): Promise<ReadinessResult> => {
     const response = await fetch(topo.readinessUrl, {
       signal: AbortSignal.timeout(TIMEOUT_MS),
     });
-    const body = (await response.text()).slice(0, 2000);
+    const body = redact(await response.text()).slice(0, 2000);
     const latencyMs = Date.now() - startedAt;
 
     return {
@@ -40,7 +41,7 @@ export const checkReady = async (): Promise<ReadinessResult> => {
     };
   } catch (error) {
     const latencyMs = Date.now() - startedAt;
-    const reason = error instanceof Error ? error.message : String(error);
+    const reason = redactError(error);
     return {
       url: topo.readinessUrl,
       ok: false,

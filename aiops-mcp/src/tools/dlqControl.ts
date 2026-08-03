@@ -5,6 +5,7 @@ import {
 } from "@aws-sdk/client-sqs";
 import { sqs } from "../aws.js";
 import { topology } from "../config.js";
+import { redact } from "../redact.js";
 import { createRestorePoint } from "../restore/store.js";
 import type { MessagesPayload } from "../restore/types.js";
 import { triageMessage } from "./messageTriage.js";
@@ -74,6 +75,12 @@ const drain = async (
   return [...collected.values()];
 };
 
+/**
+ * 还原点里存的是**原文**，不脱敏。
+ *
+ * 脱敏只作用于给 Agent 看的那份预览。备份存脱敏后的内容等于备份了一份
+ * 假数据——还原时投递回去的会是 [REDACTED]，那还不如不备份。
+ */
 const toPayload = (queueUrl: string, messages: DrainedMessage[]): MessagesPayload => ({
   sourceQueueUrl: queueUrl,
   messages: messages.map(({ messageId, body, receiveCount, sentAt }) => ({
@@ -122,7 +129,7 @@ export const redriveDlq = async (
     poison: poison.map((m) => ({
       messageId: m.messageId,
       reason: m.triage.reason,
-      bodyPreview: m.body.slice(0, 200),
+      bodyPreview: redact(m.body).slice(0, 200),
     })),
   };
 
@@ -214,7 +221,7 @@ export const discardDlqMessages = async (
     receiveCount: message.receiveCount,
     sentAt: message.sentAt,
     triage: triageMessage(message.body).reason,
-    bodyPreview: message.body.slice(0, 200),
+    bodyPreview: redact(message.body).slice(0, 200),
   }));
 
   const plan = `把 ${messages.length} 条死信消息归档后从队列删除`;
