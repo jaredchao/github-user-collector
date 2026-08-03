@@ -10,7 +10,7 @@
     "test:watch": "vitest",
     "typecheck": "tsc --noEmit",
     "build": "esbuild src/stdio.ts --bundle --sourcemap --platform=node --target=node22 --format=esm --banner:js=\"import{createRequire}from'module';const require=createRequire(import.meta.url);\" --outfile=dist/stdio.mjs",
-    "build:lambda": "esbuild src/lambda/handler.ts --bundle --sourcemap --platform=node --target=node22 --format=esm --external:@aws-sdk/* --outfile=dist/aiops.mjs",
+    "build:lambda": "esbuild src/lambda/handler.ts --bundle --sourcemap --platform=node --target=node22 --format=esm --external:@aws-sdk/* --outfile=dist/aiops.mjs && esbuild src/lambda/httpLambda.ts --bundle --sourcemap --platform=node --target=node22 --format=esm --external:@aws-sdk/* --outfile=dist/mcp.mjs",
     "validate": "sam validate --lint --template template.yaml"
   },
   "dependencies": {

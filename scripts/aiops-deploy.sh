@@ -48,6 +48,17 @@ if [ -n "${FEISHU_APP_ID:-}" ] && [ -n "${FEISHU_APP_SECRET:-}" ] \
 else
   warn "多维表格工单：未配置齐全，将跳过"
 fi
+if [ -n "${REMOTE_MCP_TOKEN:-}" ]; then
+  # 短令牌等于没有保护——这个端点是公开在互联网上的
+  if [ "${#REMOTE_MCP_TOKEN}" -lt 32 ]; then
+    echo "REMOTE_MCP_TOKEN 太短（${#REMOTE_MCP_TOKEN} 字符），公网端点至少要 32 位随机值"
+    echo "生成一个: openssl rand -hex 32"
+    exit 1
+  fi
+  ok "远程只读 MCP：已配置（令牌 ${#REMOTE_MCP_TOKEN} 字符）"
+else
+  warn "远程只读 MCP：未配置，不创建该端点"
+fi
 
 blue "4 · 部署"
 
@@ -70,6 +81,7 @@ add_param FeishuAppId "${FEISHU_APP_ID:-}"
 add_param FeishuAppSecret "${FEISHU_APP_SECRET:-}"
 add_param BaseAppToken "${BASE_APP_TOKEN:-}"
 add_param BaseTableId "${BASE_TABLE_ID:-}"
+add_param RemoteMcpToken "${REMOTE_MCP_TOKEN:-}"
 
 (cd "$MCP_DIR" && sam deploy \
   --template-file template.yaml \

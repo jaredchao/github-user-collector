@@ -91,6 +91,61 @@ npx tsx scripts/smoke.ts    # 拿真实 AWS 资源冒烟每个工具，全部只
 
 `scripts/smoke.ts` 补的是单元测试证明不了的那一段：IAM 权限够不够、资源名对不对得上、SDK 参数有没有写错。
 
+## 多台电脑接入：远程只读 MCP
+
+除了本地 stdio，同一份 `tools/` 还有第二个承载——Lambda 上的 HTTP 端点，供其它电脑接入。
+
+```
+本地 stdio  → 14 个工具（读 + 写），凭证是本机的 ~/.aws
+远程 HTTP   →  9 个只读工具，凭证是 Lambda 执行角色
+```
+
+**远程的价值是调用方不需要 AWS 凭证。** 换台电脑、给同事一个令牌就能查系统状态，不必给出 IAM 用户。
+
+### 为什么远程只给只读
+
+Function URL 的 `AuthType` 只能是 `NONE`——`AWS_IAM` 要求调用方做 SigV4 签名，而 MCP 客户端只能带静态 header，签不出来。所以**端点是公开在互联网上的**，全部保护落在一个令牌上。
+
+令牌总有泄露的可能，所以要让泄露的后果可以承受：**别人能看你的告警，但不能回滚你的线上版本。** 三道保证：
+
+1. 装配层——远程入口调 `createServer("read-only")`，`register/write.ts` 连 import 都没有
+2. IAM 层——独立的执行角色，只读权限 + 覆盖全部变更动作的显式 Deny
+3. 测试层——`tests/serverMode.test.ts` 与 `tests/httpLambda.test.ts` 各有一条断言，写工具出现在远程清单里就红
+
+### 接入方法
+
+在另一台电脑上，先取端点地址（令牌在你自己的 `deploy.env` 里）：
+
+```bash
+aws cloudformation describe-stacks --stack-name zuoye-aiops --region us-east-2 \
+  --query 'Stacks[0].Outputs[?OutputKey==`RemoteMcpUrl`].OutputValue' --output text
+```
+
+然后写进那台电脑的 `.mcp.json`：
+
+```json
+{
+  "mcpServers": {
+    "aiops-remote": {
+      "type": "http",
+      "url": "https://<函数地址>.lambda-url.us-east-2.on.aws/",
+      "headers": { "Authorization": "Bearer <令牌>" }
+    }
+  }
+}
+```
+
+那台电脑不需要装 Node、不需要克隆仓库、不需要 AWS 凭证。
+
+### 无状态的两个后果
+
+传输用无状态模式（不传 `sessionIdGenerator`）+ `enableJsonResponse`。我们的工具全是请求-响应式的、没有服务端主动推送，所以不需要 SSE 流，每个请求各自完整——这正好对上函数计算：两次调用可能落在不同容器，共享会话状态没有意义。
+
+由此有两处必须显式处理：
+
+- **`tools/list` 不要求先 `initialize`**，独立请求即可用（有测试锁住这个行为）
+- **GET 与 DELETE 一律回 405**。Streamable HTTP 的 GET 是"打开 SSE 流等推送"，交给 transport 会拿到一个永不结束的流，`await response.text()` 直接挂住，在 Lambda 上就是白烧到超时。这个坑是本地测试跑出来的（用例超时 5 秒才暴露）。
+
 ## 还原点
 
 写操作的备份落成本地 JSON 文件，默认在 `aiops-mcp/restore-points/`，可用 `AIOPS_RESTORE_DIR` 改。
@@ -131,8 +186,8 @@ cp aiops-mcp/deploy.env.example aiops-mcp/deploy.env   # 填凭证，此文件�
 
 ## 状态
 
-14 个工具（9 只读 + 5 写）全部完成，129 个单元测试通过。只读工具已用真实 AWS 资源实测；写工具的演练路径已对真实死信队列验证，真实写入尚未执行。
+14 个工具（9 只读 + 5 写）全部完成，145 个单元测试通过。只读工具已用真实 AWS 资源实测；写工具的演练路径已对真实死信队列验证，真实写入尚未执行。
 
-自动诊断栈已部署，SNS 订阅链路实测通过（发布后 10 秒内触发，0 条权限错误）。飞书通知与工单待凭证配齐。
+三种承载全部部署并实测：本地 stdio（14 工具）、告警自动触发的诊断 Lambda（SNS 发布后 10 秒内触发，0 条权限错误）、远程只读 MCP（9 工具，完整 diagnose 2 秒返回）。飞书通知与多维表格工单实测通过，含幂等去重。
 
-待办：远程 MCP 形态（Lambda + Function URL），还原点的 S3 存储实现。
+待办：还原点的 S3 存储实现。

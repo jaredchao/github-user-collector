@@ -62,6 +62,18 @@ Parameters:
     Default: ""
     Description: 多维表格里那张表的 table_id
 
+  RemoteMcpToken:
+    Type: String
+    Default: ""
+    NoEcho: true
+    Description: >
+      远程 MCP 端点的访问令牌，留空则不创建该端点。
+      Function URL 的 AuthType 只能是 NONE——AWS_IAM 要求调用方做 SigV4 签名，
+      而 MCP 客户端只能带静态 header。所以端点是公开的，全部保护落在这个令牌上。
+
+Conditions:
+  CreateRemoteMcp: !Not [!Equals [!Ref RemoteMcpToken, ""]]
+
 Resources:
   DiagnosisFunction:
     Type: AWS::Serverless::Function
@@ -177,6 +189,107 @@ Resources:
                 - route53:ChangeResourceRecordSets
               Resource: "*"
 
+  # 公网上的只读 MCP 端点。装配的是 read-only 模式，连写工具的 import 都没有。
+  # 与诊断函数分开成两个函数两个角色：它们的权限边界不同，合在一起就没法说
+  # "这个角色只能读"。
+  RemoteMcpFunction:
+    Type: AWS::Serverless::Function
+    Condition: CreateRemoteMcp
+    Properties:
+      CodeUri: dist/
+      Handler: mcp.handler
+      Runtime: nodejs22.x
+      Architectures: [arm64]
+      MemorySize: 512
+      # 单次工具调用，不跑完整诊断编排；tail_logs 的 Logs Insights 轮询最长 30 秒
+      Timeout: 60
+      LoggingConfig:
+        LogFormat: Text
+      Environment:
+        Variables:
+          AIOPS_STACK_NAME: !Ref CollectorStackName
+          AIOPS_REGION: !Ref AWS::Region
+          AIOPS_ECS_CLUSTER: !Ref EcsClusterName
+          AIOPS_MCP_TOKEN: !Ref RemoteMcpToken
+      FunctionUrlConfig:
+        AuthType: NONE
+      Policies:
+        - Version: "2012-10-17"
+          Statement:
+            - Effect: Allow
+              Action:
+                - cloudformation:DescribeStacks
+                - cloudformation:ListStackResources
+              Resource: !Sub arn:${AWS::Partition}:cloudformation:${AWS::Region}:${AWS::AccountId}:stack/${CollectorStackName}/*
+
+            - Effect: Allow
+              Action:
+                - cloudwatch:DescribeAlarms
+                - cloudwatch:DescribeAlarmHistory
+                - cloudwatch:GetMetricData
+              Resource: "*"
+
+            - Effect: Allow
+              Action: logs:StartQuery
+              Resource: !Sub arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:*
+            - Effect: Allow
+              Action:
+                - logs:GetQueryResults
+                - logs:StopQuery
+              Resource: "*"
+
+            # 与诊断函数一样，ReceiveMessage 是"只读"里的唯一例外：它会让消息的
+            # 接收计数加一。不看消息体就分不清毒丸消息和可重放消息
+            - Effect: Allow
+              Action:
+                - sqs:GetQueueAttributes
+                - sqs:ReceiveMessage
+              Resource: !Sub arn:${AWS::Partition}:sqs:${AWS::Region}:${AWS::AccountId}:${CollectorStackName}-*
+
+            - Effect: Allow
+              Action:
+                - lambda:GetAlias
+                - lambda:GetFunctionConfiguration
+                - lambda:ListVersionsByFunction
+              Resource: !Sub arn:${AWS::Partition}:lambda:${AWS::Region}:${AWS::AccountId}:function:${CollectorStackName}-*
+
+            - Effect: Allow
+              Action:
+                - ecs:ListServices
+                - ecs:DescribeServices
+                - ecs:DescribeTaskDefinition
+              Resource: "*"
+
+            # 这个端点在公网上，令牌泄露的后果必须止于"别人能看你的告警"。
+            # Deny 优先于任何后加的 Allow，代码层面的只读装配之外再加一道
+            - Effect: Deny
+              Action:
+                - lambda:UpdateAlias
+                - lambda:UpdateFunctionCode
+                - lambda:UpdateFunctionConfiguration
+                - lambda:PublishVersion
+                - lambda:DeleteFunction
+                - lambda:InvokeFunction
+                - sqs:DeleteMessage
+                - sqs:SendMessage
+                - sqs:PurgeQueue
+                - sns:Publish
+                - ecs:UpdateService
+                - ecs:StopTask
+                - ecs:RegisterTaskDefinition
+                - rds:ModifyDBInstance
+                - rds:RebootDBInstance
+                - rds:DeleteDBInstance
+                - cloudformation:UpdateStack
+                - cloudformation:DeleteStack
+                - cloudwatch:DeleteAlarms
+                - cloudwatch:PutMetricAlarm
+                - cloudwatch:SetAlarmState
+                - elasticloadbalancing:ModifyRule
+                - route53:ChangeResourceRecordSets
+                - secretsmanager:GetSecretValue
+              Resource: "*"
+
   # incident 记录保留，不随栈删除而消失——事后复盘要靠它
   DiagnosisLogGroup:
     Type: AWS::Logs::LogGroup
@@ -199,3 +312,8 @@ Outputs:
     Description: 查 incident 记录的 Logs Insights 语句
     Value: >-
       fields @timestamp, @message | filter @message like "aiops_incident" | sort @timestamp desc
+
+  RemoteMcpUrl:
+    Condition: CreateRemoteMcp
+    Description: 远程只读 MCP 端点，配进其它电脑的 .mcp.json
+    Value: !GetAtt RemoteMcpFunctionUrl.FunctionUrl
