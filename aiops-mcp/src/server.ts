@@ -8,6 +8,7 @@ import { deploymentState } from "./tools/deploymentState.js";
 import { discardDlqMessages, redriveDlq } from "./tools/dlqControl.js";
 import { queueDepth } from "./tools/dlqDepth.js";
 import { listAlarms } from "./tools/listAlarms.js";
+import { getMetrics } from "./tools/metrics.js";
 import { listRestorePoints, restore } from "./tools/restoreTool.js";
 import { tailLogs } from "./tools/tailLogs.js";
 
@@ -134,7 +135,9 @@ export const createServer = (): McpServer => {
       title: "查看队列积压与消息样本",
       description:
         "查看死信队列或主队列的积压情况。sampleSize 大于 0 时会偷看几条消息内容，" +
-        "偷看使用零可见性超时，不会消费掉消息。死信队列里的消息体是判断故障类型的关键证据。",
+        "偷看使用零可见性超时，不会消费掉消息。死信队列里的消息体是判断故障类型的关键证据。" +
+        "想知道消息到底卡了多久，必须传 sampleSize > 0：CloudWatch 的可见时长指标会被" +
+        "每一次接收（包括诊断时的偷看）重置，只有消息自带的 SentTimestamp 是不变量。",
       inputSchema: {
         queue: z
           .enum(["dead-letter", "main"])
@@ -203,6 +206,30 @@ export const createServer = (): McpServer => {
     async ({ target, minutes, pattern, limit }) =>
       guard(async () => {
         const result = await tailLogs(target, minutes, pattern, limit);
+        return ok(result.summary, result);
+      }),
+  );
+
+  server.registerTool(
+    "get_metrics",
+    {
+      title: "查看关键指标与趋势",
+      description:
+        "取 Lambda、API Gateway、SQS、ECS 的关键指标，返回最新值、均值、峰值和趋势方向。" +
+        "告警只是越过阈值后的二值信号——错误率从 0.1% 涨到 1.9%（阈值 2%）时告警仍是绿的，" +
+        "但系统已经在恶化。想知道“是否正在变坏”而不只是“是否已经坏了”，用这个工具。",
+      inputSchema: {
+        scopes: z
+          .array(z.enum(["lambda", "api", "queue", "ecs"]))
+          .default(["lambda", "api", "queue"])
+          .describe("要查哪几类指标"),
+        minutes: z.number().int().min(5).max(1440).default(60).describe("回溯多少分钟"),
+      },
+      annotations: readOnly,
+    },
+    async ({ scopes, minutes }) =>
+      guard(async () => {
+        const result = await getMetrics(scopes, minutes);
         return ok(result.summary, result);
       }),
   );

@@ -1,6 +1,7 @@
 import { GetQueueAttributesCommand, ReceiveMessageCommand } from "@aws-sdk/client-sqs";
 import { sqs } from "../aws.js";
 import { topology } from "../config.js";
+import { queueOldestMessageAge } from "./metrics.js";
 
 export type PeekedMessage = Readonly<{
   messageId: string;
@@ -15,12 +16,29 @@ export type QueueDepthResult = Readonly<{
   queueUrl: string;
   visible: number;
   inFlight: number;
-  oldestMessageAgeSeconds: number | null;
+  /**
+   * CloudWatch 的 ApproximateAgeOfOldestMessage，度量的是消息**当前可见**的
+   * 时长，不是它在队列里待了多久。消息每次被接收后重新可见，这个数就重置——
+   * 包括被我们自己的偷看重置。取不到时为 null，不要当成 0。
+   */
+  visibleAgeSeconds: number | null;
+  /**
+   * 从样本消息的 SentTimestamp 算出的真实滞留时长。SentTimestamp 是不变量，
+   * 任何接收动作都不会改它，所以这个数才回答"这条消息卡了多久"。
+   * 需要 sampleSize > 0 才有值。
+   */
+  oldestEnqueuedAgeSeconds: number | null;
   sample: readonly PeekedMessage[];
   summary: string;
 }>;
 
 const toInt = (value?: string): number => (value ? Number.parseInt(value, 10) : 0);
+
+const humanAge = (seconds: number): string => {
+  if (seconds >= 3600) return `${Math.floor(seconds / 3600)} 小时`;
+  if (seconds >= 60) return `${Math.floor(seconds / 60)} 分钟`;
+  return `${seconds} 秒`;
+};
 
 /**
  * 看队列积压，并可选地偷看几条消息内容。
@@ -83,26 +101,38 @@ export const queueDepth = async (
     }
   }
 
-  const oldest = sample.reduce<number | null>((acc, message) => {
-    if (!message.sentAt) return acc;
+  const visibleAgeSeconds = visible > 0 ? await queueOldestMessageAge(queueUrl) : null;
+
+  // 从 SentTimestamp 推真实滞留时长。它和上面那个指标经常对不上，
+  // 而对不上本身就是信息：说明这条消息被反复接收过。
+  const oldestEnqueuedAgeSeconds = sample.reduce<number | null>((oldest, message) => {
+    if (!message.sentAt) return oldest;
     const age = Math.floor((Date.now() - Date.parse(message.sentAt)) / 1000);
-    return acc === null || age > acc ? age : acc;
+    return oldest === null || age > oldest ? age : oldest;
   }, null);
 
   const label = which === "dead-letter" ? "死信队列" : "主队列";
+  const ageNote =
+    oldestEnqueuedAgeSeconds !== null
+      ? `，最老一条已入队 ${humanAge(oldestEnqueuedAgeSeconds)}`
+      : visibleAgeSeconds !== null
+        ? `，最老一条已可见 ${humanAge(visibleAgeSeconds)}（这不等于它入队多久，取样本可得准确值）`
+        : "";
+
   const summary =
     visible === 0 && inFlight === 0
       ? `${label}是空的`
       : `${label}积压 ${visible} 条可见消息` +
         (inFlight > 0 ? `，另有 ${inFlight} 条处理中` : "") +
-        (oldest !== null ? `，样本中最老一条已滞留 ${Math.floor(oldest / 3600)} 小时` : "");
+        ageNote;
 
   return {
     queue: which,
     queueUrl,
     visible,
     inFlight,
-    oldestMessageAgeSeconds: oldest,
+    visibleAgeSeconds,
+    oldestEnqueuedAgeSeconds,
     sample: Object.freeze(sample),
     summary,
   };
