@@ -98,8 +98,9 @@ Lambda 侧额外提供 `GET /ready`：一次调用验证 `API Gateway → Lambda
 ## 验证
 
 ```bash
-./scripts/verify.sh            # 三个任务的实时证据，约 1 分钟
-./scripts/verify.sh --dlq      # 额外演示死信队列，约 15 分钟
+./scripts/verify.sh                  # 三个任务的实时证据，约 1 分钟
+./scripts/verify.sh --dlq            # 额外演示死信队列，约 15 分钟
+./scripts/synthetics-changeset.sh    # 巡检资源就绪证据，不改动生产栈
 ```
 
 脚本会依次证明：采集前 `/intro` 是 404（说明读的是持久化值，不是实时拼接）、`POST /users` 同步返回 201、介绍在两三秒后由异步链路补上并留下 Worker 日志、API Gateway 打的是 `live` 别名而非 `$LATEST`、两条回滚门禁告警的状态、以及 `/ready` 一次走通整条技术链路。
@@ -206,7 +207,7 @@ OIDC 角色信任策略的 `sub` 用 `StringEquals` 精确匹配本仓库——f
 - **重试边界**：Profile 不存在视为已处理（重试无意义），Go 不可达/5xx 才重试，坏事件进 DLQ。
 - **灰度靠别名加权路由自建**（`scripts/canary-release.sh`），因为本账号无 CodeDeploy 订阅。
 - **`/intro` 读持久化值而非实时拼接**：否则 Worker 全挂时读接口照样返回内容，巡检假绿。
-- **两处受账号限制**：无 CodeDeploy 订阅、Lambda 内存上限 512MB，所以灰度用别名加权路由脚本、Synthetics 开关默认关闭（配额申请中）。
+- **两处受账号限制**：无 CodeDeploy 订阅、Lambda 内存上限 512MB，所以灰度用别名加权路由脚本、Synthetics 开关默认关闭（配额申请中）。canary 建不出来不是配置问题——换区域、把 `MemoryInMB` 调到 512、换探测目标都试过，960 是 Synthetics API 的硬下限，而它底层就是一个建在你账号里的 Lambda。资源本身已就绪，`scripts/synthetics-changeset.sh` 让 CloudFormation 确认这一点。
 
 更多取舍见学习笔记的「已知妥协」（共 7 条）。
 
