@@ -122,10 +122,12 @@ cp aiops-mcp/deploy.env.example aiops-mcp/deploy.env   # 填凭证，此文件�
 | 用途 | 需要 | 备注 |
 |---|---|---|
 | 群通知 | 自定义机器人 webhook | 群设置 → 机器人 → 添加自定义机器人。**webhook 地址本身就是凭证** |
-| 工单 | 自建应用的 App ID / Secret | 应用需申请 `base:app:read`、`base:record:read`、`base:record:create` 并发布版本 |
+| 工单 | 自建应用的 App ID / Secret | 应用需申请 `base:app:read`、`base:record:create`、`base:record:retrieve` 并发布版本 |
 | 工单 | 多维表格的 app_token / table_id | 已用 lark-cli 建好，坐标写在 `deploy.env.example` 里 |
 
 工单表格与字段由 lark-cli 创建，应用也已加为编辑协作者。**但文档协作者权限和应用 scope 是两回事**——只加协作者、不申请 scope，bot 身份仍会被拒。
+
+另有一个容易踩的坑：`base:record:read` 和 `base:record:retrieve` 是两个不同的权限，名字很像，但查重用的 `/records/search` 接口只认后者。只开前者时，开单会在运行时报 `99991672`，而部署阶段一切正常。
 
 ## 状态
 
