@@ -1,0 +1,28 @@
+docs/学习笔记.md
+  s_2479eb5faa26cb::t_9c8840f7b0bcfa 1768-1769
+  s_2479eb5faa26cb::t_ecf7000352b7c3 1709-1744
+  s_2479eb5faa26cb::t_67c485d936fd95 1763
+docs/控制台导览.md
+  s_2479eb5faa26cb::t_6d98500a935f2d 52-53
+scripts/synthetics-changeset.sh
+  s_2479eb5faa26cb::t_d3de8c961fe6f3 1-71
+README.md
+  s_2479eb5faa26cb::t_4dc662f923568c 101-103
+  s_2479eb5faa26cb::t_e1e4455d703d0a 210
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.20",
+  "base_commit_sha": "042c5c8b13418916240c5ef82e67347111c00d00",
+  "prompts": {},
+  "sessions": {
+    "s_2479eb5faa26cb": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "ee524c5b-d067-4e37-b443-794e963b81a4",
+        "model": "claude-opus-5"
+      },
+      "human_author": "muluo <mengchao1027@gmail.com>"
+    }
+  }
+}
