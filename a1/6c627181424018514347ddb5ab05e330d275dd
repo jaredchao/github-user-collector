@@ -1,0 +1,20 @@
+backend/template.yaml
+  s_2479eb5faa26cb::t_a5f17457d6ffb9 447-459
+  s_2479eb5faa26cb::t_e22273c28b80d0 481-484
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.20",
+  "base_commit_sha": "a16c627181424018514347ddb5ab05e330d275dd",
+  "prompts": {},
+  "sessions": {
+    "s_2479eb5faa26cb": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "ee524c5b-d067-4e37-b443-794e963b81a4",
+        "model": "claude-opus-5"
+      },
+      "human_author": "muluo <mengchao1027@gmail.com>"
+    }
+  }
+}
