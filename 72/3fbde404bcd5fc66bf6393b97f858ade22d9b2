@@ -1,0 +1,35 @@
+aiops-mcp/src/tools/alarmTimeline.ts
+  s_a35dfb951786c3::t_00002faa452720 73-74,80-81,83-89
+  s_a35dfb951786c3::t_dbf6e3ad750c1b 17-18
+aiops-mcp/tests/paginate.test.ts
+  s_a35dfb951786c3::t_2834502d34369e 1-49
+aiops-mcp/src/paginate.ts
+  s_a35dfb951786c3::t_5516109f4b5c24 1-37
+aiops-mcp/tests/listAlarms.test.ts
+  s_a35dfb951786c3::t_aa5b6cadcf1738 75-115
+aiops-mcp/src/tools/deploymentState.ts
+  s_a35dfb951786c3::t_39f65bb959c9f7 8
+  s_a35dfb951786c3::t_06f7581dfc8dfb 74-92
+aiops-mcp/src/tools/listAlarms.ts
+  s_a35dfb951786c3::t_87e55614cb5000 4,9-10,25-26,36-41,50,55-74,76-86,88-91,99-101,107
+aiops-mcp/src/config.ts
+  s_a35dfb951786c3::t_ec5cb795d1c1a8 8
+  s_a35dfb951786c3::t_6767c6148e396e 63,67-68
+  s_a35dfb951786c3::t_6a0776dfd6f0c0 73-74,76-80
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.20",
+  "base_commit_sha": "723fbde404bcd5fc66bf6393b97f858ade22d9b2",
+  "prompts": {},
+  "sessions": {
+    "s_a35dfb951786c3": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "2cffedf4-d708-4d9a-bd89-26326d6dfb98",
+        "model": "claude-opus-5"
+      },
+      "human_author": "muluo <mengchao1027@gmail.com>"
+    }
+  }
+}
