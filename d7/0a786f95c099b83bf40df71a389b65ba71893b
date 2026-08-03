@@ -1,0 +1,21 @@
+README.md
+  s_a35dfb951786c3::t_73fcccdcdeac1b 56
+  s_a35dfb951786c3::t_d9d46dca13090d 105
+  s_a35dfb951786c3::t_be1391febd1b76 114-170
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.20",
+  "base_commit_sha": "d70a786f95c099b83bf40df71a389b65ba71893b",
+  "prompts": {},
+  "sessions": {
+    "s_a35dfb951786c3": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "2cffedf4-d708-4d9a-bd89-26326d6dfb98",
+        "model": "claude-opus-5"
+      },
+      "human_author": "muluo <mengchao1027@gmail.com>"
+    }
+  }
+}
