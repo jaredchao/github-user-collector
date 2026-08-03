@@ -4,6 +4,7 @@ import {
   ListStackResourcesCommand,
   type StackResourceSummary,
 } from "@aws-sdk/client-cloudformation";
+import { discoverGoServiceLogGroup } from "./ecsDiscovery.js";
 
 /**
  * 被运维系统的资源坐标。
@@ -22,7 +23,8 @@ export type Topology = Readonly<{
   deadLetterQueueUrl: string;
   alertsTopicArn: string;
   alarmNames: readonly string[];
-  logGroups: Readonly<{ collector: string; worker: string }>;
+  /** goService 可能为空——Go 服务不在本栈里，发现失败时优雅降级。 */
+  logGroups: Readonly<{ collector: string; worker: string; goService: string }>;
 }>;
 
 export const region = (): string =>
@@ -78,6 +80,15 @@ const discover = async (): Promise<Topology> => {
   const functionName = require_(outputs, "FunctionName");
   const workerFunctionName = physicalId("IntroductionWorkerFunction");
 
+  // Go 服务是独立于本栈的资源，发现不了不该让整个拓扑失败——
+  // 少一个日志组只是少一处取证，而拓扑拿不到就什么都做不了。
+  let goServiceLogGroup = "";
+  try {
+    goServiceLogGroup = await discoverGoServiceLogGroup(region());
+  } catch {
+    goServiceLogGroup = "";
+  }
+
   return Object.freeze({
     region: region(),
     stackName: name,
@@ -92,6 +103,7 @@ const discover = async (): Promise<Topology> => {
     logGroups: Object.freeze({
       collector: `/aws/lambda/${functionName}`,
       worker: workerFunctionName ? `/aws/lambda/${workerFunctionName}` : "",
+      goService: goServiceLogGroup,
     }),
   });
 };

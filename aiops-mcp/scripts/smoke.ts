@@ -40,6 +40,7 @@ const main = async () => {
   if (firing) await run(`alarm_timeline(${firing})`, () => alarmTimeline(firing, 168));
 
   await run("tail_logs(worker, 1440 分钟)", () => tailLogs("worker", 1440));
+  await run("tail_logs(go-service, 1440 分钟)", () => tailLogs("go-service", 1440));
 };
 
 main().catch((error: unknown) => {

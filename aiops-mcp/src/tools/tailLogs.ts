@@ -20,7 +20,12 @@ export type TailLogsResult = Readonly<{
   summary: string;
 }>;
 
-export type LogTarget = "collector" | "worker";
+export type LogTarget = "collector" | "worker" | "go-service";
+
+const logGroupFor = (
+  groups: Readonly<{ collector: string; worker: string; goService: string }>,
+  target: LogTarget,
+): string => (target === "go-service" ? groups.goService : groups[target]);
 
 const POLL_INTERVAL_MS = 1000;
 const MAX_POLLS = 30;
@@ -48,9 +53,13 @@ export const tailLogs = async (
   limit = 20,
 ): Promise<TailLogsResult> => {
   const topo = await topology();
-  const logGroup = topo.logGroups[target];
+  const logGroup = logGroupFor(topo.logGroups, target);
   if (!logGroup) {
-    throw new Error(`拓扑里没有 ${target} 的日志组——函数可能还没部署`);
+    throw new Error(
+      target === "go-service"
+        ? "没有发现 Go 服务的日志组——ECS 集群或服务不存在，或任务定义里没有配 awslogs"
+        : `拓扑里没有 ${target} 的日志组——函数可能还没部署`,
+    );
   }
 
   const endTime = Math.floor(Date.now() / 1000);

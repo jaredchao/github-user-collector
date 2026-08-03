@@ -185,9 +185,12 @@ export const createServer = (): McpServer => {
         "返回的是筛选后的少量记录而非日志转储，适合直接读。查询需要几秒。",
       inputSchema: {
         target: z
-          .enum(["collector", "worker"])
+          .enum(["collector", "worker", "go-service"])
           .default("worker")
-          .describe("查主函数还是异步 Worker 函数的日志"),
+          .describe(
+            "collector 是 API 主函数，worker 是异步介绍生成函数，" +
+              "go-service 是 ECS 上的 Go 前门——用户请求最先到达的地方",
+          ),
         minutes: z.number().int().min(1).max(1440).default(30).describe("回溯多少分钟"),
         pattern: z
           .string()
