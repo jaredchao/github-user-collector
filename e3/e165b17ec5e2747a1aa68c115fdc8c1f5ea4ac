@@ -1,0 +1,32 @@
+aiops-mcp/README.md
+  s_a35dfb951786c3::t_d37ee3f3271888 1-21,23-31,33,44,57,59,61,63-93,102,105
+  s_a35dfb951786c3::t_b2ebeb24a4e11c 22,32,34-43,45-56,58,60,62
+  s_a35dfb951786c3::t_8d901430e44ef9 94-101,103,106
+  s_a35dfb951786c3::t_e6aee2e26e45a4 104
+.mcp.json
+  s_a35dfb951786c3::t_4f4c028e15216f 1-12
+aiops-mcp/src/stdio.ts
+  s_a35dfb951786c3::t_4954abe654caf6 1-21
+aiops-mcp/src/server.ts
+  s_a35dfb951786c3::t_2415517e37bd30 10,12-49,60-223,358-359
+  s_a35dfb951786c3::t_4ff71beedfad31 4,8,11
+  s_a35dfb951786c3::t_928f0bdcd36efc 1-3,5-7,9
+  s_a35dfb951786c3::t_d568e238ac6fce 50-59
+  s_a35dfb951786c3::t_2176207044fcb2 224-357
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.20",
+  "base_commit_sha": "e3e165b17ec5e2747a1aa68c115fdc8c1f5ea4ac",
+  "prompts": {},
+  "sessions": {
+    "s_a35dfb951786c3": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "2cffedf4-d708-4d9a-bd89-26326d6dfb98",
+        "model": "claude-opus-5"
+      },
+      "human_author": "muluo <mengchao1027@gmail.com>"
+    }
+  }
+}
