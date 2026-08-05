@@ -1,0 +1,76 @@
+perf-sdk/tsconfig.build.json
+  s_ac1bc2962a5794::t_512204cdaaf58c 1-12
+perf-sdk/tests/config.test.ts
+  s_ac1bc2962a5794::t_8d76cea0cbfad2 1-38
+perf-sdk/src/config.ts
+  s_ac1bc2962a5794::t_fa9d867e9f537c 1-75
+perf-sdk/package.json
+  s_ac1bc2962a5794::t_cff8a6ca75f8fa 1-8,12,14-21,25-26
+  s_ac1bc2962a5794::t_3e7a83bf79421d 9-11,22-24
+  s_ac1bc2962a5794::t_4d7a59ce18add8 13
+perf-sdk/tests/diagnostics.test.ts
+  s_ac1bc2962a5794::t_905d48ce0560e8 1-116
+perf-sdk/tests/index.test.ts
+  s_ac1bc2962a5794::t_faac42f3db134d 2-13,19-22,34-52,58-61,105-106,123,127,134-152,159,171,173,177,181,185-205
+  s_ac1bc2962a5794::t_75dba6466ebb3c 1,14-18,23-33,53-57,62-104,107-122,124-126,128-133,153-158,160-170,172,174-176,178-180,182-184,206-207
+perf-sdk/src/types.ts
+  s_ac1bc2962a5794::t_b69388a34156f8 9-12
+  s_ac1bc2962a5794::t_40e8fdfa8d1fa8 1-8,13-49
+perf-sdk/src/index.ts
+  s_ac1bc2962a5794::t_ad7ee5cfa8967e 1-41,43-45,56-67,75-121
+  s_ac1bc2962a5794::t_d85bc48a953bef 68-74
+  s_ac1bc2962a5794::t_576ed45d9b81bb 42,46-55
+perf-sdk/tests/fake-observer.ts
+  s_ac1bc2962a5794::t_86567e5383143a 1-56
+perf-sdk/src/transport.ts
+  s_ac1bc2962a5794::t_d633ec39722af4 1-41
+perf-sdk/tests/queue.test.ts
+  s_ac1bc2962a5794::t_be86ed3c3d33be 1-100
+perf-sdk/vite.config.ts
+  s_ac1bc2962a5794::t_1d0bd45b2ca0bb 1-23
+perf-sdk/tests/rating.test.ts
+  s_ac1bc2962a5794::t_97833038863cbe 4-5,8-14,24-31
+  s_ac1bc2962a5794::t_f05ef6d1a8aaff 1-3,6-7,15-23,32-33
+perf-sdk/src/queue.ts
+  s_ac1bc2962a5794::t_a0468e6dcae965 1-2,4-47,49-66,70-95
+  s_ac1bc2962a5794::t_4a486b71c1f106 67-69
+  s_ac1bc2962a5794::t_392b80665f3c1a 48
+  s_ac1bc2962a5794::t_abace1a94f500a 3
+perf-sdk/tsconfig.json
+  s_ac1bc2962a5794::t_5849027d965c01 1-15
+perf-sdk/src/identity.ts
+  s_ac1bc2962a5794::t_511be24c34d78e 1-39
+perf-sdk/tests/vitals.test.ts
+  s_ac1bc2962a5794::t_3a3f4ee0bf7038 1-18,24,31,35-54,56-61,63-70,74,76,79,82-88,91,93-96,98-99,102-104,106,108,110,112-115,117-124,126-129,131-133,136-144,147-149,152,154-155,160-163,166-167,170-172
+  s_ac1bc2962a5794::t_17b0aa26edbf9a 19-23,25-30,32-34,55,62,71-73,75,77-78,80-81,89-90,92,97,100-101,105,107,109,111,116,125,130,134-135,145-146,150-151,153,156-159,164-165,168-169,173-174
+perf-sdk/tests/identity.test.ts
+  s_ac1bc2962a5794::t_d16de7033d20be 1-30
+perf-sdk/src/observe.ts
+  s_ac1bc2962a5794::t_9a32933461a018 1-23
+perf-sdk/src/diagnostics.ts
+  s_ac1bc2962a5794::t_15887d24a856f2 1-103
+perf-sdk/src/rating.ts
+  s_ac1bc2962a5794::t_67100a70f2d8ab 3-8
+  s_ac1bc2962a5794::t_d9fe8f638069fa 1-2,9-22
+perf-sdk/src/vitals.ts
+  s_ac1bc2962a5794::t_c6ca46583ca5fd 21-25,28-34,41,52-54,58-61,81-82,84-85,90-92,97
+  s_ac1bc2962a5794::t_2a603895f21b06 1-20,26-27,35-40,42-51,55-57,62-80,83,86-89,93-96
+perf-sdk/package-lock.json
+  s_ac1bc2962a5794::t_c58435980761b9 1-2404
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.20",
+  "base_commit_sha": "3b5ca50f4438349dee703cd176867747310b6ce7",
+  "prompts": {},
+  "sessions": {
+    "s_ac1bc2962a5794": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "1d211965-5d05-4a2a-a7b0-bb185f179e10",
+        "model": "claude-opus-5"
+      },
+      "human_author": "muluo <mengchao1027@gmail.com>"
+    }
+  }
+}
