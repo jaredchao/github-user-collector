@@ -1,0 +1,231 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: Perf log cleaner - ECS Fargate service polling CloudWatch Logs into RDS
+
+Parameters:
+  ImageUri:
+    Type: String
+    Description: ECR image built by scripts/perf-deploy.sh or the GitHub Actions workflow.
+
+  DatabaseUrl:
+    Type: String
+    NoEcho: true
+    Description: postgres://user:password@rds-endpoint:5432/github_users?sslmode=no-verify
+
+  ClusterName:
+    Type: String
+    Default: zuoye-cluster
+
+  VpcId:
+    Type: AWS::EC2::VPC::Id
+
+  SubnetIds:
+    Type: List<AWS::EC2::Subnet::Id>
+    Description: Private subnets. Same ones the Go service runs in, so RDS is reachable.
+
+  SecurityGroupId:
+    Type: AWS::EC2::SecurityGroup::Id
+    Description: Security group already allowed to reach RDS on 5432.
+
+  ExecutionRoleArn:
+    Type: String
+    Default: arn:aws:iam::089783390738:role/zuoye-ecs-execution-role
+    Description: Shared ECS execution role that pulls from ECR and writes container logs.
+
+  HttpsListenerArn:
+    Type: String
+    Description: ALB HTTPS listener the query API is published on.
+
+  LoadBalancerFullName:
+    Type: String
+    Description: >-
+      The load balancer's CloudWatch dimension value, e.g.
+      app/zuoye-alb/b7eef5ad5de97ea9. Passed in rather than derived: it is a
+      prefix of the load balancer ARN, and CloudFormation has no way to cut a
+      string down to it.
+
+  HostName:
+    Type: String
+    Default: perf.go-api.jccode.cc
+    Description: >-
+      Host header routed to this service. It sits under the existing
+      *.go-api.jccode.cc wildcard certificate, so no new ACM record is needed.
+
+  ListenerRulePriority:
+    Type: Number
+    Default: 200
+    Description: Kept above the per-PR rules, which use the PR number as their priority.
+
+  RawLogGroupName:
+    Type: String
+    Default: /perf/raw
+    Description: Log group written by perf-ingest and polled by this service.
+
+  AllowedOrigins:
+    Type: String
+    Default: ""
+    Description: Comma-separated origins allowed to read the query API. Empty means any origin.
+
+  DetailRetentionDays:
+    Type: Number
+    Default: 7
+    Description: How long per-event detail rows are kept. Rollups are never deleted.
+
+  PollIntervalSeconds:
+    Type: Number
+    Default: 30
+
+  DesiredCount:
+    Type: Number
+    Default: 1
+    Description: >-
+      One task. Two would poll the same log group concurrently and duplicate
+      the work — event_id makes that harmless but not free.
+
+Resources:
+  CleanerLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: /ecs/zuoye-perf-cleaner
+      RetentionInDays: 14
+
+  # Read-only against the raw telemetry, and only that one group. The cleaner
+  # never needs to write to CloudWatch Logs beyond its own container output,
+  # which the execution role already covers.
+  TaskRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: ecs-tasks.amazonaws.com
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: read-raw-perf-logs
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - logs:FilterLogEvents
+                  - logs:DescribeLogStreams
+                Resource: !Sub "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:${RawLogGroupName}:*"
+
+  TaskDefinition:
+    Type: AWS::ECS::TaskDefinition
+    Properties:
+      Family: zuoye-perf-cleaner
+      Cpu: "256"
+      Memory: "512"
+      NetworkMode: awsvpc
+      RequiresCompatibilities: [FARGATE]
+      RuntimePlatform:
+        CpuArchitecture: ARM64
+        OperatingSystemFamily: LINUX
+      ExecutionRoleArn: !Ref ExecutionRoleArn
+      TaskRoleArn: !GetAtt TaskRole.Arn
+      ContainerDefinitions:
+        - Name: perf-cleaner
+          Image: !Ref ImageUri
+          Essential: true
+          PortMappings:
+            - ContainerPort: 8080
+              Protocol: tcp
+          Environment:
+            - Name: PORT
+              Value: "8080"
+            - Name: PERF_LOG_GROUP
+              Value: !Ref RawLogGroupName
+            - Name: ALLOWED_ORIGINS
+              Value: !Ref AllowedOrigins
+            - Name: DETAIL_RETENTION_DAYS
+              Value: !Ref DetailRetentionDays
+            - Name: POLL_INTERVAL_SECONDS
+              Value: !Ref PollIntervalSeconds
+            - Name: DATABASE_URL
+              Value: !Ref DatabaseUrl
+          LogConfiguration:
+            LogDriver: awslogs
+            Options:
+              awslogs-group: !Ref CleanerLogGroup
+              awslogs-region: !Ref AWS::Region
+              awslogs-stream-prefix: ecs
+
+  TargetGroup:
+    Type: AWS::ElasticLoadBalancingV2::TargetGroup
+    Properties:
+      Name: zuoye-perf-tg
+      Protocol: HTTP
+      Port: 8080
+      VpcId: !Ref VpcId
+      TargetType: ip
+      HealthCheckPath: /health
+      HealthCheckIntervalSeconds: 15
+      HealthyThresholdCount: 2
+      UnhealthyThresholdCount: 3
+      TargetGroupAttributes:
+        - Key: deregistration_delay.timeout_seconds
+          Value: "15"
+
+  ListenerRule:
+    Type: AWS::ElasticLoadBalancingV2::ListenerRule
+    Properties:
+      ListenerArn: !Ref HttpsListenerArn
+      Priority: !Ref ListenerRulePriority
+      Conditions:
+        - Field: host-header
+          Values: [!Ref HostName]
+      Actions:
+        - Type: forward
+          TargetGroupArn: !Ref TargetGroup
+
+  Service:
+    Type: AWS::ECS::Service
+    # The service cannot register targets until the rule that routes to the
+    # group exists, and CloudFormation will not infer that ordering.
+    DependsOn: ListenerRule
+    Properties:
+      ServiceName: zuoye-perf-cleaner-service
+      Cluster: !Ref ClusterName
+      LaunchType: FARGATE
+      DesiredCount: !Ref DesiredCount
+      TaskDefinition: !Ref TaskDefinition
+      HealthCheckGracePeriodSeconds: 30
+      NetworkConfiguration:
+        AwsvpcConfiguration:
+          Subnets: !Ref SubnetIds
+          SecurityGroups: [!Ref SecurityGroupId]
+          AssignPublicIp: DISABLED
+      LoadBalancers:
+        - ContainerName: perf-cleaner
+          ContainerPort: 8080
+          TargetGroupArn: !Ref TargetGroup
+
+  # The pipeline failing silently looks exactly like "nobody visited the
+  # site": the dashboard just goes flat. This alarm is the difference.
+  NoTargetsAlarm:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmDescription: Perf cleaner has no healthy task
+      Namespace: AWS/ApplicationELB
+      MetricName: HealthyHostCount
+      Statistic: Minimum
+      Period: 300
+      EvaluationPeriods: 2
+      Threshold: 1
+      ComparisonOperator: LessThanThreshold
+      TreatMissingData: breaching
+      Dimensions:
+        - Name: TargetGroup
+          Value: !GetAtt TargetGroup.TargetGroupFullName
+        - Name: LoadBalancer
+          Value: !Ref LoadBalancerFullName
+
+Outputs:
+  QueryApiUrl:
+    Description: Base URL the dashboard reads from
+    Value: !Sub "https://${HostName}"
+
+  ServiceName:
+    Value: !GetAtt Service.Name
