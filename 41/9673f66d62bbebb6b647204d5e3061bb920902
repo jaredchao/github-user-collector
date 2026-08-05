@@ -1,0 +1,69 @@
+perf-dashboard/tsconfig.json
+  s_ac1bc2962a5794::t_01c64df35b1a42 13,15
+  s_ac1bc2962a5794::t_018f08bfe806d1 1-12,14,16
+perf-dashboard/package.json
+  s_ac1bc2962a5794::t_6db978bd5f400a 1-13,15,17-30
+  s_ac1bc2962a5794::t_0790cc545863f0 14,16
+perf-dashboard/src/test-setup.ts
+  s_ac1bc2962a5794::t_1fdc3025717f09 1
+perf-dashboard/src/App.test.tsx
+  s_ac1bc2962a5794::t_b570bcf294a93b 1-151
+perf-dashboard/src/components/PageBreakdown.tsx
+  s_ac1bc2962a5794::t_adaf40336ef8ce 1-47
+perf-dashboard/src/types.ts
+  s_ac1bc2962a5794::t_fc515ca9f6871b 1-56
+perf-dashboard/src/components/RatingBar.tsx
+  s_ac1bc2962a5794::t_480f6dc8a8c024 1-27
+perf-dashboard/.env.example
+  s_ac1bc2962a5794::t_7572519ff777a0 1-5
+  s_ac1bc2962a5794::t_5cd1aea0ba6be9 6-10
+perf-dashboard/src/main.tsx
+  s_ac1bc2962a5794::t_5f9ad9753ed981 1-3,5,8-16
+  s_ac1bc2962a5794::t_5d103485b3bd78 4,6-7
+perf-dashboard/src/styles.css
+  s_ac1bc2962a5794::t_bc02f6d466dd0e 1-413
+perf-dashboard/src/metrics.ts
+  s_ac1bc2962a5794::t_7b24acea77e7c3 1-60
+perf-dashboard/src/metrics.test.ts
+  s_ac1bc2962a5794::t_f7a601e53ca9ae 1-58
+perf-dashboard/src/telemetry.test.ts
+  s_ac1bc2962a5794::t_f793e29242c7d0 1-35
+perf-dashboard/src/App.tsx
+  s_ac1bc2962a5794::t_7fa39dba12db66 1-138
+perf-dashboard/src/components/Controls.tsx
+  s_ac1bc2962a5794::t_7fe102fef50ddf 1-73
+perf-dashboard/src/components/LineChart.tsx
+  s_ac1bc2962a5794::t_a5352e897f288e 1-223
+perf-dashboard/src/components/LineChart.test.tsx
+  s_ac1bc2962a5794::t_67001f005182fe 1-84
+perf-dashboard/src/telemetry.ts
+  s_ac1bc2962a5794::t_0cfecfde2302fd 1-21
+perf-dashboard/src/api.test.ts
+  s_ac1bc2962a5794::t_a546c6b8b29fd6 1-79
+perf-dashboard/vite.config.ts
+  s_ac1bc2962a5794::t_61d1d00690bb10 1-11
+perf-dashboard/src/components/SummaryCards.tsx
+  s_ac1bc2962a5794::t_59cdeb90c7171c 1-53
+perf-dashboard/index.html
+  s_ac1bc2962a5794::t_2586d0f54e7003 1-12
+perf-dashboard/src/api.ts
+  s_ac1bc2962a5794::t_93826ec3ca6c58 1-81
+perf-dashboard/package-lock.json
+  s_ac1bc2962a5794::t_bb054fcd2a08f9 1-3374
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.20",
+  "base_commit_sha": "419673f66d62bbebb6b647204d5e3061bb920902",
+  "prompts": {},
+  "sessions": {
+    "s_ac1bc2962a5794": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "1d211965-5d05-4a2a-a7b0-bb185f179e10",
+        "model": "claude-opus-5"
+      },
+      "human_author": "muluo <mengchao1027@gmail.com>"
+    }
+  }
+}
