@@ -1,0 +1,413 @@
+/* Google's own Web Vitals colours, so a green card here means the same thing
+   it means in Lighthouse and PageSpeed Insights. */
+:root {
+  --good: #0cce6b;
+  --needs-improvement: #ffa400;
+  --poor: #ff4e42;
+  --neutral: #7f8c9b;
+
+  --bg: #f6f7f9;
+  --surface: #ffffff;
+  --border: #e2e6eb;
+  --text: #16202c;
+  --text-muted: #5d6b7a;
+  --accent: #2f6feb;
+
+  color-scheme: light dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0f151c;
+    --surface: #171f28;
+    --border: #27333f;
+    --text: #e8edf2;
+    --text-muted: #9aa8b6;
+    --accent: #5b9cff;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: system-ui, -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.app {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 24px 20px 64px;
+}
+
+.app__header h1 {
+  margin: 0;
+  font-size: 22px;
+}
+
+.app__subtitle {
+  margin: 4px 0 20px;
+  color: var(--text-muted);
+  font-size: 13px;
+}
+
+/* --- controls ------------------------------------------------------------ */
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: flex-end;
+  padding: 14px 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+
+.controls__field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.controls select {
+  min-width: 170px;
+  max-width: 260px;
+  padding: 6px 8px;
+  background: var(--bg);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: 13px;
+}
+
+.controls__ranges {
+  display: flex;
+  gap: 4px;
+}
+
+.range,
+.controls__refresh {
+  padding: 6px 12px;
+  background: var(--bg);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.range--active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+.controls__refresh {
+  margin-left: auto;
+}
+
+.controls__refresh:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+/* --- sections ------------------------------------------------------------ */
+
+.section {
+  margin-top: 28px;
+}
+
+.section__title {
+  margin: 0 0 12px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.section__filter {
+  margin-left: 8px;
+  padding: 2px 8px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--text-muted);
+}
+
+.banner {
+  margin: 0 0 12px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+}
+
+.banner--error {
+  background: color-mix(in srgb, var(--poor) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--poor) 40%, transparent);
+}
+
+.banner--info {
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+}
+
+.empty {
+  padding: 28px;
+  text-align: center;
+  color: var(--text-muted);
+  background: var(--surface);
+  border: 1px dashed var(--border);
+  border-radius: 10px;
+}
+
+/* --- metric cards -------------------------------------------------------- */
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  width: 100%;
+  padding: 12px 14px;
+  text-align: left;
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border);
+  /* The rating shows as a left edge rather than a full tint: at a glance the
+     colour reads, and the numbers stay legible in both themes. */
+  border-left: 3px solid var(--neutral);
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.card--good { border-left-color: var(--good); }
+.card--needs-improvement { border-left-color: var(--needs-improvement); }
+.card--poor { border-left-color: var(--poor); }
+
+.card--selected {
+  outline: 2px solid var(--accent);
+  outline-offset: -1px;
+}
+
+.card__metric {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+}
+
+.card__label {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.card__value {
+  margin-top: 4px;
+  font-size: 22px;
+  font-weight: 600;
+  /* Tabular figures stop the number from jittering as it refreshes. */
+  font-variant-numeric: tabular-nums;
+}
+
+.card__sub {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.rating-bar {
+  display: flex;
+  height: 4px;
+  margin-top: 8px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: var(--border);
+}
+
+.rating-bar__segment--good { background: var(--good); }
+.rating-bar__segment--needs-improvement { background: var(--needs-improvement); }
+.rating-bar__segment--poor { background: var(--poor); }
+
+/* --- chart --------------------------------------------------------------- */
+
+.chart {
+  padding: 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+
+.chart--empty {
+  padding: 48px;
+  text-align: center;
+  color: var(--text-muted);
+}
+
+.chart__svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.chart__gridline {
+  stroke: var(--border);
+  stroke-width: 1;
+}
+
+.chart__threshold {
+  stroke-width: 1;
+  stroke-dasharray: 4 4;
+}
+
+.chart__threshold--good { stroke: var(--good); }
+.chart__threshold--poor { stroke: var(--poor); }
+
+.chart__threshold-label {
+  font-size: 10px;
+  fill: var(--text-muted);
+}
+
+.chart__axis-label {
+  font-size: 11px;
+  fill: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.chart__band {
+  fill: color-mix(in srgb, var(--accent) 16%, transparent);
+  stroke: none;
+}
+
+.chart__line {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 2;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+
+.chart__cursor {
+  stroke: var(--text-muted);
+  stroke-width: 1;
+  stroke-dasharray: 3 3;
+}
+
+.chart__dot {
+  fill: var(--accent);
+  stroke: var(--surface);
+  stroke-width: 2;
+}
+
+.chart__readout {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  align-items: center;
+  min-height: 24px;
+  padding-top: 6px;
+  font-size: 12px;
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.chart__value--good { color: var(--good); }
+.chart__value--needs-improvement { color: var(--needs-improvement); }
+.chart__value--poor { color: var(--poor); }
+
+.chart__hint {
+  font-style: normal;
+}
+
+/* --- page breakdown ------------------------------------------------------ */
+
+.breakdown {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.breakdown__row {
+  display: grid;
+  grid-template-columns: minmax(120px, 260px) 1fr auto auto;
+  gap: 12px;
+  align-items: center;
+  padding: 8px 14px;
+  border-bottom: 1px solid var(--border);
+}
+
+.breakdown__row:last-child {
+  border-bottom: none;
+}
+
+.breakdown__page {
+  overflow: hidden;
+  padding: 0;
+  background: none;
+  border: none;
+  color: var(--accent);
+  font: inherit;
+  text-align: left;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.breakdown__track {
+  height: 8px;
+  background: var(--bg);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.breakdown__bar {
+  height: 100%;
+  border-radius: 999px;
+  background: var(--neutral);
+}
+
+.breakdown__bar--good { background: var(--good); }
+.breakdown__bar--needs-improvement { background: var(--needs-improvement); }
+.breakdown__bar--poor { background: var(--poor); }
+
+.breakdown__value {
+  min-width: 72px;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.breakdown__samples {
+  min-width: 48px;
+  text-align: right;
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 640px) {
+  .breakdown__row {
+    grid-template-columns: 1fr auto;
+  }
+
+  .breakdown__track {
+    grid-column: 1 / -1;
+  }
+}
