@@ -1,0 +1,28 @@
+perf-cleaner/template.yaml
+  s_ac1bc2962a5794::t_ff1d801f11b2e7 195-206
+perf-cleaner/Dockerfile
+  s_ac1bc2962a5794::t_88d77ee48bb14f 2-13,16,22
+docs/性能监控.md
+  s_ac1bc2962a5794::t_704722a12b2e49 207-218
+  s_ac1bc2962a5794::t_f5d687ad12211e 158-168
+scripts/perf-deploy.sh
+  s_ac1bc2962a5794::t_b9fd22b12ecd0e 141-162
+  s_ac1bc2962a5794::t_d80ad66b2572c3 170
+  s_ac1bc2962a5794::t_414e9d79d10eab 180-194
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.20",
+  "base_commit_sha": "94e746a5e03c22c2cb0503bb7cff4897e0fe14f1",
+  "prompts": {},
+  "sessions": {
+    "s_ac1bc2962a5794": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "1d211965-5d05-4a2a-a7b0-bb185f179e10",
+        "model": "claude-opus-5"
+      },
+      "human_author": "muluo <mengchao1027@gmail.com>"
+    }
+  }
+}
