@@ -1,0 +1,132 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: Performance telemetry ingest - HTTP API to Lambda to CloudWatch Logs
+
+Parameters:
+  AllowedOrigins:
+    Type: String
+    Default: ""
+    Description: >-
+      Comma-separated browser origins allowed to post telemetry. Empty means
+      any origin, which is the usual choice for a write-only endpoint that
+      stores nothing readable back.
+
+  RawLogGroupName:
+    Type: String
+    Default: /perf/raw
+    Description: Log group the SDK payloads land in. The ECS cleaner polls this group.
+
+  RawRetentionDays:
+    Type: Number
+    Default: 7
+    Description: >-
+      How long raw samples stay queryable. The cleaner distils them into the
+      database within seconds, so this only has to cover replay after an
+      outage — not long-term storage.
+
+  IngestRateLimit:
+    Type: Number
+    Default: 20
+    Description: >-
+      Steady-state requests per second at the API. This account's Lambda
+      concurrency ceiling is 5, so the API — not the function — is where
+      excess load has to be turned away.
+
+  IngestBurstLimit:
+    Type: Number
+    Default: 40
+    Description: Burst allowance above the steady rate, for a page that flushes several batches at once.
+
+Globals:
+  Function:
+    Runtime: nodejs22.x
+    Architectures: [arm64]
+    # A batch is validated and handed to PutLogEvents; anything slower than
+    # this is a network problem the browser has already given up on.
+    Timeout: 10
+    # This account caps Lambda memory at 512 MB. The function needs far less.
+    MemorySize: 512
+
+Resources:
+  # Created here rather than implicitly by the first PutLogEvents so that
+  # retention is set from the start. An implicitly created group keeps logs
+  # forever, which for telemetry gets expensive quietly.
+  RawLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Ref RawLogGroupName
+      RetentionInDays: !Ref RawRetentionDays
+
+  IngestApi:
+    Type: AWS::Serverless::HttpApi
+    Properties:
+      StageName: $default
+      # CORS is answered by the function, not here: the allow-list logic is
+      # the same code path the tests exercise, and configuring it in both
+      # places would emit duplicate headers.
+      DefaultRouteSettings:
+        ThrottlingRateLimit: !Ref IngestRateLimit
+        ThrottlingBurstLimit: !Ref IngestBurstLimit
+
+  IngestFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: dist/
+      Handler: index.handler
+      Description: Validates SDK payloads and writes them to the raw log group
+      Environment:
+        Variables:
+          PERF_LOG_GROUP: !Ref RawLogGroupName
+          ALLOWED_ORIGINS: !Ref AllowedOrigins
+      Policies:
+        # Only the raw group, and only appending to it. The function can
+        # neither read telemetry back nor touch any other log group.
+        - Statement:
+            - Effect: Allow
+              Action:
+                - logs:CreateLogStream
+                - logs:PutLogEvents
+              Resource: !Sub "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:${RawLogGroupName}:*"
+      Events:
+        Collect:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref IngestApi
+            Path: /v1/collect
+            Method: POST
+        # sendBeacon with a text/plain body is a simple request and never
+        # preflights, but the fetch fallback on an oversized batch does.
+        Preflight:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref IngestApi
+            Path: /v1/collect
+            Method: OPTIONS
+
+  # Telemetry failing silently is the classic monitoring failure: the
+  # dashboard goes flat and looks like good news. This alarm fires when the
+  # ingest function starts erroring.
+  IngestErrorAlarm:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmDescription: Perf ingest function is failing
+      Namespace: AWS/Lambda
+      MetricName: Errors
+      Statistic: Sum
+      Period: 300
+      EvaluationPeriods: 1
+      Threshold: 5
+      ComparisonOperator: GreaterThanOrEqualToThreshold
+      TreatMissingData: notBreaching
+      Dimensions:
+        - Name: FunctionName
+          Value: !Ref IngestFunction
+
+Outputs:
+  IngestUrl:
+    Description: Endpoint the SDK posts to
+    Value: !Sub "https://${IngestApi}.execute-api.${AWS::Region}.amazonaws.com/v1/collect"
+
+  RawLogGroup:
+    Description: Log group the ECS cleaner polls
+    Value: !Ref RawLogGroupName
