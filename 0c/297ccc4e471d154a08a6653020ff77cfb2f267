@@ -1,0 +1,41 @@
+perf-ingest/tsconfig.json
+  s_ac1bc2962a5794::t_06f410f83f554c 1-15
+perf-ingest/package.json
+  s_ac1bc2962a5794::t_2ba5d857d5a188 1-21
+perf-ingest/src/logs.ts
+  s_ac1bc2962a5794::t_20a83e0e5fb026 1-98
+perf-ingest/template.yaml
+  s_ac1bc2962a5794::t_cff41a16f55def 1-132
+perf-ingest/src/handler.ts
+  s_ac1bc2962a5794::t_be8bda0d509738 1-84
+perf-ingest/tests/logs.test.ts
+  s_ac1bc2962a5794::t_7a8897d2f0d024 1-138
+perf-ingest/src/cors.ts
+  s_ac1bc2962a5794::t_f49e92d4c65039 1-26
+perf-ingest/src/validate.ts
+  s_ac1bc2962a5794::t_c13ba9d79ec9b0 1-140
+perf-ingest/tests/validate.test.ts
+  s_ac1bc2962a5794::t_3ccecb5c712b68 1-149
+perf-ingest/src/contract.ts
+  s_ac1bc2962a5794::t_095e115228bc8b 1-40
+perf-ingest/tests/handler.test.ts
+  s_ac1bc2962a5794::t_f362f473158b05 1-125
+perf-ingest/package-lock.json
+  s_ac1bc2962a5794::t_13aa562e75b0f7 1-2315
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.20",
+  "base_commit_sha": "0c297ccc4e471d154a08a6653020ff77cfb2f267",
+  "prompts": {},
+  "sessions": {
+    "s_ac1bc2962a5794": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "1d211965-5d05-4a2a-a7b0-bb185f179e10",
+        "model": "claude-opus-5"
+      },
+      "human_author": "muluo <mengchao1027@gmail.com>"
+    }
+  }
+}
