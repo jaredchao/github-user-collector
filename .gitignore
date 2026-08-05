@@ -11,6 +11,8 @@ samconfig.toml
 .env.local
 .env.aws
 .env.deploy
+# 部署脚本读的凭证文件，各组件目录下都可能有（含 DATABASE_URL 口令）
+deploy.env
 .cf-token
 .wrangler/
 frontend/.wrangler/

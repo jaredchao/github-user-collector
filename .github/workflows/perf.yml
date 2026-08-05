@@ -1,0 +1,198 @@
+name: Deploy performance monitoring
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "perf-sdk/**"
+      - "perf-ingest/**"
+      - "perf-cleaner/**"
+      - "perf-dashboard/**"
+      - "scripts/perf-deploy.sh"
+      - ".github/workflows/perf.yml"
+  pull_request:
+    paths:
+      - "perf-sdk/**"
+      - "perf-ingest/**"
+      - "perf-cleaner/**"
+      - "perf-dashboard/**"
+  # Manual entry point: a paths filter skips a push that changed nothing here,
+  # which is exactly when a redeploy after an infrastructure rebuild is needed.
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  test-node:
+    runs-on: ubuntu-latest
+    strategy:
+      # One red component should not hide the state of the other one.
+      fail-fast: false
+      matrix:
+        package: [perf-sdk, perf-ingest]
+    defaults:
+      run:
+        working-directory: ${{ matrix.package }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: ${{ matrix.package }}/package-lock.json
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm test
+      - run: npm run build
+
+  # Separate from the matrix because it depends on a sibling package: the
+  # dashboard installs the SDK with file:, and npm links that directory
+  # without building it, so dist/ has to exist first.
+  test-dashboard:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: perf-sdk/package-lock.json
+
+      - name: Build the SDK the dashboard links against
+        working-directory: perf-sdk
+        run: npm ci && npm run build
+
+      - name: Test the dashboard
+        working-directory: perf-dashboard
+        run: npm ci && npm run typecheck && npm test && npm run build
+
+  test-go:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: perf-cleaner
+    # The store package is tested against a real PostgreSQL: percentile_cont,
+    # ON CONFLICT and an aggregate HAVING with no GROUP BY are the whole point
+    # of that code, and a mocked driver would only prove the strings were
+    # passed through unchanged.
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: appuser
+          POSTGRES_PASSWORD: localdevpassword
+          POSTGRES_DB: github_users
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U appuser -d github_users"
+          --health-interval 3s
+          --health-timeout 3s
+          --health-retries 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.26"
+          cache-dependency-path: perf-cleaner/go.sum
+      - run: go vet -mod=vendor ./...
+      - run: go test -mod=vendor -race ./...
+        env:
+          TEST_DATABASE_URL: postgres://appuser:localdevpassword@localhost:5432/github_users
+      # Proves the vendored tree is complete, which is what the Docker build
+      # relies on — it never reaches the network.
+      - run: go build -mod=vendor ./...
+
+  deploy:
+    needs: [test-node, test-dashboard, test-go]
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    concurrency:
+      # ECS rejects a second deployment while one is rolling out.
+      group: perf-deploy
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.26"
+
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_DEPLOY_ROLE_ARN }}
+          aws-region: us-east-2
+
+      - uses: aws-actions/setup-sam@v2
+        with:
+          use-installer: true
+
+      # This account has no CodeBuild concurrency, so the ARM64 image is
+      # cross-built here under QEMU instead.
+      - uses: docker/setup-qemu-action@v3
+      - uses: docker/setup-buildx-action@v3
+
+      # The same script a developer runs locally; CI just supplies the
+      # settings that would otherwise come from perf-cleaner/deploy.env.
+      - name: Deploy the whole chain
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          SDK_ALLOWED_ORIGINS: https://zuoye-frontend.pages.dev
+          DASHBOARD_ORIGINS: https://zuoye-perf-dashboard.pages.dev
+          IMAGE_TAG: ${{ github.sha }}
+          # RDS is not publicly accessible and a GitHub runner has no route
+          # into the VPC, so migrations are applied by hand through the
+          # bastion tunnel. A schema change therefore has to be migrated
+          # before the deploy that depends on it — same as the collector.
+          SKIP_MIGRATION: "1"
+        run: ./scripts/perf-deploy.sh
+
+      - name: Smoke test the deployed chain
+        run: |
+          INGEST=$(aws cloudformation describe-stacks --stack-name zuoye-perf-ingest \
+            --region us-east-2 --query 'Stacks[0].Outputs[?OutputKey==`IngestUrl`].OutputValue' --output text)
+
+          # The cleaner is only healthy once it has reached the database.
+          test "$(curl -s -o /dev/null -w '%{http_code}' https://perf.go-api.jccode.cc/health)" = "200"
+
+          # A well-formed batch is accepted...
+          test "$(curl -s -o /dev/null -w '%{http_code}' -X POST "$INGEST" \
+            -H 'Content-Type: text/plain' \
+            -d "{\"v\":1,\"sdk\":\"ci\",\"site\":\"ci-smoke\",\"session\":\"$GITHUB_RUN_ID\",\"page\":\"/smoke\",\"ua\":\"ci\",\"conn\":\"unknown\",\"events\":[{\"id\":\"$GITHUB_RUN_ID-1\",\"name\":\"LCP\",\"value\":1234,\"rating\":\"good\",\"at\":$(date +%s000)}]}")" = "204"
+
+          # ...and a malformed one is refused rather than silently stored.
+          test "$(curl -s -o /dev/null -w '%{http_code}' -X POST "$INGEST" \
+            -H 'Content-Type: text/plain' -d '{"v":99}')" = "400"
+
+          # The cleaner polls on an interval, so give it one cycle to land.
+          for i in $(seq 1 8); do
+            SAMPLES=$(curl -s "https://perf.go-api.jccode.cc/api/summary?site=ci-smoke&range=1h" \
+              | grep -o '"samples":[0-9]*' | head -1 || true)
+            [ -n "$SAMPLES" ] && break
+            echo "  等待清洗服务消费 ($i/8)"
+            sleep 15
+          done
+          test -n "$SAMPLES" || { echo "清洗链路没有产出数据"; exit 1; }
+          echo "端到端链路正常: $SAMPLES"
+
+      # Creating the Pages project is idempotent in effect but not in wrangler:
+      # a second run fails because it already exists. continue-on-error makes
+      # the first deploy self-sufficient without a manual setup step.
+      - name: Ensure the Pages project exists
+        uses: cloudflare/wrangler-action@v3
+        continue-on-error: true
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages project create zuoye-perf-dashboard --production-branch=main
+
+      - name: Publish the dashboard
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy perf-dashboard/dist --project-name=zuoye-perf-dashboard --branch=main

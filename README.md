@@ -50,13 +50,17 @@ Lambda、Go 容器、RDS、跳板机均无公网 IP；RDS 的 5432 仅对 Lambda
 ## 仓库结构
 
 ```
-backend/     Hono API（Lambda），SAM 模板，数据库迁移
-go-service/  Go 个人介绍服务（ECS Fargate），vendor 依赖随仓库
-frontend/    Vite + React 单页应用
-aiops-mcp/   AI Ops Agent 的 MCP 服务器与自动诊断 Lambda
-scripts/     PR 环境的建立/拆除脚本（幂等）
-.github/     GitHub Actions 工作流
-docs/        学习笔记与设计文档
+backend/         Hono API（Lambda），SAM 模板，数据库迁移
+go-service/      Go 个人介绍服务（ECS Fargate），vendor 依赖随仓库
+frontend/        Vite + React 单页应用
+aiops-mcp/       AI Ops Agent 的 MCP 服务器与自动诊断 Lambda
+perf-sdk/        浏览器性能采集 SDK（Web Vitals 用官方库，gzip 约 6 KB）
+perf-ingest/     性能上报摄取 Lambda 与 API Gateway
+perf-cleaner/    日志清洗服务（ECS Fargate）与查询 API
+perf-dashboard/  性能看板（图表手写 SVG，无第三方图表库）
+scripts/         PR 环境与各栈的部署脚本（幂等）
+.github/         GitHub Actions 工作流
+docs/            学习笔记与设计文档
 ```
 
 ## 线上入口
@@ -200,6 +204,50 @@ aws lambda delete-function --function-name "$FN:$BAD"
 
 预期输出是告警在两分钟内触发、脚本自动把 100% 流量推回稳定版。
 
+## 前端性能监控
+
+浏览器采集 Web Vitals，经 CloudWatch Logs 落地，ECS 上的清洗服务加工进 PostgreSQL，独立看板呈现。完整设计见 [docs/性能监控.md](docs/性能监控.md)。
+
+```
+浏览器（perf-sdk）
+  │  LCP / INP / CLS / FCP / TTFB + 慢资源 + 长任务 + JS 错误
+  │  会话级采样 → 批量缓冲 → sendBeacon（页面卸载也不丢）
+  ▼
+API Gateway ──限流 20 rps──▶ 摄取 Lambda ──▶ CloudWatch Logs /perf/raw（7 天）
+                                                      │
+                                        每 30 秒 FilterLogEvents 增量拉取
+                                                      ▼
+                                  ECS Fargate 清洗服务（Go · 常驻）
+                                    去噪 / 过滤爬虫 / 按 event_id 去重
+                                    重算受影响分钟桶 → perf_rollup_1m
+                                                      │
+                              ALB perf.go-api.jccode.cc ──▶ 看板
+```
+
+三个值得一提的取舍：
+
+- **不用订阅过滤器**：那要接 Kinesis Data Stream，按分片小时计费（约 11 美元/月起），没人看板的时候也在烧。轮询零额外成本，代价是几十秒延迟。
+- **百分位从明细重算，不做合并**：百分位无法加权合并，误差恰好集中在最该看的慢尾上。超出明细保留期才退回合并聚合，此时接口返回 `approximate: true`，看板上明确标注是近似值。
+- **限流放在 API Gateway 而非函数里**：这个账号的 Lambda 并发上限是 5，过载必须挡在函数之前，否则只是把排队换个地方。
+
+部署：
+
+```bash
+cp perf-cleaner/deploy.env.example perf-cleaner/deploy.env   # 填 DATABASE_URL
+./scripts/perf-deploy.sh
+```
+
+页面接入：
+
+```html
+<script src="/perf-sdk.iife.js"></script>
+<script>
+  PerfSDK.init({ endpoint: "<摄取端点>", site: "zuoye-frontend" });
+</script>
+```
+
+看板自身也接了这个 SDK，采集的就是它自己的性能——链路任何一环断掉，展示数据的页面同时也是停止产出数据的页面。
+
 ## 本地开发
 
 前置：Node.js 22+、Go 1.26+、Docker。
@@ -221,27 +269,40 @@ cd ../frontend && npm install && npm run dev
 测试：
 
 ```bash
-cd backend    && npm test && npm run typecheck
-cd frontend   && npm test && npm run typecheck
-cd go-service && go test ./...
+cd backend        && npm test && npm run typecheck
+cd frontend       && npm test && npm run typecheck
+cd go-service     && go test ./...
+cd perf-sdk       && npm test && npm run typecheck
+cd perf-ingest    && npm test && npm run typecheck
+cd perf-dashboard && npm test && npm run typecheck   # 需先 cd perf-sdk && npm run build
+cd perf-cleaner   && go test ./...                   # store 包需 TEST_DATABASE_URL，否则跳过
 ```
 
 `db.test.ts` 连接 Docker 中的真实 PostgreSQL——`ON CONFLICT` 是数据库特有行为，mock 掉就失去了测试意义。
 
 ## CI/CD 与身份
 
-推送 `main` 按路径自动部署：`frontend/**` → Pages 发布；`backend/**` → SAM 部署 + 冒烟。PR 事件触发上述临时环境。
+推送 `main` 按路径自动部署：`frontend/**` → Pages 发布；`backend/**` → SAM 部署 + 冒烟；`perf-*/**` → 摄取栈 + ECS 清洗服务 + 看板，并做端到端冒烟（发一条合法上报应得 204，畸形的应得 400，再轮询查询 API 直到这条数据出现在聚合里）。PR 事件触发上述临时环境。
 
 全程 GitHub Actions OIDC 临时凭证，**仓库不持有任何 AWS 长期密钥**。四个 IAM 角色各司其职：
 
 | 角色 | 谁扮演 | 权限边界 |
 |------|--------|---------|
-| `zuoye-github-actions-deploy` | CI（main 与 PR） | SAM 栈的创建/删除 |
+| `zuoye-github-actions-deploy` | CI（main 与 PR） | SAM/CFN 栈的创建与删除；IAM 仅限 `zuoye-collector-*`、`zuoye-perf-*` 两个前缀，外加把 `zuoye-ecs-execution-role` 传给 ECS |
 | `zuoye-github-oidc-role` | CI（PR 编排） | pr-N 的 ECS/ALB/CloudMap/ECR 资源 |
 | `zuoye-go-task-role` | Go 容器运行时 | `DiscoverInstances` + `lambda:InvokeFunction` |
 | `zuoye-ecs-execution-role` | ECS 启动任务 | 拉镜像、写日志 |
 
 OIDC 角色信任策略的 `sub` 用 `StringEquals` 精确匹配本仓库——fork 的 PR 拿不到 secrets 也签不出 OIDC 令牌，部署类 job 对外来 PR 天然失效。
+
+部署角色挂的是 `PowerUserAccess`，而它**明确排除 IAM**，所以 IAM 那部分由内联策略 `iam-for-sam` 单独补，且按栈名前缀限定资源。新增一套需要自建角色的栈时，这条策略要跟着加前缀，否则 CI 会在创建角色那一步失败——性能监控那两个栈就是这么撞上的（`zuoye-perf-*` 与 ECS 执行角色的 `PassRole` 都是后补进去的）。用策略模拟器验证比读策略文本可靠：
+
+```bash
+aws iam simulate-principal-policy \
+  --policy-source-arn arn:aws:iam::089783390738:role/zuoye-github-actions-deploy \
+  --action-names iam:CreateRole iam:PassRole \
+  --resource-arns arn:aws:iam::089783390738:role/zuoye-perf-cleaner-TaskRole-X
+```
 
 镜像构建的预期路径是 CodeBuild（项目、buildspec、S3 源桶均已就绪），但新账号并发配额被锁 0、提额被拒，目前由 workflow 里的 buildx/QEMU 交叉构建顶替，`USE_CODEBUILD` 开关一词切回。
 
