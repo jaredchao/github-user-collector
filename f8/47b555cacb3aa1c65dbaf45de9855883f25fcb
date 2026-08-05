@@ -1,0 +1,1841 @@
+perf-cleaner/internal/api/api_test.go
+  s_ac1bc2962a5794::t_14156c80c8b5ef 1-257
+perf-cleaner/deploy.env.example
+  s_ac1bc2962a5794::t_eeec3df1f3ab37 1-4,20-32
+  s_ac1bc2962a5794::t_03809f73793817 5-19
+perf-cleaner/internal/api/api.go
+  s_ac1bc2962a5794::t_d206ed4ba56240 1-235
+perf-cleaner/template.yaml
+  s_ac1bc2962a5794::t_0dea81f7d998ed 38-45
+  s_ac1bc2962a5794::t_aaf1ea09109696 1-37,46-222,224-231
+  s_ac1bc2962a5794::t_b3887a264b0776 223
+perf-cleaner/internal/clean/record.go
+  s_ac1bc2962a5794::t_4fb4500d10359a 1-17,31-66
+  s_ac1bc2962a5794::t_af25f9df7276c8 18-30
+perf-cleaner/internal/clean/useragent.go
+  s_ac1bc2962a5794::t_3327b1d254e15b 1-67
+perf-cleaner/cmd/cleaner/main.go
+  s_ac1bc2962a5794::t_1f1185d4b0cc82 1-110
+perf-cleaner/internal/clean/clean.go
+  s_ac1bc2962a5794::t_51a6fd7423d147 127-132,134-142,144-150
+  s_ac1bc2962a5794::t_0994fe4d16be68 10
+  s_ac1bc2962a5794::t_d9132ae8b21740 153-186
+  s_ac1bc2962a5794::t_416e7b18f593ed 1-9,11-106,108-126,133,143,151-152,187-192
+  s_ac1bc2962a5794::t_a2912c75a50410 107
+perf-cleaner/internal/clean/useragent_test.go
+  s_ac1bc2962a5794::t_ec7ee3539c9c30 1-97
+perf-cleaner/internal/store/query.go
+  s_ac1bc2962a5794::t_0c619882648fd7 1-217
+perf-cleaner/internal/api/params_test.go
+  s_ac1bc2962a5794::t_e1c6d01e19b7fa 21
+  s_ac1bc2962a5794::t_e85ae9282a31ec 1-20,22-93,125-143
+  s_ac1bc2962a5794::t_56f653b7699831 94-124
+perf-cleaner/internal/poller/poller.go
+  s_ac1bc2962a5794::t_9c766c1c32e701 162-169
+  s_ac1bc2962a5794::t_33a656ff4b84af 197-198,203
+  s_ac1bc2962a5794::t_331e1d52570c5f 223-225,227,231
+  s_ac1bc2962a5794::t_74bfc24b6b6c32 1-161,170-196,199-202,204-222,226,228-230,232-258
+perf-cleaner/internal/clean/rating.go
+  s_ac1bc2962a5794::t_ad34f8ca818a0f 1-31
+perf-cleaner/internal/store/store_test.go
+  s_ac1bc2962a5794::t_9a97e26b15767e 5,148,440
+  s_ac1bc2962a5794::t_57717a4cf66c49 1-4,6-147,149-439,441-488
+perf-cleaner/internal/store/store.go
+  s_ac1bc2962a5794::t_c750eb3a136d7d 1-182
+perf-cleaner/internal/api/params.go
+  s_ac1bc2962a5794::t_b09012abf09942 75-95
+  s_ac1bc2962a5794::t_1f7fe476edb97e 1-6,9-15,17-39,41-74,96-132
+  s_ac1bc2962a5794::t_d3b89823e7ec05 16
+  s_ac1bc2962a5794::t_bf52ff4dc3d94d 40
+  s_ac1bc2962a5794::t_ae2b8142c7b59c 7-8
+perf-cleaner/go.mod
+  s_ac1bc2962a5794::t_8eaf01f7c9098c 1-31
+perf-cleaner/internal/clean/clean_test.go
+  s_ac1bc2962a5794::t_16b2bf442f292e 6,9
+  s_ac1bc2962a5794::t_cc0277561bc4cf 124-125,136-209
+  s_ac1bc2962a5794::t_8468f7d3b9df1e 1-5,7-8,10-123,126-135,210-279
+perf-cleaner/Dockerfile
+  s_ac1bc2962a5794::t_c1d1042d8f6dc5 1-22
+perf-cleaner/internal/poller/poller_test.go
+  s_ac1bc2962a5794::t_3728091a4d8db2 1-437
+backend/migrations/003_perf.sql
+  s_ac1bc2962a5794::t_933261c4de5356 1-78
+perf-cleaner/internal/poller/stats.go
+  s_ac1bc2962a5794::t_7cda14b9e1e991 1-89
+perf-cleaner/go.sum
+  s_ac1bc2962a5794::t_0bae55d1d6d313 1-58
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/LICENSE.txt
+  s_ac1bc2962a5794::t_ce628b223ecdc8 1-202
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/NOTICE.txt
+  s_ac1bc2962a5794::t_29ea92a2131c83 1-3
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/aws/accountid_endpoint_mode.go
+  s_ac1bc2962a5794::t_d1641264556ff4 1-18
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/aws/checksum.go
+  s_ac1bc2962a5794::t_fb4d00f776831d 1-33
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/aws/config.go
+  s_ac1bc2962a5794::t_c62e69884a9760 1-262
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/aws/context.go
+  s_ac1bc2962a5794::t_b180406224f620 1-22
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/aws/credential_cache.go
+  s_ac1bc2962a5794::t_50c00a07552348 1-235
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/aws/credentials.go
+  s_ac1bc2962a5794::t_c5c6cf624cae9c 1-234
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/aws/defaults/auto.go
+  s_ac1bc2962a5794::t_ab563c900a9e09 1-38
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/aws/defaults/configuration.go
+  s_ac1bc2962a5794::t_069e10e9aac2dc 1-43
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/aws/defaults/defaults.go
+  s_ac1bc2962a5794::t_e13acf9827c92f 1-50
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/aws/defaults/doc.go
+  s_ac1bc2962a5794::t_849c32845ab956 1-2
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/aws/defaultsmode.go
+  s_ac1bc2962a5794::t_8a3b683344e405 1-95
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/aws/doc.go
+  s_ac1bc2962a5794::t_52d7c7bf2f9266 1-62
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/aws/endpoints.go
+  s_ac1bc2962a5794::t_a7b76569edee8c 1-247
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/aws/errors.go
+  s_ac1bc2962a5794::t_c1aaf33963c768 1-9
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/aws/from_ptr.go
+  s_ac1bc2962a5794::t_b0cce00cbd272c 1-365
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/aws/go_module_metadata.go
+  s_ac1bc2962a5794::t_edc478223cd6ff 1-6
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/aws/logging.go
+  s_ac1bc2962a5794::t_7e1c7ca389fb94 1-119
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/aws/logging_generate.go
+  s_ac1bc2962a5794::t_d0cf2283656b4e 1-95
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/aws/middleware/metadata.go
+  s_ac1bc2962a5794::t_70d7ca9c7034c4 1-213
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/aws/middleware/middleware.go
+  s_ac1bc2962a5794::t_8745701b86b0d4 1-207
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/aws/middleware/osname.go
+  s_ac1bc2962a5794::t_1692a1313de3d9 1-24
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/aws/middleware/osname_go115.go
+  s_ac1bc2962a5794::t_9c3b10ec9cdfb8 1-24
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/aws/middleware/recursion_detection.go
+  s_ac1bc2962a5794::t_7b3161dbbd0548 1-94
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/aws/middleware/request_id.go
+  s_ac1bc2962a5794::t_5de01a9a2725f9 1-27
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/aws/middleware/request_id_retriever.go
+  s_ac1bc2962a5794::t_a0b78468ac7a48 1-57
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/aws/middleware/user_agent.go
+  s_ac1bc2962a5794::t_a40459994be9ca 1-398
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/aws/protocol/eventstream/CHANGELOG.md
+  s_ac1bc2962a5794::t_875033c202b728 1-215
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/aws/protocol/eventstream/LICENSE.txt
+  s_ac1bc2962a5794::t_4327f3e52b40fc 1-202
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/aws/protocol/eventstream/debug.go
+  s_ac1bc2962a5794::t_1e6b36f486f533 1-144
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/aws/protocol/eventstream/decode.go
+  s_ac1bc2962a5794::t_1208742645f0e9 1-218
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/aws/protocol/eventstream/encode.go
+  s_ac1bc2962a5794::t_1e0ce7d13dbb61 1-167
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/aws/protocol/eventstream/error.go
+  s_ac1bc2962a5794::t_1646e15537b8a6 1-23
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/aws/protocol/eventstream/eventstreamapi/headers.go
+  s_ac1bc2962a5794::t_9993fb4b4fc25b 1-24
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/aws/protocol/eventstream/eventstreamapi/middleware.go
+  s_ac1bc2962a5794::t_68241ed157adc5 1-71
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/aws/protocol/eventstream/eventstreamapi/transport.go
+  s_ac1bc2962a5794::t_e59d8ab5b3c06e 1-13
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/aws/protocol/eventstream/eventstreamapi/transport_go117.go
+  s_ac1bc2962a5794::t_dac25434001615 1-12
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/aws/protocol/eventstream/go_module_metadata.go
+  s_ac1bc2962a5794::t_4b617bde610547 1-6
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/aws/protocol/eventstream/header.go
+  s_ac1bc2962a5794::t_e3501f0f9e8ac2 1-175
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/aws/protocol/eventstream/header_value.go
+  s_ac1bc2962a5794::t_8a1780a58d2356 1-521
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/aws/protocol/eventstream/message.go
+  s_ac1bc2962a5794::t_739655c0d8105f 1-99
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/aws/protocol/query/array.go
+  s_ac1bc2962a5794::t_c7f6bd1f486f0f 1-61
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/aws/protocol/query/encoder.go
+  s_ac1bc2962a5794::t_807ebe03f9b98c 1-80
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/aws/protocol/query/map.go
+  s_ac1bc2962a5794::t_6347998f9cb6ab 1-78
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/aws/protocol/query/middleware.go
+  s_ac1bc2962a5794::t_6fe45878a0722a 1-62
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/aws/protocol/query/object.go
+  s_ac1bc2962a5794::t_52287396c0d43e 1-68
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/aws/protocol/query/value.go
+  s_ac1bc2962a5794::t_c1e8f8c6ac3bf4 1-117
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/aws/protocol/restjson/decoder_util.go
+  s_ac1bc2962a5794::t_655abacd6e4d8b 1-85
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/aws/protocol/xml/error_utils.go
+  s_ac1bc2962a5794::t_742bcd306568fa 1-48
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/aws/ratelimit/none.go
+  s_ac1bc2962a5794::t_d2cb7ed8173499 1-20
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/aws/ratelimit/token_bucket.go
+  s_ac1bc2962a5794::t_27de567e62151d 1-96
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/aws/ratelimit/token_rate_limit.go
+  s_ac1bc2962a5794::t_1f5d06af1e3b4d 1-83
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/aws/request.go
+  s_ac1bc2962a5794::t_a176e896151444 1-25
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/aws/restrict_file_permissions.go
+  s_ac1bc2962a5794::t_0f50143f8282b3 1-21
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/aws/retry/adaptive.go
+  s_ac1bc2962a5794::t_2752a99c461432 1-156
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/aws/retry/adaptive_ratelimit.go
+  s_ac1bc2962a5794::t_592487598e7891 1-158
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/aws/retry/adaptive_token_bucket.go
+  s_ac1bc2962a5794::t_e2ec7c575d93bf 1-83
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/aws/retry/attempt_metrics.go
+  s_ac1bc2962a5794::t_499023800c9963 1-51
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/aws/retry/doc.go
+  s_ac1bc2962a5794::t_a4ffe9ed6bb4db 1-80
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/aws/retry/errors.go
+  s_ac1bc2962a5794::t_81344a320c289d 1-20
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/aws/retry/jitter_backoff.go
+  s_ac1bc2962a5794::t_42bfb9a762f768 1-124
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/aws/retry/metadata.go
+  s_ac1bc2962a5794::t_474d029f3c969f 1-52
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/aws/retry/middleware.go
+  s_ac1bc2962a5794::t_55b41c048988af 1-525
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/aws/retry/retry.go
+  s_ac1bc2962a5794::t_f523575c7249b6 1-103
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/aws/retry/retryable_error.go
+  s_ac1bc2962a5794::t_89abe5fbb65c22 1-228
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/aws/retry/standard.go
+  s_ac1bc2962a5794::t_bd58f761bd12e4 1-343
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/aws/retry/throttle_error.go
+  s_ac1bc2962a5794::t_58ed54fd8b3619 1-60
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/aws/retry/timeout_error.go
+  s_ac1bc2962a5794::t_29d7c95eac76aa 1-52
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/aws/retryer.go
+  s_ac1bc2962a5794::t_1677bd921a05a2 1-127
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/aws/runtime.go
+  s_ac1bc2962a5794::t_ec16bb68acd281 1-14
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/aws/signer/internal/v4/cache.go
+  s_ac1bc2962a5794::t_7eba288a4c9378 1-115
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/aws/signer/internal/v4/const.go
+  s_ac1bc2962a5794::t_7b4defb4677c80 1-40
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/aws/signer/internal/v4/header_rules.go
+  s_ac1bc2962a5794::t_c02e2265b97297 1-82
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/aws/signer/internal/v4/headers.go
+  s_ac1bc2962a5794::t_9732981f6454aa 1-70
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/aws/signer/internal/v4/hmac.go
+  s_ac1bc2962a5794::t_296ed6b98b1a15 1-13
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/aws/signer/internal/v4/host.go
+  s_ac1bc2962a5794::t_73a318dbf38b5e 1-75
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/aws/signer/internal/v4/scope.go
+  s_ac1bc2962a5794::t_91aefcd4c09ba7 1-13
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/aws/signer/internal/v4/time.go
+  s_ac1bc2962a5794::t_b19fbcfbd3f03b 1-36
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/aws/signer/internal/v4/util.go
+  s_ac1bc2962a5794::t_cf59c1ec3c2f7b 1-80
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/aws/signer/v4/middleware.go
+  s_ac1bc2962a5794::t_5d254597bce920 1-420
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/aws/signer/v4/presign_middleware.go
+  s_ac1bc2962a5794::t_a90c59acb71e8c 1-127
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/aws/signer/v4/stream.go
+  s_ac1bc2962a5794::t_43dd9252f0eca6 1-86
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/aws/signer/v4/v4.go
+  s_ac1bc2962a5794::t_111593d9fbd8cf 1-564
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/aws/to_ptr.go
+  s_ac1bc2962a5794::t_4bba61e793dd3a 1-297
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/aws/transport/http/client.go
+  s_ac1bc2962a5794::t_d65b73f8d4dcb1 1-355
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/aws/transport/http/content_type.go
+  s_ac1bc2962a5794::t_e875396a898ea9 1-42
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/aws/transport/http/response_error.go
+  s_ac1bc2962a5794::t_bd9bc9f750f789 1-33
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/aws/transport/http/response_error_middleware.go
+  s_ac1bc2962a5794::t_4f0e317157516f 1-56
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/aws/transport/http/timeout_read_closer.go
+  s_ac1bc2962a5794::t_b35b497a789ca0 1-109
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/aws/types.go
+  s_ac1bc2962a5794::t_e06b63351c6edd 1-42
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/aws/version.go
+  s_ac1bc2962a5794::t_2f192e58802454 1-8
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/config/CHANGELOG.md
+  s_ac1bc2962a5794::t_7ce7221d9afef7 1-1114
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/config/LICENSE.txt
+  s_ac1bc2962a5794::t_5c6a03117b07d2 1-202
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/config/auth_scheme_preference.go
+  s_ac1bc2962a5794::t_dc3e8e63e44b85 1-19
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/config/config.go
+  s_ac1bc2962a5794::t_e8c51998c29177 1-237
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/config/defaultsmode.go
+  s_ac1bc2962a5794::t_514ee36ab99c3a 1-47
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/config/doc.go
+  s_ac1bc2962a5794::t_f5deb5018b98f2 1-20
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/config/env_config.go
+  s_ac1bc2962a5794::t_665093a117333c 1-966
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/config/generate.go
+  s_ac1bc2962a5794::t_967b47d9826f6f 1-4
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/config/go_module_metadata.go
+  s_ac1bc2962a5794::t_6755522082f46d 1-6
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/config/internal/ini/errors.go
+  s_ac1bc2962a5794::t_7973f339b8769e 1-22
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/config/internal/ini/ini.go
+  s_ac1bc2962a5794::t_97111ed546a4a0 1-56
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/config/internal/ini/parse.go
+  s_ac1bc2962a5794::t_529982d15f56af 1-109
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/config/internal/ini/sections.go
+  s_ac1bc2962a5794::t_ae0e59714d3064 1-157
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/config/internal/ini/strings.go
+  s_ac1bc2962a5794::t_fd15318457df01 1-89
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/config/internal/ini/token.go
+  s_ac1bc2962a5794::t_31183470f7d85e 1-32
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/config/internal/ini/tokenize.go
+  s_ac1bc2962a5794::t_5f1f0cbe9f1953 1-92
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/config/internal/ini/value.go
+  s_ac1bc2962a5794::t_50a03735806759 1-93
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/config/load_options.go
+  s_ac1bc2962a5794::t_f5370670fc4591 1-1371
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/config/local.go
+  s_ac1bc2962a5794::t_7556ddb74d7cdc 1-51
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/config/provider.go
+  s_ac1bc2962a5794::t_4c3ec9e4000b71 1-802
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/config/resolve.go
+  s_ac1bc2962a5794::t_4a49ce7078acae 1-458
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/config/resolve_bearer_token.go
+  s_ac1bc2962a5794::t_0d6a1b61a88ce5 1-122
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/config/resolve_credentials.go
+  s_ac1bc2962a5794::t_ec71e15b853a9f 1-650
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/config/shared_config.go
+  s_ac1bc2962a5794::t_0026292300a260 1-1704
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/credentials/CHANGELOG.md
+  s_ac1bc2962a5794::t_14afe4509b787a 1-1007
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/credentials/LICENSE.txt
+  s_ac1bc2962a5794::t_405d18b8724d52 1-202
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/credentials/doc.go
+  s_ac1bc2962a5794::t_803eb1445bd013 1-4
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/credentials/ec2rolecreds/doc.go
+  s_ac1bc2962a5794::t_083bdb63cf615a 1-58
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/credentials/ec2rolecreds/provider.go
+  s_ac1bc2962a5794::t_c90602eb3ae916 1-241
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/credentials/endpointcreds/internal/client/auth.go
+  s_ac1bc2962a5794::t_7bb81ef5cce427 1-48
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/credentials/endpointcreds/internal/client/client.go
+  s_ac1bc2962a5794::t_b0620b502eac4b 1-165
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/credentials/endpointcreds/internal/client/endpoints.go
+  s_ac1bc2962a5794::t_308da1abda65bd 1-20
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/credentials/endpointcreds/internal/client/middleware.go
+  s_ac1bc2962a5794::t_af54ddf2bf6e7a 1-164
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/credentials/endpointcreds/provider.go
+  s_ac1bc2962a5794::t_b400b77ad22f69 1-207
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/credentials/go_module_metadata.go
+  s_ac1bc2962a5794::t_1191eed81a36fb 1-6
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/credentials/logincreds/dpop.go
+  s_ac1bc2962a5794::t_6ca3adebfdd663 1-150
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/credentials/logincreds/file.go
+  s_ac1bc2962a5794::t_97193accd1bda6 1-14
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/credentials/logincreds/provider.go
+  s_ac1bc2962a5794::t_b99867029e91f5 1-184
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/credentials/logincreds/token.go
+  s_ac1bc2962a5794::t_f9f15fbd647d1d 1-110
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/credentials/processcreds/doc.go
+  s_ac1bc2962a5794::t_501deee187a0cb 1-92
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/credentials/processcreds/provider.go
+  s_ac1bc2962a5794::t_70be9e01bfb0cd 1-296
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/credentials/ssocreds/doc.go
+  s_ac1bc2962a5794::t_8ce420969c07de 1-81
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/credentials/ssocreds/sso_cached_token.go
+  s_ac1bc2962a5794::t_724022e2d14bc1 1-232
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/credentials/ssocreds/sso_credentials_provider.go
+  s_ac1bc2962a5794::t_c28db850138835 1-165
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/credentials/ssocreds/sso_token_provider.go
+  s_ac1bc2962a5794::t_9678203925dc9e 1-147
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/credentials/static_provider.go
+  s_ac1bc2962a5794::t_e639d1751ef863 1-63
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/credentials/stscreds/assume_role_provider.go
+  s_ac1bc2962a5794::t_6e81a3bd021018 1-338
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/credentials/stscreds/web_identity_provider.go
+  s_ac1bc2962a5794::t_a563f0c2dc08ce 1-181
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/feature/ec2/imds/CHANGELOG.md
+  s_ac1bc2962a5794::t_f9e44adf06e0f2 1-588
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/feature/ec2/imds/LICENSE.txt
+  s_ac1bc2962a5794::t_09cec14abfd4fe 1-202
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/feature/ec2/imds/api_client.go
+  s_ac1bc2962a5794::t_8cf21e774b8006 1-358
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/feature/ec2/imds/api_op_GetDynamicData.go
+  s_ac1bc2962a5794::t_9e4608c0407559 1-77
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/feature/ec2/imds/api_op_GetIAMInfo.go
+  s_ac1bc2962a5794::t_26a483d628bb9f 1-103
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/feature/ec2/imds/api_op_GetInstanceIdentityDocument.go
+  s_ac1bc2962a5794::t_e603ec20acde2c 1-110
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/feature/ec2/imds/api_op_GetMetadata.go
+  s_ac1bc2962a5794::t_13007eb9fb51ff 1-77
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/feature/ec2/imds/api_op_GetRegion.go
+  s_ac1bc2962a5794::t_20dd78d076d532 1-73
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/feature/ec2/imds/api_op_GetToken.go
+  s_ac1bc2962a5794::t_ae2da8be6c2a6e 1-119
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/feature/ec2/imds/api_op_GetUserData.go
+  s_ac1bc2962a5794::t_a48b95c27313f2 1-61
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/feature/ec2/imds/auth.go
+  s_ac1bc2962a5794::t_2c593ed3423489 1-48
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/feature/ec2/imds/doc.go
+  s_ac1bc2962a5794::t_c208f399954d53 1-12
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/feature/ec2/imds/endpoints.go
+  s_ac1bc2962a5794::t_8d91eafe20730c 1-20
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/feature/ec2/imds/go_module_metadata.go
+  s_ac1bc2962a5794::t_b640d08f949366 1-6
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/feature/ec2/imds/internal/config/resolvers.go
+  s_ac1bc2962a5794::t_8038d37a7a62d5 1-114
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/feature/ec2/imds/request_middleware.go
+  s_ac1bc2962a5794::t_0fc28d8008092d 1-313
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/feature/ec2/imds/token_provider.go
+  s_ac1bc2962a5794::t_07ce3bb1c94e35 1-261
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/internal/auth/auth.go
+  s_ac1bc2962a5794::t_57e27042293c12 1-45
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/internal/auth/scheme.go
+  s_ac1bc2962a5794::t_d0e87802742c99 1-191
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/internal/auth/smithy/bearer_token_adapter.go
+  s_ac1bc2962a5794::t_b4e5fad788b831 1-43
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/internal/auth/smithy/bearer_token_signer_adapter.go
+  s_ac1bc2962a5794::t_2302f493bf436a 1-35
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/internal/auth/smithy/credentials_adapter.go
+  s_ac1bc2962a5794::t_5310ad5884f8b2 1-46
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/internal/auth/smithy/smithy.go
+  s_ac1bc2962a5794::t_06a1d61ac2c705 1-2
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/internal/auth/smithy/v4signer_adapter.go
+  s_ac1bc2962a5794::t_4913d78641580f 1-57
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/internal/auth/smithy/v4signer_adapter_eventstream.go
+  s_ac1bc2962a5794::t_b5ab47c7858fb9 1-51
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/internal/configsources/CHANGELOG.md
+  s_ac1bc2962a5794::t_18cadb78cb2d4c 1-566
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/internal/configsources/LICENSE.txt
+  s_ac1bc2962a5794::t_203e2d6f034603 1-202
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/internal/configsources/config.go
+  s_ac1bc2962a5794::t_8196968591ca55 1-65
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/internal/configsources/endpoints.go
+  s_ac1bc2962a5794::t_4ee0f91397c43f 1-57
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/internal/configsources/go_module_metadata.go
+  s_ac1bc2962a5794::t_587836a1bb19f7 1-6
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/internal/context/context.go
+  s_ac1bc2962a5794::t_f639ac4618e528 1-65
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/internal/endpoints/awsrulesfn/arn.go
+  s_ac1bc2962a5794::t_ff2a57ee8cfe38 1-94
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/internal/endpoints/awsrulesfn/doc.go
+  s_ac1bc2962a5794::t_c3f0ad7c654beb 1-3
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/internal/endpoints/awsrulesfn/generate.go
+  s_ac1bc2962a5794::t_7e2a5b952b022d 1-7
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/internal/endpoints/awsrulesfn/host.go
+  s_ac1bc2962a5794::t_10a0fa0af8e276 1-51
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/internal/endpoints/awsrulesfn/partition.go
+  s_ac1bc2962a5794::t_0dabdc33fa3ba6 1-76
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/internal/endpoints/awsrulesfn/partitions.go
+  s_ac1bc2962a5794::t_87d5ce4880e4b1 1-496
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/internal/endpoints/awsrulesfn/partitions.json
+  s_ac1bc2962a5794::t_501bd5937d9f9e 1-267
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/internal/endpoints/endpoints.go
+  s_ac1bc2962a5794::t_88b90d9d34b37c 1-201
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/internal/endpoints/v2/CHANGELOG.md
+  s_ac1bc2962a5794::t_7168b6d0215005 1-541
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/internal/endpoints/v2/LICENSE.txt
+  s_ac1bc2962a5794::t_77b4f91c5e0a65 1-202
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/internal/endpoints/v2/endpoints.go
+  s_ac1bc2962a5794::t_ebf39b77c3fb10 1-302
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/internal/endpoints/v2/go_module_metadata.go
+  s_ac1bc2962a5794::t_d7bce98e3b4712 1-6
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/internal/rand/rand.go
+  s_ac1bc2962a5794::t_2b49173ee0293e 1-33
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/internal/sdk/interfaces.go
+  s_ac1bc2962a5794::t_ef0234ae884169 1-9
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/internal/sdk/time.go
+  s_ac1bc2962a5794::t_14aea948b218b0 1-74
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/internal/sdkio/byte.go
+  s_ac1bc2962a5794::t_3b5eff1dfbca28 1-12
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/internal/shareddefaults/shared_config.go
+  s_ac1bc2962a5794::t_da22b1a5984bfd 1-47
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/internal/strings/strings.go
+  s_ac1bc2962a5794::t_2542487e3d0a04 1-11
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/internal/sync/singleflight/LICENSE
+  s_ac1bc2962a5794::t_7190cf98870058 1-28
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/internal/sync/singleflight/docs.go
+  s_ac1bc2962a5794::t_5ea24677097653 1-7
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/internal/sync/singleflight/singleflight.go
+  s_ac1bc2962a5794::t_a2202a6c405d3a 1-210
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/internal/timeconv/duration.go
+  s_ac1bc2962a5794::t_c7a4b6f7ae4931 1-13
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/internal/v4a/CHANGELOG.md
+  s_ac1bc2962a5794::t_eaf13c4aecb51d 1-490
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/internal/v4a/LICENSE.txt
+  s_ac1bc2962a5794::t_a978c3db612a32 1-202
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/internal/v4a/credentials.go
+  s_ac1bc2962a5794::t_fc23073c6114ac 1-141
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/internal/v4a/error.go
+  s_ac1bc2962a5794::t_2c690a2c5a0f6f 1-17
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/internal/v4a/go_module_metadata.go
+  s_ac1bc2962a5794::t_83f2cc96a117eb 1-6
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/internal/v4a/internal/crypto/compare.go
+  s_ac1bc2962a5794::t_c3cf7208ab9baf 1-30
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/internal/v4a/internal/crypto/ecc.go
+  s_ac1bc2962a5794::t_9e1125edb7d1e1 1-113
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/internal/v4a/internal/v4/const.go
+  s_ac1bc2962a5794::t_19a9a0430e6bcf 1-36
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/internal/v4a/internal/v4/header_rules.go
+  s_ac1bc2962a5794::t_c6d574b8057e6c 1-82
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/internal/v4a/internal/v4/headers.go
+  s_ac1bc2962a5794::t_3223c00acf5680 1-68
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/internal/v4a/internal/v4/hmac.go
+  s_ac1bc2962a5794::t_a8169ecca25666 1-13
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/internal/v4a/internal/v4/host.go
+  s_ac1bc2962a5794::t_62618e031892f5 1-75
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/internal/v4a/internal/v4/time.go
+  s_ac1bc2962a5794::t_bb08d533a0955b 1-36
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/internal/v4a/internal/v4/util.go
+  s_ac1bc2962a5794::t_fd0932c447378c 1-64
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/internal/v4a/middleware.go
+  s_ac1bc2962a5794::t_1a1a26d881d172 1-118
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/internal/v4a/presign_middleware.go
+  s_ac1bc2962a5794::t_1819df98d6d494 1-117
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/internal/v4a/smithy.go
+  s_ac1bc2962a5794::t_44012db6d6a45b 1-92
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/internal/v4a/v4a.go
+  s_ac1bc2962a5794::t_e20ffaa18cc867 1-520
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/CHANGELOG.md
+  s_ac1bc2962a5794::t_5f6e2118abcf64 1-1032
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/LICENSE.txt
+  s_ac1bc2962a5794::t_cfbfe73064a618 1-202
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_client.go
+  s_ac1bc2962a5794::t_c607f8e4d95d70 1-1007
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_AssociateKmsKey.go
+  s_ac1bc2962a5794::t_8acda3de747fc1 1-188
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_AssociateSourceToS3TableIntegration.go
+  s_ac1bc2962a5794::t_1707e13b9bf404 1-115
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_CancelExportTask.go
+  s_ac1bc2962a5794::t_8e76e1a6a28f24 1-102
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_CancelImportTask.go
+  s_ac1bc2962a5794::t_cfaac61ec1e4a8 1-120
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_CreateDelivery.go
+  s_ac1bc2962a5794::t_e6c5ff90df1240 1-166
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_CreateExportTask.go
+  s_ac1bc2962a5794::t_369c5dd9e8857e 1-172
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_CreateImportTask.go
+  s_ac1bc2962a5794::t_691e0b9fcfa2e8 1-181
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_CreateLogAnomalyDetector.go
+  s_ac1bc2962a5794::t_e75bd2d0cdd683 1-177
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_CreateLogGroup.go
+  s_ac1bc2962a5794::t_18de71ea879c4e 1-181
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_CreateLogStream.go
+  s_ac1bc2962a5794::t_e1753a0c60e7a2 1-119
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_CreateLookupTable.go
+  s_ac1bc2962a5794::t_7514ae955f5901 1-143
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_CreateScheduledQuery.go
+  s_ac1bc2962a5794::t_7f49855a4d99ce 1-181
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_DeleteAccountPolicy.go
+  s_ac1bc2962a5794::t_0b2e9e7335fa9b 1-135
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_DeleteDataProtectionPolicy.go
+  s_ac1bc2962a5794::t_357e587bfc076d 1-105
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_DeleteDelivery.go
+  s_ac1bc2962a5794::t_1bd24f427da387 1-106
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_DeleteDeliveryDestination.go
+  s_ac1bc2962a5794::t_e258806b8649a3 1-111
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_DeleteDeliveryDestinationPolicy.go
+  s_ac1bc2962a5794::t_088f1309abf6a1 1-103
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_DeleteDeliverySource.go
+  s_ac1bc2962a5794::t_6dbe55ea289bf1 1-107
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_DeleteDestination.go
+  s_ac1bc2962a5794::t_61cc0b603420ad 1-102
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_DeleteIndexPolicy.go
+  s_ac1bc2962a5794::t_106f310e8c2517 1-120
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_DeleteIntegration.go
+  s_ac1bc2962a5794::t_76c70bcdd7dfae 1-114
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_DeleteLogAnomalyDetector.go
+  s_ac1bc2962a5794::t_fcfd6f85fceda0 1-103
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_DeleteLogGroup.go
+  s_ac1bc2962a5794::t_fabc15b51670d9 1-101
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_DeleteLogStream.go
+  s_ac1bc2962a5794::t_10ba21e89efdc2 1-106
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_DeleteLookupTable.go
+  s_ac1bc2962a5794::t_223ed138b8a8aa 1-103
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_DeleteMetricFilter.go
+  s_ac1bc2962a5794::t_4a20da437d82ab 1-105
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_DeleteQueryDefinition.go
+  s_ac1bc2962a5794::t_ee1f1ae59adb2f 1-114
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_DeleteResourcePolicy.go
+  s_ac1bc2962a5794::t_6ddfa4b2fe4f46 1-104
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_DeleteRetentionPolicy.go
+  s_ac1bc2962a5794::t_892b0563dbd98f 1-103
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_DeleteScheduledQuery.go
+  s_ac1bc2962a5794::t_bc1b87c3354810 1-101
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_DeleteSubscriptionFilter.go
+  s_ac1bc2962a5794::t_1594b0cd9debef 1-105
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_DeleteSyslogConfiguration.go
+  s_ac1bc2962a5794::t_6a52cebcbc6a5f 1-104
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_DeleteTransformer.go
+  s_ac1bc2962a5794::t_8c07f9e9d8533c 1-109
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_DescribeAccountPolicies.go
+  s_ac1bc2962a5794::t_7b7ca90c75eb23 1-143
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_DescribeConfigurationTemplates.go
+  s_ac1bc2962a5794::t_83a8f61c1dec63 1-226
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_DescribeDeliveries.go
+  s_ac1bc2962a5794::t_e5e625a7aaceb8 1-213
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_DescribeDeliveryDestinations.go
+  s_ac1bc2962a5794::t_587e85c41bb262 1-207
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_DescribeDeliverySources.go
+  s_ac1bc2962a5794::t_f9a9481ae80f88 1-205
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_DescribeDestinations.go
+  s_ac1bc2962a5794::t_b4bdae639b51b1 1-207
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_DescribeExportTasks.go
+  s_ac1bc2962a5794::t_be158b544f9b7f 1-117
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_DescribeFieldIndexes.go
+  s_ac1bc2962a5794::t_b38479f572225e 1-115
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_DescribeImportTaskBatches.go
+  s_ac1bc2962a5794::t_fdf35e0b0cc1d6 1-127
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_DescribeImportTasks.go
+  s_ac1bc2962a5794::t_218d04b13372fd 1-118
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_DescribeIndexPolicies.go
+  s_ac1bc2962a5794::t_272b417b659488 1-125
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_DescribeLogGroups.go
+  s_ac1bc2962a5794::t_0489ff107e8abd 1-285
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_DescribeLogStreams.go
+  s_ac1bc2962a5794::t_70ae905aba1362 1-254
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_DescribeLookupTables.go
+  s_ac1bc2962a5794::t_b5d8a96a22bb9b 1-116
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_DescribeMetricFilters.go
+  s_ac1bc2962a5794::t_f15fbfe4a71a41 1-223
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_DescribeQueries.go
+  s_ac1bc2962a5794::t_eabc0a2cac065d 1-124
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_DescribeQueryDefinitions.go
+  s_ac1bc2962a5794::t_36bce60dd2119c 1-121
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_DescribeResourcePolicies.go
+  s_ac1bc2962a5794::t_04eac70054c870 1-114
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_DescribeSubscriptionFilters.go
+  s_ac1bc2962a5794::t_6e4c3a37fadd33 1-219
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_DisassociateKmsKey.go
+  s_ac1bc2962a5794::t_a542b1e1611afb 1-145
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_DisassociateSourceFromS3TableIntegration.go
+  s_ac1bc2962a5794::t_71e9940940af57 1-106
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_FilterLogEvents.go
+  s_ac1bc2962a5794::t_ed2237f91e03a1 1-335
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_GetDataProtectionPolicy.go
+  s_ac1bc2962a5794::t_58656355d18ece 1-111
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_GetDelivery.go
+  s_ac1bc2962a5794::t_24e72a00c7789f 1-119
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_GetDeliveryDestination.go
+  s_ac1bc2962a5794::t_7cb5e1add140b6 1-105
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_GetDeliveryDestinationPolicy.go
+  s_ac1bc2962a5794::t_4babed93e47c8c 1-109
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_GetDeliverySource.go
+  s_ac1bc2962a5794::t_049238d6845934 1-105
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_GetIntegration.go
+  s_ac1bc2962a5794::t_72fa95845fef0f 1-122
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_GetLogAnomalyDetector.go
+  s_ac1bc2962a5794::t_a0580bfa09834b 1-145
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_GetLogEvents.go
+  s_ac1bc2962a5794::t_ee442453c0f6c6 1-292
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_GetLogFields.go
+  s_ac1bc2962a5794::t_9bb641e680c783 1-113
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_GetLogGroupFields.go
+  s_ac1bc2962a5794::t_9b9a7b79a19183 1-142
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_GetLogObject.go
+  s_ac1bc2962a5794::t_ae3acefa1cb150 1-267
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_GetLogRecord.go
+  s_ac1bc2962a5794::t_c44850e363897e 1-119
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_GetLookupTable.go
+  s_ac1bc2962a5794::t_c86640e27a7d37 1-123
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_GetQueryResults.go
+  s_ac1bc2962a5794::t_652d614c73650c 1-182
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_GetScheduledQuery.go
+  s_ac1bc2962a5794::t_428570d5ac95d3 1-165
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_GetScheduledQueryHistory.go
+  s_ac1bc2962a5794::t_8decacb1fd3be3 1-231
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_GetStorageTierPolicy.go
+  s_ac1bc2962a5794::t_7d63d77dfa61dc 1-100
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_GetTransformer.go
+  s_ac1bc2962a5794::t_bd8a9e591cc9a0 1-124
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_ListAggregateLogGroupSummaries.go
+  s_ac1bc2962a5794::t_226100b879ce87 1-268
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_ListAnomalies.go
+  s_ac1bc2962a5794::t_6247d8be9fcc99 1-212
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_ListIntegrations.go
+  s_ac1bc2962a5794::t_8a6f11c1235266 1-111
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_ListLogAnomalyDetectors.go
+  s_ac1bc2962a5794::t_6ba88944262294 1-209
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_ListLogGroups.go
+  s_ac1bc2962a5794::t_38a2c15e143893 1-179
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_ListLogGroupsForQuery.go
+  s_ac1bc2962a5794::t_983fef361bc341 1-219
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_ListScheduledQueries.go
+  s_ac1bc2962a5794::t_109bcd5b463433 1-211
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_ListSourcesForS3TableIntegration.go
+  s_ac1bc2962a5794::t_346f8165e952a1 1-216
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_ListSyslogConfigurations.go
+  s_ac1bc2962a5794::t_90617217d6a09f 1-114
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_ListTagsForResource.go
+  s_ac1bc2962a5794::t_0fab3fba174f19 1-115
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_ListTagsLogGroup.go
+  s_ac1bc2962a5794::t_60bc53aaea6e90 1-111
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_PutAccountPolicy.go
+  s_ac1bc2962a5794::t_501d2f865eabf2 1-619
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_PutBearerTokenAuthentication.go
+  s_ac1bc2962a5794::t_372293d9318a86 1-123
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_PutDataProtectionPolicy.go
+  s_ac1bc2962a5794::t_215d2b7689430e 1-177
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_PutDeliveryDestination.go
+  s_ac1bc2962a5794::t_b9a0e7932e5bf2 1-179
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_PutDeliveryDestinationPolicy.go
+  s_ac1bc2962a5794::t_9846f0cd45f7ca 1-138
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_PutDeliverySource.go
+  s_ac1bc2962a5794::t_2d9f182bee387b 1-257
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_PutDestination.go
+  s_ac1bc2962a5794::t_ddb666a42e5e79 1-140
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_PutDestinationPolicy.go
+  s_ac1bc2962a5794::t_a7bb8d488b3ef9 1-123
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_PutIndexPolicy.go
+  s_ac1bc2962a5794::t_5ac9e268e7909e 1-192
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_PutIntegration.go
+  s_ac1bc2962a5794::t_97ca39c240ca59 1-133
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_PutLogEvents.go
+  s_ac1bc2962a5794::t_a2cd588c534d02 1-184
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_PutLogGroupDeletionProtection.go
+  s_ac1bc2962a5794::t_3d409170374c07 1-123
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_PutMetricFilter.go
+  s_ac1bc2962a5794::t_ea3243b8a69832 1-169
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_PutQueryDefinition.go
+  s_ac1bc2962a5794::t_0be810f9250714 1-206
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_PutResourcePolicy.go
+  s_ac1bc2962a5794::t_1e8a208cb00516 1-155
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_PutRetentionPolicy.go
+  s_ac1bc2962a5794::t_7cdc3f1879b82b 1-131
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_PutStorageTierPolicy.go
+  s_ac1bc2962a5794::t_572cca40d4a1cc 1-113
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_PutSubscriptionFilter.go
+  s_ac1bc2962a5794::t_8822cbcf7b3fc9 1-210
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_PutSyslogConfiguration.go
+  s_ac1bc2962a5794::t_dca42bdf95804d 1-104
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_PutTransformer.go
+  s_ac1bc2962a5794::t_b78b7d0c602423 1-145
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_StartLiveTail.go
+  s_ac1bc2962a5794::t_e3dd772c1e70ba 1-331
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_StartQuery.go
+  s_ac1bc2962a5794::t_5aa60b93d08c48 1-219
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_StopQuery.go
+  s_ac1bc2962a5794::t_2f5331232833bf 1-111
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_TagLogGroup.go
+  s_ac1bc2962a5794::t_cadff33986bfb1 1-124
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_TagResource.go
+  s_ac1bc2962a5794::t_20dfe6d7a33b50 1-132
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_TestMetricFilter.go
+  s_ac1bc2962a5794::t_5fd6d3f89be4b8 1-115
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_TestTransformer.go
+  s_ac1bc2962a5794::t_bb80676815a48c 1-115
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_UntagLogGroup.go
+  s_ac1bc2962a5794::t_e1bfd799f3a60f 1-120
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_UntagResource.go
+  s_ac1bc2962a5794::t_a92459ed272455 1-115
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_UpdateAnomaly.go
+  s_ac1bc2962a5794::t_a430139cfc6729 1-143
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_UpdateDeliveryConfiguration.go
+  s_ac1bc2962a5794::t_4b50e93d833984 1-117
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_UpdateLogAnomalyDetector.go
+  s_ac1bc2962a5794::t_46d6f849150cd6 1-125
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_UpdateLookupTable.go
+  s_ac1bc2962a5794::t_67ac171898b464 1-134
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/api_op_UpdateScheduledQuery.go
+  s_ac1bc2962a5794::t_4a28e0316577c0 1-214
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/auth.go
+  s_ac1bc2962a5794::t_3be1ddab0a22db 1-355
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/deserializers.go
+  s_ac1bc2962a5794::t_6c427722742a8d 1-29917
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/doc.go
+  s_ac1bc2962a5794::t_e4de09261f3ac2 1-43
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/endpoints.go
+  s_ac1bc2962a5794::t_98028f2fccd182 1-576
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/eventstream.go
+  s_ac1bc2962a5794::t_9e5a5ceaa2e89f 1-627
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/generated.json
+  s_ac1bc2962a5794::t_c7425f4bc3bf02 1-155
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/go_module_metadata.go
+  s_ac1bc2962a5794::t_8b7f32ea6e4ad7 1-6
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/internal/endpoints/endpoints.go
+  s_ac1bc2962a5794::t_a77f41d2584fee 1-805
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/options.go
+  s_ac1bc2962a5794::t_03ea993d795d83 1-247
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/serializers.go
+  s_ac1bc2962a5794::t_2e1eed7ebe4b3d 1-11770
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/types/enums.go
+  s_ac1bc2962a5794::t_7e939ea118baf0 1-975
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/types/errors.go
+  s_ac1bc2962a5794::t_d93d4c8eb52718 1-583
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/types/types.go
+  s_ac1bc2962a5794::t_d8d16deb6dcfe5 1-3265
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs/validators.go
+  s_ac1bc2962a5794::t_2ac498735a8680 1-4776
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/internal/accept-encoding/CHANGELOG.md
+  s_ac1bc2962a5794::t_343bb0cf7f3885 1-224
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/internal/accept-encoding/LICENSE.txt
+  s_ac1bc2962a5794::t_33c6b987fce876 1-202
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/internal/accept-encoding/accept_encoding_gzip.go
+  s_ac1bc2962a5794::t_d353c32cbaf20d 1-176
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/internal/accept-encoding/doc.go
+  s_ac1bc2962a5794::t_0a64ea3eddaeae 1-22
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/internal/accept-encoding/go_module_metadata.go
+  s_ac1bc2962a5794::t_ba700d5e1d7340 1-6
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/internal/presigned-url/CHANGELOG.md
+  s_ac1bc2962a5794::t_a8bd18588e4b60 1-575
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/internal/presigned-url/LICENSE.txt
+  s_ac1bc2962a5794::t_46e88083cc2c8c 1-202
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/internal/presigned-url/context.go
+  s_ac1bc2962a5794::t_c048af20926fd6 1-56
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/internal/presigned-url/doc.go
+  s_ac1bc2962a5794::t_899bb10de13df0 1-3
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/internal/presigned-url/go_module_metadata.go
+  s_ac1bc2962a5794::t_09786774823e30 1-6
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/internal/presigned-url/middleware.go
+  s_ac1bc2962a5794::t_18258436ec9e01 1-110
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/signin/CHANGELOG.md
+  s_ac1bc2962a5794::t_45bd7d8a1e1989 1-102
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/signin/LICENSE.txt
+  s_ac1bc2962a5794::t_4a4b4d1d5a5673 1-202
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/signin/api_client.go
+  s_ac1bc2962a5794::t_6aa1c53e25072c 1-1000
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/signin/api_op_CreateOAuth2Token.go
+  s_ac1bc2962a5794::t_6b57e75503339e 1-163
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/signin/api_op_CreateOAuth2TokenWithIAM.go
+  s_ac1bc2962a5794::t_435fe611870b76 1-134
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/signin/api_op_DeleteConsoleAuthorizationConfiguration.go
+  s_ac1bc2962a5794::t_79fa5e78c5f1a3 1-119
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/signin/api_op_DeleteResourcePermissionStatement.go
+  s_ac1bc2962a5794::t_7258f642f12dcc 1-148
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/signin/api_op_GetConsoleAuthorizationConfiguration.go
+  s_ac1bc2962a5794::t_ead2c92ad9e7de 1-119
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/signin/api_op_GetResourcePolicy.go
+  s_ac1bc2962a5794::t_467ea2b52e0a48 1-106
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/signin/api_op_IntrospectOAuth2TokenWithIAM.go
+  s_ac1bc2962a5794::t_b7819e3b3d7463 1-184
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/signin/api_op_ListResourcePermissionStatements.go
+  s_ac1bc2962a5794::t_c53472d5d82d94 1-213
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/signin/api_op_PutConsoleAuthorizationConfiguration.go
+  s_ac1bc2962a5794::t_8a532e167c8ebc 1-119
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/signin/api_op_PutResourcePermissionStatement.go
+  s_ac1bc2962a5794::t_3baf7fd00e58b0 1-168
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/signin/api_op_RevokeOAuth2TokenWithIAM.go
+  s_ac1bc2962a5794::t_d772f23775ef2f 1-122
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/signin/auth.go
+  s_ac1bc2962a5794::t_6c08148f0832d8 1-361
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/signin/deserializers.go
+  s_ac1bc2962a5794::t_267e03dc8ed099 1-3052
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/signin/doc.go
+  s_ac1bc2962a5794::t_7178853ab1f911 1-9
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/signin/endpoints.go
+  s_ac1bc2962a5794::t_44abccf76273fa 1-902
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/signin/generated.json
+  s_ac1bc2962a5794::t_a10c22b99ae074 1-44
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/signin/go_module_metadata.go
+  s_ac1bc2962a5794::t_66e2d250f3f696 1-6
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/signin/internal/endpoints/endpoints.go
+  s_ac1bc2962a5794::t_2dde7d8565cae7 1-333
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/signin/options.go
+  s_ac1bc2962a5794::t_082e05ddc3d282 1-242
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/signin/serializers.go
+  s_ac1bc2962a5794::t_ce6048c7ccbbc6 1-977
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/signin/types/enums.go
+  s_ac1bc2962a5794::t_d2b441d234bc61 1-46
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/signin/types/errors.go
+  s_ac1bc2962a5794::t_ca539ab4af7863 1-247
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/signin/types/types.go
+  s_ac1bc2962a5794::t_53e48717abe55b 1-160
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/signin/validators.go
+  s_ac1bc2962a5794::t_257ec3f31cbcea 1-231
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/sso/CHANGELOG.md
+  s_ac1bc2962a5794::t_f5aa64372543b9 1-805
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/sso/LICENSE.txt
+  s_ac1bc2962a5794::t_adc24c487e7a7c 1-202
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/sso/api_client.go
+  s_ac1bc2962a5794::t_7ebc0b3b0dd3f3 1-984
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/sso/api_op_GetRoleCredentials.go
+  s_ac1bc2962a5794::t_f52f6c82a91086 1-116
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/sso/api_op_ListAccountRoles.go
+  s_ac1bc2962a5794::t_8eae16d9f1c866 1-215
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/sso/api_op_ListAccounts.go
+  s_ac1bc2962a5794::t_21f6cfe3526b2d 1-213
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/sso/api_op_Logout.go
+  s_ac1bc2962a5794::t_c2282a45b08d9a 1-115
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/sso/auth.go
+  s_ac1bc2962a5794::t_f2c9786d21ff6c 1-379
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/sso/deserializers.go
+  s_ac1bc2962a5794::t_0225babc3c24be 1-1171
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/sso/doc.go
+  s_ac1bc2962a5794::t_68b1c40e330fc5 1-27
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/sso/endpoints.go
+  s_ac1bc2962a5794::t_7600ba15523838 1-570
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/sso/generated.json
+  s_ac1bc2962a5794::t_b19c77fe74116d 1-36
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/sso/go_module_metadata.go
+  s_ac1bc2962a5794::t_3238b9c037020b 1-6
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/sso/internal/endpoints/endpoints.go
+  s_ac1bc2962a5794::t_7487e2e8ded045 1-628
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/sso/options.go
+  s_ac1bc2962a5794::t_ef211aef8452be 1-238
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/sso/serializers.go
+  s_ac1bc2962a5794::t_e8e181b9e6e755 1-309
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/sso/types/errors.go
+  s_ac1bc2962a5794::t_7cbe62c7c0e813 1-115
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/sso/types/types.go
+  s_ac1bc2962a5794::t_cdb6d619ce4c33 1-63
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/sso/validators.go
+  s_ac1bc2962a5794::t_22a70dfd7f1ddf 1-175
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/ssooidc/CHANGELOG.md
+  s_ac1bc2962a5794::t_747b272908cdb1 1-803
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/ssooidc/LICENSE.txt
+  s_ac1bc2962a5794::t_a6d99d334a0a53 1-202
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/ssooidc/api_client.go
+  s_ac1bc2962a5794::t_8837c099b49ae9 1-984
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/ssooidc/api_op_CreateToken.go
+  s_ac1bc2962a5794::t_730253c840fa02 1-186
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/ssooidc/api_op_CreateTokenWithIAM.go
+  s_ac1bc2962a5794::t_5a383cc5ca2160 1-233
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/ssooidc/api_op_RegisterClient.go
+  s_ac1bc2962a5794::t_7b521f67ee6e74 1-157
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/ssooidc/api_op_StartDeviceAuthorization.go
+  s_ac1bc2962a5794::t_c1ae49d601b6da 1-139
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/ssooidc/auth.go
+  s_ac1bc2962a5794::t_e5e3084072b3e4 1-373
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/ssooidc/deserializers.go
+  s_ac1bc2962a5794::t_676e5c1a09a832 1-2244
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/ssooidc/doc.go
+  s_ac1bc2962a5794::t_b4ddc938cf4818 1-49
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/ssooidc/endpoints.go
+  s_ac1bc2962a5794::t_e1e5980147fae7 1-570
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/ssooidc/generated.json
+  s_ac1bc2962a5794::t_55084104461016 1-37
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/ssooidc/go_module_metadata.go
+  s_ac1bc2962a5794::t_bc042559ee2c93 1-6
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/ssooidc/internal/endpoints/endpoints.go
+  s_ac1bc2962a5794::t_662e63ef686246 1-628
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/ssooidc/options.go
+  s_ac1bc2962a5794::t_23b71744aa1e9a 1-238
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/ssooidc/serializers.go
+  s_ac1bc2962a5794::t_2c74f0d602d6f3 1-512
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/ssooidc/types/enums.go
+  s_ac1bc2962a5794::t_41ef32b635b556 1-44
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/ssooidc/types/errors.go
+  s_ac1bc2962a5794::t_9fd4acab1c06d4 1-430
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/ssooidc/types/types.go
+  s_ac1bc2962a5794::t_355872ffe437a7 1-25
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/ssooidc/validators.go
+  s_ac1bc2962a5794::t_3a5e4a7db7fa29 1-184
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/sts/CHANGELOG.md
+  s_ac1bc2962a5794::t_9b4398f5331344 1-845
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/sts/LICENSE.txt
+  s_ac1bc2962a5794::t_325035d3d92fe7 1-202
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/sts/api_client.go
+  s_ac1bc2962a5794::t_032a00af335d92 1-1170
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/sts/api_op_AssumeRole.go
+  s_ac1bc2962a5794::t_2e86190431b4a0 1-495
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/sts/api_op_AssumeRoleWithSAML.go
+  s_ac1bc2962a5794::t_767fa1f9606b4f 1-406
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/sts/api_op_AssumeRoleWithWebIdentity.go
+  s_ac1bc2962a5794::t_fc5c2db8c54b27 1-423
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/sts/api_op_AssumeRoot.go
+  s_ac1bc2962a5794::t_535cb263b0adfc 1-180
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/sts/api_op_DecodeAuthorizationMessage.go
+  s_ac1bc2962a5794::t_6f81d525f7ab7d 1-140
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/sts/api_op_GetAccessKeyInfo.go
+  s_ac1bc2962a5794::t_b01b01eb15515a 1-131
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/sts/api_op_GetCallerIdentity.go
+  s_ac1bc2962a5794::t_63abe877ef494a 1-143
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/sts/api_op_GetDelegatedAccessToken.go
+  s_ac1bc2962a5794::t_bf54e2e3f6003e 1-120
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/sts/api_op_GetFederationToken.go
+  s_ac1bc2962a5794::t_90f90316f61489 1-344
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/sts/api_op_GetSessionToken.go
+  s_ac1bc2962a5794::t_76d6dee51eb66a 1-190
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/sts/api_op_GetWebIdentityToken.go
+  s_ac1bc2962a5794::t_e4c8617dbefe89 1-143
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/sts/auth.go
+  s_ac1bc2962a5794::t_c221381e950de2 1-377
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/sts/deserializers.go
+  s_ac1bc2962a5794::t_6777d4df65dd4f 1-3456
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/sts/doc.go
+  s_ac1bc2962a5794::t_11fca8a256d53e 1-13
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/sts/endpoints.go
+  s_ac1bc2962a5794::t_e0289b32d2f77d 1-683
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/sts/generated.json
+  s_ac1bc2962a5794::t_453cdfb803b1ec 1-46
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/sts/go_module_metadata.go
+  s_ac1bc2962a5794::t_0ce92520001796 1-6
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/sts/internal/endpoints/endpoints.go
+  s_ac1bc2962a5794::t_037cea303b96df 1-585
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/sts/options.go
+  s_ac1bc2962a5794::t_49dbb884053a9b 1-286
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/sts/serializers.go
+  s_ac1bc2962a5794::t_34e229e3c0a52f 1-1198
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/sts/types/errors.go
+  s_ac1bc2962a5794::t_497963e194e1c9 1-363
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/sts/types/types.go
+  s_ac1bc2962a5794::t_972807fbbda646 1-144
+perf-cleaner/vendor/github.com/aws/aws-sdk-go-v2/service/sts/validators.go
+  s_ac1bc2962a5794::t_df45e571cabc69 1-433
+perf-cleaner/vendor/github.com/aws/smithy-go/.gitignore
+  s_ac1bc2962a5794::t_2a54b329e7cdb6 1-29
+perf-cleaner/vendor/github.com/aws/smithy-go/.travis.yml
+  s_ac1bc2962a5794::t_0d25885b8cff05 1-28
+perf-cleaner/vendor/github.com/aws/smithy-go/AGENTS.md
+  s_ac1bc2962a5794::t_81d69b393bddd4 1-173
+perf-cleaner/vendor/github.com/aws/smithy-go/CHANGELOG.md
+  s_ac1bc2962a5794::t_80b32ede108b5a 1-484
+perf-cleaner/vendor/github.com/aws/smithy-go/CODE_OF_CONDUCT.md
+  s_ac1bc2962a5794::t_f739e6be98263c 1-4
+perf-cleaner/vendor/github.com/aws/smithy-go/CONTRIBUTING.md
+  s_ac1bc2962a5794::t_361b9ff3eb2076 1-90
+perf-cleaner/vendor/github.com/aws/smithy-go/LICENSE
+  s_ac1bc2962a5794::t_473aa7ec291dc5 1-175
+perf-cleaner/vendor/github.com/aws/smithy-go/Makefile
+  s_ac1bc2962a5794::t_9f0ef1617591db 1-130
+perf-cleaner/vendor/github.com/aws/smithy-go/NOTICE
+  s_ac1bc2962a5794::t_52981918141d21 1
+perf-cleaner/vendor/github.com/aws/smithy-go/README.md
+  s_ac1bc2962a5794::t_99295815659ed6 1-105
+perf-cleaner/vendor/github.com/aws/smithy-go/auth/auth.go
+  s_ac1bc2962a5794::t_d525d7e75b3191 1-3
+perf-cleaner/vendor/github.com/aws/smithy-go/auth/bearer/docs.go
+  s_ac1bc2962a5794::t_1d543f58edd3ca 1-3
+perf-cleaner/vendor/github.com/aws/smithy-go/auth/bearer/middleware.go
+  s_ac1bc2962a5794::t_e659437b4ee752 1-104
+perf-cleaner/vendor/github.com/aws/smithy-go/auth/bearer/token.go
+  s_ac1bc2962a5794::t_680f69149f0014 1-50
+perf-cleaner/vendor/github.com/aws/smithy-go/auth/bearer/token_cache.go
+  s_ac1bc2962a5794::t_c6e811b1f4d9da 1-208
+perf-cleaner/vendor/github.com/aws/smithy-go/auth/identity.go
+  s_ac1bc2962a5794::t_db1ebc0cd4dd65 1-47
+perf-cleaner/vendor/github.com/aws/smithy-go/auth/option.go
+  s_ac1bc2962a5794::t_1a1c79549c5d1d 1-25
+perf-cleaner/vendor/github.com/aws/smithy-go/auth/scheme_id.go
+  s_ac1bc2962a5794::t_462c8c6c45df89 1-20
+perf-cleaner/vendor/github.com/aws/smithy-go/changelog-template.json
+  s_ac1bc2962a5794::t_a3f34904b09fba 1-9
+perf-cleaner/vendor/github.com/aws/smithy-go/context/suppress_expired.go
+  s_ac1bc2962a5794::t_17dcadc3366d9c 1-81
+perf-cleaner/vendor/github.com/aws/smithy-go/doc.go
+  s_ac1bc2962a5794::t_462a88aa2bab2d 1-2
+perf-cleaner/vendor/github.com/aws/smithy-go/document.go
+  s_ac1bc2962a5794::t_c1693196c406f2 1-10
+perf-cleaner/vendor/github.com/aws/smithy-go/document/doc.go
+  s_ac1bc2962a5794::t_8a7a03498e2887 1-12
+perf-cleaner/vendor/github.com/aws/smithy-go/document/document.go
+  s_ac1bc2962a5794::t_0570cc1fd4442e 1-239
+perf-cleaner/vendor/github.com/aws/smithy-go/document/errors.go
+  s_ac1bc2962a5794::t_c29934709c1924 1-75
+perf-cleaner/vendor/github.com/aws/smithy-go/encoding/doc.go
+  s_ac1bc2962a5794::t_36e94b5d4b36c2 1-4
+perf-cleaner/vendor/github.com/aws/smithy-go/encoding/encoding.go
+  s_ac1bc2962a5794::t_66e6db2d72304e 1-40
+perf-cleaner/vendor/github.com/aws/smithy-go/encoding/httpbinding/encode.go
+  s_ac1bc2962a5794::t_9c48fbadd13482 1-123
+perf-cleaner/vendor/github.com/aws/smithy-go/encoding/httpbinding/header.go
+  s_ac1bc2962a5794::t_3e99a84cb4b3ad 1-122
+perf-cleaner/vendor/github.com/aws/smithy-go/encoding/httpbinding/path_replace.go
+  s_ac1bc2962a5794::t_15091b0dd98a11 1-108
+perf-cleaner/vendor/github.com/aws/smithy-go/encoding/httpbinding/query.go
+  s_ac1bc2962a5794::t_041d0f65f4f4f5 1-107
+perf-cleaner/vendor/github.com/aws/smithy-go/encoding/httpbinding/uri.go
+  s_ac1bc2962a5794::t_7eb6b9e41910e7 1-111
+perf-cleaner/vendor/github.com/aws/smithy-go/encoding/json/array.go
+  s_ac1bc2962a5794::t_a4e9c9abd24ad1 1-35
+perf-cleaner/vendor/github.com/aws/smithy-go/encoding/json/constants.go
+  s_ac1bc2962a5794::t_e71f2eef4b8dc4 1-15
+perf-cleaner/vendor/github.com/aws/smithy-go/encoding/json/decoder_util.go
+  s_ac1bc2962a5794::t_87f42e7169d885 1-139
+perf-cleaner/vendor/github.com/aws/smithy-go/encoding/json/encoder.go
+  s_ac1bc2962a5794::t_0a7c9ab76ca7e2 1-30
+perf-cleaner/vendor/github.com/aws/smithy-go/encoding/json/escape.go
+  s_ac1bc2962a5794::t_dcf0f9a9b0a910 1-198
+perf-cleaner/vendor/github.com/aws/smithy-go/encoding/json/object.go
+  s_ac1bc2962a5794::t_4a945137929650 1-40
+perf-cleaner/vendor/github.com/aws/smithy-go/encoding/json/value.go
+  s_ac1bc2962a5794::t_deb1e57d2700f1 1-154
+perf-cleaner/vendor/github.com/aws/smithy-go/encoding/xml/array.go
+  s_ac1bc2962a5794::t_b865d088ef0f13 1-49
+perf-cleaner/vendor/github.com/aws/smithy-go/encoding/xml/constants.go
+  s_ac1bc2962a5794::t_028cd178ef78f0 1-10
+perf-cleaner/vendor/github.com/aws/smithy-go/encoding/xml/doc.go
+  s_ac1bc2962a5794::t_59657056890ee4 1-49
+perf-cleaner/vendor/github.com/aws/smithy-go/encoding/xml/element.go
+  s_ac1bc2962a5794::t_adc13031cff257 1-91
+perf-cleaner/vendor/github.com/aws/smithy-go/encoding/xml/encoder.go
+  s_ac1bc2962a5794::t_2e363b425c8ac9 1-51
+perf-cleaner/vendor/github.com/aws/smithy-go/encoding/xml/error_utils.go
+  s_ac1bc2962a5794::t_a196fdbdc05760 1-51
+perf-cleaner/vendor/github.com/aws/smithy-go/encoding/xml/escape.go
+  s_ac1bc2962a5794::t_16ea6fcb47afa7 1-137
+perf-cleaner/vendor/github.com/aws/smithy-go/encoding/xml/map.go
+  s_ac1bc2962a5794::t_81848928a96926 1-53
+perf-cleaner/vendor/github.com/aws/smithy-go/encoding/xml/value.go
+  s_ac1bc2962a5794::t_080c57badbb3fe 1-302
+perf-cleaner/vendor/github.com/aws/smithy-go/encoding/xml/xml_decoder.go
+  s_ac1bc2962a5794::t_72471bac801c72 1-154
+perf-cleaner/vendor/github.com/aws/smithy-go/endpoints/endpoint.go
+  s_ac1bc2962a5794::t_753e2538602595 1-23
+perf-cleaner/vendor/github.com/aws/smithy-go/endpoints/private/bdd/evaluate.go
+  s_ac1bc2962a5794::t_5764741cabaf10 1-35
+perf-cleaner/vendor/github.com/aws/smithy-go/endpoints/private/rulesfn/doc.go
+  s_ac1bc2962a5794::t_ac3bbdfb895b22 1-4
+perf-cleaner/vendor/github.com/aws/smithy-go/endpoints/private/rulesfn/split.go
+  s_ac1bc2962a5794::t_40ce279f6b5854 1-16
+perf-cleaner/vendor/github.com/aws/smithy-go/endpoints/private/rulesfn/string_slice.go
+  s_ac1bc2962a5794::t_8d01581aecc67c 1-18
+perf-cleaner/vendor/github.com/aws/smithy-go/endpoints/private/rulesfn/strings.go
+  s_ac1bc2962a5794::t_01ff5d8bda9e2d 1-25
+perf-cleaner/vendor/github.com/aws/smithy-go/endpoints/private/rulesfn/uri.go
+  s_ac1bc2962a5794::t_dd446a04d3df59 1-133
+perf-cleaner/vendor/github.com/aws/smithy-go/errors.go
+  s_ac1bc2962a5794::t_6f6bbca7955c3e 1-137
+perf-cleaner/vendor/github.com/aws/smithy-go/eventstream/const.go
+  s_ac1bc2962a5794::t_b0ec87ad71a26f 1-24
+perf-cleaner/vendor/github.com/aws/smithy-go/eventstream/debug.go
+  s_ac1bc2962a5794::t_b73e69b6e82130 1-144
+perf-cleaner/vendor/github.com/aws/smithy-go/eventstream/decode.go
+  s_ac1bc2962a5794::t_ab5b47a3ecb240 1-218
+perf-cleaner/vendor/github.com/aws/smithy-go/eventstream/deserializer.go
+  s_ac1bc2962a5794::t_373353539b88a5 1-294
+perf-cleaner/vendor/github.com/aws/smithy-go/eventstream/encode.go
+  s_ac1bc2962a5794::t_36fdefe923399e 1-167
+perf-cleaner/vendor/github.com/aws/smithy-go/eventstream/error.go
+  s_ac1bc2962a5794::t_4b625e7995a73e 1-23
+perf-cleaner/vendor/github.com/aws/smithy-go/eventstream/header.go
+  s_ac1bc2962a5794::t_b3da90f505f69c 1-175
+perf-cleaner/vendor/github.com/aws/smithy-go/eventstream/header_value.go
+  s_ac1bc2962a5794::t_0f0f97a062cfdd 1-521
+perf-cleaner/vendor/github.com/aws/smithy-go/eventstream/message.go
+  s_ac1bc2962a5794::t_91afbbfd63ccab 1-99
+perf-cleaner/vendor/github.com/aws/smithy-go/eventstream/serializer.go
+  s_ac1bc2962a5794::t_24cf58bf2ed3dc 1-228
+perf-cleaner/vendor/github.com/aws/smithy-go/eventstream/signer.go
+  s_ac1bc2962a5794::t_4c6f3aaf09edee 1-82
+perf-cleaner/vendor/github.com/aws/smithy-go/eventstream/types.go
+  s_ac1bc2962a5794::t_08aeafdaeb3711 1-26
+perf-cleaner/vendor/github.com/aws/smithy-go/go_module_metadata.go
+  s_ac1bc2962a5794::t_075741da73b826 1-6
+perf-cleaner/vendor/github.com/aws/smithy-go/internal/sync/singleflight/LICENSE
+  s_ac1bc2962a5794::t_f646ea11a2a00d 1-28
+perf-cleaner/vendor/github.com/aws/smithy-go/internal/sync/singleflight/docs.go
+  s_ac1bc2962a5794::t_f3d1192e16411f 1-8
+perf-cleaner/vendor/github.com/aws/smithy-go/internal/sync/singleflight/singleflight.go
+  s_ac1bc2962a5794::t_bfeb2eecc0f6a8 1-210
+perf-cleaner/vendor/github.com/aws/smithy-go/io/byte.go
+  s_ac1bc2962a5794::t_c28ddf17f74a9c 1-12
+perf-cleaner/vendor/github.com/aws/smithy-go/io/doc.go
+  s_ac1bc2962a5794::t_770c77aadf5d0e 1-2
+perf-cleaner/vendor/github.com/aws/smithy-go/io/reader.go
+  s_ac1bc2962a5794::t_7b0ddc42588f98 1-16
+perf-cleaner/vendor/github.com/aws/smithy-go/io/ringbuffer.go
+  s_ac1bc2962a5794::t_65cd02e4dfae83 1-94
+perf-cleaner/vendor/github.com/aws/smithy-go/local-mod-replace.sh
+  s_ac1bc2962a5794::t_324efc948d54cb 1-39
+perf-cleaner/vendor/github.com/aws/smithy-go/logging/logger.go
+  s_ac1bc2962a5794::t_e0eea0c8e2fee3 1-82
+perf-cleaner/vendor/github.com/aws/smithy-go/metrics/metrics.go
+  s_ac1bc2962a5794::t_b3d0ec32335611 1-136
+perf-cleaner/vendor/github.com/aws/smithy-go/metrics/nop.go
+  s_ac1bc2962a5794::t_c0e24306649056 1-98
+perf-cleaner/vendor/github.com/aws/smithy-go/middleware/context.go
+  s_ac1bc2962a5794::t_cbc1ccad5e0c89 1-41
+perf-cleaner/vendor/github.com/aws/smithy-go/middleware/doc.go
+  s_ac1bc2962a5794::t_f0547380a27e57 1-67
+perf-cleaner/vendor/github.com/aws/smithy-go/middleware/eventstream_middleware.go
+  s_ac1bc2962a5794::t_78c81550c4404b 1-21
+perf-cleaner/vendor/github.com/aws/smithy-go/middleware/logging.go
+  s_ac1bc2962a5794::t_4ce0c523b66f35 1-46
+perf-cleaner/vendor/github.com/aws/smithy-go/middleware/metadata.go
+  s_ac1bc2962a5794::t_a013b68a89d5f4 1-65
+perf-cleaner/vendor/github.com/aws/smithy-go/middleware/middleware.go
+  s_ac1bc2962a5794::t_a7e4876977f154 1-71
+perf-cleaner/vendor/github.com/aws/smithy-go/middleware/ordered_group.go
+  s_ac1bc2962a5794::t_b446370d5cce89 1-270
+perf-cleaner/vendor/github.com/aws/smithy-go/middleware/stack.go
+  s_ac1bc2962a5794::t_954755c16a2ce2 1-209
+perf-cleaner/vendor/github.com/aws/smithy-go/middleware/stack_values.go
+  s_ac1bc2962a5794::t_e300b29d386874 1-100
+perf-cleaner/vendor/github.com/aws/smithy-go/middleware/step_build.go
+  s_ac1bc2962a5794::t_3968112c32d46f 1-298
+perf-cleaner/vendor/github.com/aws/smithy-go/middleware/step_deserialize.go
+  s_ac1bc2962a5794::t_f7c21118654b61 1-300
+perf-cleaner/vendor/github.com/aws/smithy-go/middleware/step_finalize.go
+  s_ac1bc2962a5794::t_a678f315fc0148 1-298
+perf-cleaner/vendor/github.com/aws/smithy-go/middleware/step_initialize.go
+  s_ac1bc2962a5794::t_b61e0dfaa6775c 1-299
+perf-cleaner/vendor/github.com/aws/smithy-go/middleware/step_serialize.go
+  s_ac1bc2962a5794::t_1060f9ef7bca11 1-305
+perf-cleaner/vendor/github.com/aws/smithy-go/modman.toml
+  s_ac1bc2962a5794::t_09c46cab70959b 1-9
+perf-cleaner/vendor/github.com/aws/smithy-go/private/requestcompression/gzip.go
+  s_ac1bc2962a5794::t_76804beff01ef4 1-30
+perf-cleaner/vendor/github.com/aws/smithy-go/private/requestcompression/middleware_capture_request_compression.go
+  s_ac1bc2962a5794::t_d955448b541fb6 1-52
+perf-cleaner/vendor/github.com/aws/smithy-go/private/requestcompression/request_compression.go
+  s_ac1bc2962a5794::t_2304534578a8f7 1-103
+perf-cleaner/vendor/github.com/aws/smithy-go/properties.go
+  s_ac1bc2962a5794::t_17f6ac9bb53fd9 1-69
+perf-cleaner/vendor/github.com/aws/smithy-go/ptr/doc.go
+  s_ac1bc2962a5794::t_1f805fb26dd22d 1-5
+perf-cleaner/vendor/github.com/aws/smithy-go/ptr/from_ptr.go
+  s_ac1bc2962a5794::t_9d556dea17fffd 1-601
+perf-cleaner/vendor/github.com/aws/smithy-go/ptr/gen_scalars.go
+  s_ac1bc2962a5794::t_3c4d7f7e988d44 1-83
+perf-cleaner/vendor/github.com/aws/smithy-go/ptr/to_ptr.go
+  s_ac1bc2962a5794::t_a994320adc6af8 1-499
+perf-cleaner/vendor/github.com/aws/smithy-go/rand/doc.go
+  s_ac1bc2962a5794::t_189af2836b40a1 1-3
+perf-cleaner/vendor/github.com/aws/smithy-go/rand/rand.go
+  s_ac1bc2962a5794::t_ce2106e49ad664 1-31
+perf-cleaner/vendor/github.com/aws/smithy-go/rand/uuid.go
+  s_ac1bc2962a5794::t_0aae5ae4d22af2 1-87
+perf-cleaner/vendor/github.com/aws/smithy-go/schema.go
+  s_ac1bc2962a5794::t_4e16c390cc6416 1-328
+perf-cleaner/vendor/github.com/aws/smithy-go/schema_ext.go
+  s_ac1bc2962a5794::t_a9cb9ab283913b 1-37
+perf-cleaner/vendor/github.com/aws/smithy-go/serde.go
+  s_ac1bc2962a5794::t_d6d777741dee34 1-229
+perf-cleaner/vendor/github.com/aws/smithy-go/sync/error.go
+  s_ac1bc2962a5794::t_120e8bc875dea7 1-53
+perf-cleaner/vendor/github.com/aws/smithy-go/time/time.go
+  s_ac1bc2962a5794::t_5c92f07a12a525 1-134
+perf-cleaner/vendor/github.com/aws/smithy-go/tracing/context.go
+  s_ac1bc2962a5794::t_f70497c1e93299 1-96
+perf-cleaner/vendor/github.com/aws/smithy-go/tracing/nop.go
+  s_ac1bc2962a5794::t_a1fd1221847871 1-32
+perf-cleaner/vendor/github.com/aws/smithy-go/tracing/tracing.go
+  s_ac1bc2962a5794::t_450acf8d5cb65c 1-95
+perf-cleaner/vendor/github.com/aws/smithy-go/trait.go
+  s_ac1bc2962a5794::t_38c5f9fc653bb9 1-21
+perf-cleaner/vendor/github.com/aws/smithy-go/traits/http.go
+  s_ac1bc2962a5794::t_7471b5d8a33399 1-69
+perf-cleaner/vendor/github.com/aws/smithy-go/traits/index.go
+  s_ac1bc2962a5794::t_28264682f1ae26 1-107
+perf-cleaner/vendor/github.com/aws/smithy-go/traits/serde.go
+  s_ac1bc2962a5794::t_58033861a846d5 1-56
+perf-cleaner/vendor/github.com/aws/smithy-go/traits/traits.go
+  s_ac1bc2962a5794::t_b327de98133d47 1-72
+perf-cleaner/vendor/github.com/aws/smithy-go/transport/http/auth.go
+  s_ac1bc2962a5794::t_7e032245968989 1-30
+perf-cleaner/vendor/github.com/aws/smithy-go/transport/http/auth_schemes.go
+  s_ac1bc2962a5794::t_89a288e2b59efc 1-45
+perf-cleaner/vendor/github.com/aws/smithy-go/transport/http/checksum_middleware.go
+  s_ac1bc2962a5794::t_28295e3a7d5e5b 1-70
+perf-cleaner/vendor/github.com/aws/smithy-go/transport/http/client.go
+  s_ac1bc2962a5794::t_1656330ad6f07d 1-161
+perf-cleaner/vendor/github.com/aws/smithy-go/transport/http/doc.go
+  s_ac1bc2962a5794::t_87cee193874639 1-5
+perf-cleaner/vendor/github.com/aws/smithy-go/transport/http/eventstream.go
+  s_ac1bc2962a5794::t_5ef44716fdd737 1-209
+perf-cleaner/vendor/github.com/aws/smithy-go/transport/http/eventstream_middleware.go
+  s_ac1bc2962a5794::t_4dff00d8b68e9e 1-69
+perf-cleaner/vendor/github.com/aws/smithy-go/transport/http/headerlist.go
+  s_ac1bc2962a5794::t_fe336297e6d0d5 1-163
+perf-cleaner/vendor/github.com/aws/smithy-go/transport/http/host.go
+  s_ac1bc2962a5794::t_cb6dca57ac6817 1-89
+perf-cleaner/vendor/github.com/aws/smithy-go/transport/http/interceptor.go
+  s_ac1bc2962a5794::t_93b4c78033018d 1-321
+perf-cleaner/vendor/github.com/aws/smithy-go/transport/http/interceptor_middleware.go
+  s_ac1bc2962a5794::t_6ec47f2f7c7d36 1-325
+perf-cleaner/vendor/github.com/aws/smithy-go/transport/http/internal/io/safe.go
+  s_ac1bc2962a5794::t_2fc0b27e083641 1-75
+perf-cleaner/vendor/github.com/aws/smithy-go/transport/http/md5_checksum.go
+  s_ac1bc2962a5794::t_96b4bf9f152bd0 1-25
+perf-cleaner/vendor/github.com/aws/smithy-go/transport/http/metrics.go
+  s_ac1bc2962a5794::t_8f12429600d9fb 1-204
+perf-cleaner/vendor/github.com/aws/smithy-go/transport/http/middleware_close_response_body.go
+  s_ac1bc2962a5794::t_cdbf57efb29e95 1-79
+perf-cleaner/vendor/github.com/aws/smithy-go/transport/http/middleware_content_length.go
+  s_ac1bc2962a5794::t_a230cb52284263 1-84
+perf-cleaner/vendor/github.com/aws/smithy-go/transport/http/middleware_header_comment.go
+  s_ac1bc2962a5794::t_45bb4f8542087a 1-81
+perf-cleaner/vendor/github.com/aws/smithy-go/transport/http/middleware_headers.go
+  s_ac1bc2962a5794::t_85f6412d0d61e1 1-167
+perf-cleaner/vendor/github.com/aws/smithy-go/transport/http/middleware_http_logging.go
+  s_ac1bc2962a5794::t_1579a5ce1a30f1 1-75
+perf-cleaner/vendor/github.com/aws/smithy-go/transport/http/middleware_metadata.go
+  s_ac1bc2962a5794::t_6581b6f627e63a 1-51
+perf-cleaner/vendor/github.com/aws/smithy-go/transport/http/middleware_min_proto.go
+  s_ac1bc2962a5794::t_75b0d5e4d1bcb8 1-79
+perf-cleaner/vendor/github.com/aws/smithy-go/transport/http/properties.go
+  s_ac1bc2962a5794::t_0be840ddbd91c1 1-80
+perf-cleaner/vendor/github.com/aws/smithy-go/transport/http/protocol.go
+  s_ac1bc2962a5794::t_4ffb82095020bc 1-27
+perf-cleaner/vendor/github.com/aws/smithy-go/transport/http/request.go
+  s_ac1bc2962a5794::t_8d90ad394dac17 1-188
+perf-cleaner/vendor/github.com/aws/smithy-go/transport/http/response.go
+  s_ac1bc2962a5794::t_0bfcef3a2f17a3 1-34
+perf-cleaner/vendor/github.com/aws/smithy-go/transport/http/time.go
+  s_ac1bc2962a5794::t_d204228c40fe4e 1-13
+perf-cleaner/vendor/github.com/aws/smithy-go/transport/http/url.go
+  s_ac1bc2962a5794::t_74247e00a05979 1-44
+perf-cleaner/vendor/github.com/aws/smithy-go/transport/http/user_agent.go
+  s_ac1bc2962a5794::t_7f3e00177747b0 1-37
+perf-cleaner/vendor/github.com/aws/smithy-go/type_registry.go
+  s_ac1bc2962a5794::t_2d043452f08f1f 1-70
+perf-cleaner/vendor/github.com/aws/smithy-go/validation.go
+  s_ac1bc2962a5794::t_8c239b938be058 1-140
+perf-cleaner/vendor/github.com/jackc/pgpassfile/.travis.yml
+  s_ac1bc2962a5794::t_2bcef20bbb3bae 1-9
+perf-cleaner/vendor/github.com/jackc/pgpassfile/LICENSE
+  s_ac1bc2962a5794::t_91049bd7128585 1-22
+perf-cleaner/vendor/github.com/jackc/pgpassfile/README.md
+  s_ac1bc2962a5794::t_7a5ffaefe51ef8 1-8
+perf-cleaner/vendor/github.com/jackc/pgpassfile/pgpass.go
+  s_ac1bc2962a5794::t_6f1d0c25697364 1-110
+perf-cleaner/vendor/github.com/jackc/pgservicefile/LICENSE
+  s_ac1bc2962a5794::t_375ab99ef7d5dc 1-22
+perf-cleaner/vendor/github.com/jackc/pgservicefile/README.md
+  s_ac1bc2962a5794::t_8099a3a795ba0f 1-7
+perf-cleaner/vendor/github.com/jackc/pgservicefile/pgservicefile.go
+  s_ac1bc2962a5794::t_0895c955758e26 1-81
+perf-cleaner/vendor/github.com/jackc/pgx/v5/.gitignore
+  s_ac1bc2962a5794::t_8b127ca83fdc02 1-27
+perf-cleaner/vendor/github.com/jackc/pgx/v5/.golangci.yml
+  s_ac1bc2962a5794::t_278f007c083760 1-28
+perf-cleaner/vendor/github.com/jackc/pgx/v5/CHANGELOG.md
+  s_ac1bc2962a5794::t_80ab11ea52af09 1-605
+perf-cleaner/vendor/github.com/jackc/pgx/v5/CLAUDE.md
+  s_ac1bc2962a5794::t_303efe0a6fa03d 1-73
+perf-cleaner/vendor/github.com/jackc/pgx/v5/CONTRIBUTING.md
+  s_ac1bc2962a5794::t_789d2da873c96f 1-139
+perf-cleaner/vendor/github.com/jackc/pgx/v5/LICENSE
+  s_ac1bc2962a5794::t_13ecb5f0653f17 1-22
+perf-cleaner/vendor/github.com/jackc/pgx/v5/README.md
+  s_ac1bc2962a5794::t_2ac4545a174cac 1-192
+perf-cleaner/vendor/github.com/jackc/pgx/v5/Rakefile
+  s_ac1bc2962a5794::t_4f3618c0795b0c 1-18
+perf-cleaner/vendor/github.com/jackc/pgx/v5/batch.go
+  s_ac1bc2962a5794::t_df01f05f97c616 1-537
+perf-cleaner/vendor/github.com/jackc/pgx/v5/conn.go
+  s_ac1bc2962a5794::t_389b74897cad2f 1-1472
+perf-cleaner/vendor/github.com/jackc/pgx/v5/copy_from.go
+  s_ac1bc2962a5794::t_b0c632e211ba33 1-276
+perf-cleaner/vendor/github.com/jackc/pgx/v5/derived_types.go
+  s_ac1bc2962a5794::t_0c1c3f3aa08d49 1-261
+perf-cleaner/vendor/github.com/jackc/pgx/v5/doc.go
+  s_ac1bc2962a5794::t_d9f9d1c696b219 1-220
+perf-cleaner/vendor/github.com/jackc/pgx/v5/extended_query_builder.go
+  s_ac1bc2962a5794::t_3978bf3d20ab71 1-146
+perf-cleaner/vendor/github.com/jackc/pgx/v5/internal/iobufpool/iobufpool.go
+  s_ac1bc2962a5794::t_f47f9c4cad549b 1-78
+perf-cleaner/vendor/github.com/jackc/pgx/v5/internal/pgio/README.md
+  s_ac1bc2962a5794::t_dbdaa98f3addf1 1-6
+perf-cleaner/vendor/github.com/jackc/pgx/v5/internal/pgio/doc.go
+  s_ac1bc2962a5794::t_25fa9e471cb38b 1-6
+perf-cleaner/vendor/github.com/jackc/pgx/v5/internal/pgio/write.go
+  s_ac1bc2962a5794::t_3d5ca9148d950c 1-32
+perf-cleaner/vendor/github.com/jackc/pgx/v5/internal/sanitize/benchmark.sh
+  s_ac1bc2962a5794::t_8c56485ce8ffc6 1-60
+perf-cleaner/vendor/github.com/jackc/pgx/v5/internal/sanitize/sanitize.go
+  s_ac1bc2962a5794::t_adb186fe302d4f 1-541
+perf-cleaner/vendor/github.com/jackc/pgx/v5/internal/stmtcache/lru_cache.go
+  s_ac1bc2962a5794::t_7788ac87ff1e06 1-187
+perf-cleaner/vendor/github.com/jackc/pgx/v5/internal/stmtcache/stmtcache.go
+  s_ac1bc2962a5794::t_0628494cb5e294 1-45
+perf-cleaner/vendor/github.com/jackc/pgx/v5/large_objects.go
+  s_ac1bc2962a5794::t_57d9779fac0947 1-161
+perf-cleaner/vendor/github.com/jackc/pgx/v5/mise.toml
+  s_ac1bc2962a5794::t_333994a0f477db 1-8
+perf-cleaner/vendor/github.com/jackc/pgx/v5/named_args.go
+  s_ac1bc2962a5794::t_de69a7668751ed 1-410
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgconn/README.md
+  s_ac1bc2962a5794::t_4b5b538da787b1 1-29
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgconn/auth_oauth.go
+  s_ac1bc2962a5794::t_52d2cbb055c75b 1-67
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgconn/auth_scram.go
+  s_ac1bc2962a5794::t_c9bd42a4bcb611 1-407
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgconn/config.go
+  s_ac1bc2962a5794::t_523b8d94856b80 1-1088
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgconn/ctxwatch/context_watcher.go
+  s_ac1bc2962a5794::t_0afb1aa36fd0f0 1-72
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgconn/defaults.go
+  s_ac1bc2962a5794::t_e055091785c14e 1-63
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgconn/defaults_windows.go
+  s_ac1bc2962a5794::t_7d2703277b2a8a 1-57
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgconn/doc.go
+  s_ac1bc2962a5794::t_5d09b267a71b3a 1-64
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgconn/errors.go
+  s_ac1bc2962a5794::t_ad9de19597eee7 1-287
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgconn/internal/bgreader/bgreader.go
+  s_ac1bc2962a5794::t_4d2b8e165e3741 1-139
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgconn/krb5.go
+  s_ac1bc2962a5794::t_d790696f1086d4 1-100
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgconn/pgconn.go
+  s_ac1bc2962a5794::t_3b71d7d80a5cb2 1-3042
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgconn/require_auth.go
+  s_ac1bc2962a5794::t_3d119c7bfc82f2 1-146
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgproto3/README.md
+  s_ac1bc2962a5794::t_5ebfffb4ee0f2b 1-7
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgproto3/authentication_cleartext_password.go
+  s_ac1bc2962a5794::t_cac58a8e98c467 1-50
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgproto3/authentication_gss.go
+  s_ac1bc2962a5794::t_80373014465c5b 1-58
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgproto3/authentication_gss_continue.go
+  s_ac1bc2962a5794::t_5d4a889f69f4e6 1-67
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgproto3/authentication_md5_password.go
+  s_ac1bc2962a5794::t_23cfa426a93ac7 1-76
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgproto3/authentication_ok.go
+  s_ac1bc2962a5794::t_ff48598fcab5f8 1-50
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgproto3/authentication_sasl.go
+  s_ac1bc2962a5794::t_6ed10e29555e8b 1-73
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgproto3/authentication_sasl_continue.go
+  s_ac1bc2962a5794::t_ef69048eaec78e 1-75
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgproto3/authentication_sasl_final.go
+  s_ac1bc2962a5794::t_9bf285baacb144 1-75
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgproto3/backend.go
+  s_ac1bc2962a5794::t_35596dcffb3c4c 1-299
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgproto3/backend_key_data.go
+  s_ac1bc2962a5794::t_a22b4624f26c5f 1-71
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgproto3/big_endian.go
+  s_ac1bc2962a5794::t_eba464499c1ff7 1-37
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgproto3/bind.go
+  s_ac1bc2962a5794::t_53b6c9598f1b38 1-223
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgproto3/bind_complete.go
+  s_ac1bc2962a5794::t_5228490194c761 1-34
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgproto3/cancel_request.go
+  s_ac1bc2962a5794::t_fc234b826a2c07 1-85
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgproto3/chunkreader.go
+  s_ac1bc2962a5794::t_a002da3f1c7d60 1-90
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgproto3/close.go
+  s_ac1bc2962a5794::t_8a8328dcf090e3 1-81
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgproto3/close_complete.go
+  s_ac1bc2962a5794::t_2a2bd202fead6e 1-34
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgproto3/command_complete.go
+  s_ac1bc2962a5794::t_aba22519f81086 1-66
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgproto3/copy_both_response.go
+  s_ac1bc2962a5794::t_006c3d25ee4a64 1-95
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgproto3/copy_data.go
+  s_ac1bc2962a5794::t_cd621162094e22 1-67
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgproto3/copy_done.go
+  s_ac1bc2962a5794::t_d24259cda103e2 1-37
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgproto3/copy_fail.go
+  s_ac1bc2962a5794::t_7a23119433678f 1-49
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgproto3/copy_in_response.go
+  s_ac1bc2962a5794::t_58dd35df8230a7 1-96
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgproto3/copy_out_response.go
+  s_ac1bc2962a5794::t_63c9d7e98b2887 1-96
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgproto3/data_row.go
+  s_ac1bc2962a5794::t_aeddcf1d636e06 1-140
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgproto3/describe.go
+  s_ac1bc2962a5794::t_7ab962414b26c8 1-80
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgproto3/doc.go
+  s_ac1bc2962a5794::t_1e0c82ccbb9088 1-11
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgproto3/empty_query_response.go
+  s_ac1bc2962a5794::t_ece94b38967b63 1-34
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgproto3/error_response.go
+  s_ac1bc2962a5794::t_4f5cb818c97c0f 1-326
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgproto3/execute.go
+  s_ac1bc2962a5794::t_85419b1705b8e5 1-58
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgproto3/flush.go
+  s_ac1bc2962a5794::t_e005501dc36334 1-34
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgproto3/frontend.go
+  s_ac1bc2962a5794::t_e32370805f6059 1-475
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgproto3/function_call.go
+  s_ac1bc2962a5794::t_9a62adf051c7f4 1-124
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgproto3/function_call_response.go
+  s_ac1bc2962a5794::t_c8996f345d70ec 1-97
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgproto3/gss_enc_request.go
+  s_ac1bc2962a5794::t_05f7b3f1dc7172 1-48
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgproto3/gss_response.go
+  s_ac1bc2962a5794::t_cadb1dfc2273e2 1-46
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgproto3/negotiate_protocol_version.go
+  s_ac1bc2962a5794::t_5183841b661b58 1-93
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgproto3/no_data.go
+  s_ac1bc2962a5794::t_8d98aeb934c749 1-34
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgproto3/notice_response.go
+  s_ac1bc2962a5794::t_a026d7f22d1402 1-19
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgproto3/notification_response.go
+  s_ac1bc2962a5794::t_123e8030f09a42 1-71
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgproto3/parameter_description.go
+  s_ac1bc2962a5794::t_ec63ff864ae61d 1-67
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgproto3/parameter_status.go
+  s_ac1bc2962a5794::t_a3379070391294 1-58
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgproto3/parse.go
+  s_ac1bc2962a5794::t_233560e6a4fc20 1-89
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgproto3/parse_complete.go
+  s_ac1bc2962a5794::t_74de5e47f5eda9 1-34
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgproto3/password_message.go
+  s_ac1bc2962a5794::t_79e0ef5a7a32ba 1-49
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgproto3/pgproto3.go
+  s_ac1bc2962a5794::t_b78fe14158bbfb 1-120
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgproto3/portal_suspended.go
+  s_ac1bc2962a5794::t_39b818779ff638 1-34
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgproto3/query.go
+  s_ac1bc2962a5794::t_3699e333d985e4 1-49
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgproto3/ready_for_query.go
+  s_ac1bc2962a5794::t_8cd1d8995d88cf 1-61
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgproto3/row_description.go
+  s_ac1bc2962a5794::t_5f0207e376821d 1-165
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgproto3/sasl_initial_response.go
+  s_ac1bc2962a5794::t_7f6045cfa217b2 1-93
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgproto3/sasl_response.go
+  s_ac1bc2962a5794::t_624be2b64ac6b9 1-56
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgproto3/ssl_request.go
+  s_ac1bc2962a5794::t_9346496c300561 1-48
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgproto3/startup_message.go
+  s_ac1bc2962a5794::t_b7586b2a159ef6 1-99
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgproto3/sync.go
+  s_ac1bc2962a5794::t_bae5e0e544943d 1-34
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgproto3/terminate.go
+  s_ac1bc2962a5794::t_ff2728c9fda7b2 1-34
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgproto3/trace.go
+  s_ac1bc2962a5794::t_91e65c42e0c5cd 1-416
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgtype/array.go
+  s_ac1bc2962a5794::t_8b311b9236aed1 1-469
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgtype/array_codec.go
+  s_ac1bc2962a5794::t_13945acf80f080 1-428
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgtype/bits.go
+  s_ac1bc2962a5794::t_2df851f09e2696 1-208
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgtype/bool.go
+  s_ac1bc2962a5794::t_826526826ad239 1-346
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgtype/box.go
+  s_ac1bc2962a5794::t_420ea07411bc46 1-235
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgtype/builtin_wrappers.go
+  s_ac1bc2962a5794::t_1cdc46e4eb2862 1-952
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgtype/bytea.go
+  s_ac1bc2962a5794::t_716f6d6ff76bcf 1-254
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgtype/circle.go
+  s_ac1bc2962a5794::t_6371d816347cd1 1-231
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgtype/composite.go
+  s_ac1bc2962a5794::t_05bf14dcc8ca12 1-613
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgtype/convert.go
+  s_ac1bc2962a5794::t_9f0330e7e4f386 1-108
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgtype/date.go
+  s_ac1bc2962a5794::t_687a5f5b512742 1-412
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgtype/doc.go
+  s_ac1bc2962a5794::t_645406389a8669 1-196
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgtype/enum_codec.go
+  s_ac1bc2962a5794::t_be8810eb885be2 1-109
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgtype/float4.go
+  s_ac1bc2962a5794::t_b8c0ede9bf2f77 1-323
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgtype/float8.go
+  s_ac1bc2962a5794::t_5861507ae9fd29 1-369
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgtype/hstore.go
+  s_ac1bc2962a5794::t_de7f54a11b3f86 1-502
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgtype/inet.go
+  s_ac1bc2962a5794::t_f59fe49a1d5014 1-197
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgtype/int.go
+  s_ac1bc2962a5794::t_4ea829c6e3898c 1-1990
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgtype/int.go.erb
+  s_ac1bc2962a5794::t_1e43558ea89b81 1-551
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgtype/int_test.go.erb
+  s_ac1bc2962a5794::t_58e98f4a977adc 1-93
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgtype/integration_benchmark_test.go.erb
+  s_ac1bc2962a5794::t_3f34a93f453ba6 1-62
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgtype/integration_benchmark_test_gen.sh
+  s_ac1bc2962a5794::t_32e78dba54b27a 1-2
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgtype/interval.go
+  s_ac1bc2962a5794::t_c7e579ac8aa9ff 1-297
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgtype/json.go
+  s_ac1bc2962a5794::t_2a8725d95089ed 1-243
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgtype/jsonb.go
+  s_ac1bc2962a5794::t_9afe43d739cc43 1-129
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgtype/line.go
+  s_ac1bc2962a5794::t_b0f50da0e50d3d 1-223
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgtype/lseg.go
+  s_ac1bc2962a5794::t_d265677032292a 1-235
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgtype/ltree.go
+  s_ac1bc2962a5794::t_6788f7d82e97b5 1-122
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgtype/macaddr.go
+  s_ac1bc2962a5794::t_42eeb87fa08616 1-162
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgtype/multirange.go
+  s_ac1bc2962a5794::t_874bdf3f7aa0bc 1-453
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgtype/numeric.go
+  s_ac1bc2962a5794::t_8b2258acc3df63 1-843
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgtype/path.go
+  s_ac1bc2962a5794::t_ac2fad26064727 1-280
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgtype/pgtype.go
+  s_ac1bc2962a5794::t_5fbab38e99c898 1-2067
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgtype/pgtype_default.go
+  s_ac1bc2962a5794::t_bccf0febf31bd1 1-251
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgtype/point.go
+  s_ac1bc2962a5794::t_8001e14e6ffbb0 1-266
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgtype/polygon.go
+  s_ac1bc2962a5794::t_b3331e6d0b2758 1-261
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgtype/qchar.go
+  s_ac1bc2962a5794::t_c2fe526ce1fd6d 1-163
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgtype/range.go
+  s_ac1bc2962a5794::t_41d105f13c90fb 1-331
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgtype/range_codec.go
+  s_ac1bc2962a5794::t_c2c35f502247d5 1-377
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgtype/record_codec.go
+  s_ac1bc2962a5794::t_d3dddfcde856c6 1-123
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgtype/register_default_pg_types.go
+  s_ac1bc2962a5794::t_18ffdb484a7420 1-35
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgtype/register_default_pg_types_disabled.go
+  s_ac1bc2962a5794::t_0f2a0ff0bae0f2 1-6
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgtype/text.go
+  s_ac1bc2962a5794::t_48018ea36c4946 1-226
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgtype/text_format_only_codec.go
+  s_ac1bc2962a5794::t_a7f984c997222f 1-13
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgtype/tid.go
+  s_ac1bc2962a5794::t_f9384edea7e604 1-240
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgtype/time.go
+  s_ac1bc2962a5794::t_35c74c91f9964b 1-273
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgtype/timestamp.go
+  s_ac1bc2962a5794::t_75586a48ed741a 1-368
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgtype/timestamptz.go
+  s_ac1bc2962a5794::t_5bb0cc8bd54c41 1-370
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgtype/tsvector.go
+  s_ac1bc2962a5794::t_2e0129ae8a3066 1-514
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgtype/uint32.go
+  s_ac1bc2962a5794::t_e668684cd1d9a2 1-352
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgtype/uint64.go
+  s_ac1bc2962a5794::t_992a58edc812f1 1-323
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgtype/uuid.go
+  s_ac1bc2962a5794::t_91379e1888c3ca 1-291
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgtype/xml.go
+  s_ac1bc2962a5794::t_57b3c644235851 1-198
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgxpool/batch_results.go
+  s_ac1bc2962a5794::t_be2ae9d13882d7 1-52
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgxpool/conn.go
+  s_ac1bc2962a5794::t_b14326094fb813 1-133
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgxpool/doc.go
+  s_ac1bc2962a5794::t_cacd7a8576a121 1-27
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgxpool/pool.go
+  s_ac1bc2962a5794::t_9aab2be6842e1b 1-840
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgxpool/rows.go
+  s_ac1bc2962a5794::t_f9c03769d0aad1 1-116
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgxpool/stat.go
+  s_ac1bc2962a5794::t_74e92318776dfa 1-91
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgxpool/tracer.go
+  s_ac1bc2962a5794::t_0178fa032070c4 1-33
+perf-cleaner/vendor/github.com/jackc/pgx/v5/pgxpool/tx.go
+  s_ac1bc2962a5794::t_fee82d3d1820b2 1-83
+perf-cleaner/vendor/github.com/jackc/pgx/v5/rows.go
+  s_ac1bc2962a5794::t_af463aff3faa6c 1-871
+perf-cleaner/vendor/github.com/jackc/pgx/v5/test.sh
+  s_ac1bc2962a5794::t_250cb1dd38e397 1-170
+perf-cleaner/vendor/github.com/jackc/pgx/v5/tracer.go
+  s_ac1bc2962a5794::t_295f9eb0656d78 1-107
+perf-cleaner/vendor/github.com/jackc/pgx/v5/tx.go
+  s_ac1bc2962a5794::t_2e625774d5cc01 1-442
+perf-cleaner/vendor/github.com/jackc/pgx/v5/values.go
+  s_ac1bc2962a5794::t_ed5cb4bc5e70bb 1-63
+perf-cleaner/vendor/github.com/jackc/puddle/v2/CHANGELOG.md
+  s_ac1bc2962a5794::t_1a8dfe3b475714 1-79
+perf-cleaner/vendor/github.com/jackc/puddle/v2/LICENSE
+  s_ac1bc2962a5794::t_ba1a7135d4d2ba 1-22
+perf-cleaner/vendor/github.com/jackc/puddle/v2/README.md
+  s_ac1bc2962a5794::t_3ded9c65571b6c 1-80
+perf-cleaner/vendor/github.com/jackc/puddle/v2/context.go
+  s_ac1bc2962a5794::t_82a363968cb575 1-24
+perf-cleaner/vendor/github.com/jackc/puddle/v2/doc.go
+  s_ac1bc2962a5794::t_c8669cbb1ed782 1-11
+perf-cleaner/vendor/github.com/jackc/puddle/v2/internal/genstack/gen_stack.go
+  s_ac1bc2962a5794::t_732baf8ab425aa 1-85
+perf-cleaner/vendor/github.com/jackc/puddle/v2/internal/genstack/stack.go
+  s_ac1bc2962a5794::t_b2b375631ad6ee 1-39
+perf-cleaner/vendor/github.com/jackc/puddle/v2/log.go
+  s_ac1bc2962a5794::t_8eb30d91b631eb 1-32
+perf-cleaner/vendor/github.com/jackc/puddle/v2/nanotime.go
+  s_ac1bc2962a5794::t_855d7ed3db6b62 1-16
+perf-cleaner/vendor/github.com/jackc/puddle/v2/pool.go
+  s_ac1bc2962a5794::t_fd038cfc141e14 1-710
+perf-cleaner/vendor/github.com/jackc/puddle/v2/resource_list.go
+  s_ac1bc2962a5794::t_3c92c29f98a7a5 1-28
+perf-cleaner/vendor/golang.org/x/sync/LICENSE
+  s_ac1bc2962a5794::t_10ddc9860444f0 1-27
+perf-cleaner/vendor/golang.org/x/sync/PATENTS
+  s_ac1bc2962a5794::t_a49727c252ef4b 1-22
+perf-cleaner/vendor/golang.org/x/sync/semaphore/semaphore.go
+  s_ac1bc2962a5794::t_0779306c023030 1-160
+perf-cleaner/vendor/golang.org/x/text/LICENSE
+  s_ac1bc2962a5794::t_178deceb64bc10 1-27
+perf-cleaner/vendor/golang.org/x/text/PATENTS
+  s_ac1bc2962a5794::t_8a57bb9d743dc2 1-22
+perf-cleaner/vendor/golang.org/x/text/cases/cases.go
+  s_ac1bc2962a5794::t_ec15aa2fd99b8d 1-162
+perf-cleaner/vendor/golang.org/x/text/cases/context.go
+  s_ac1bc2962a5794::t_f21e7f74430651 1-376
+perf-cleaner/vendor/golang.org/x/text/cases/fold.go
+  s_ac1bc2962a5794::t_0303cb8b1c87c3 1-34
+perf-cleaner/vendor/golang.org/x/text/cases/icu.go
+  s_ac1bc2962a5794::t_6891c38018c50b 1-61
+perf-cleaner/vendor/golang.org/x/text/cases/info.go
+  s_ac1bc2962a5794::t_755337ffc3368a 1-82
+perf-cleaner/vendor/golang.org/x/text/cases/map.go
+  s_ac1bc2962a5794::t_cb58e333f2d79f 1-816
+perf-cleaner/vendor/golang.org/x/text/cases/tables10.0.0.go
+  s_ac1bc2962a5794::t_fa60cdeb9a7836 1-2255
+perf-cleaner/vendor/golang.org/x/text/cases/tables11.0.0.go
+  s_ac1bc2962a5794::t_ed982abc7cf27c 1-2316
+perf-cleaner/vendor/golang.org/x/text/cases/tables12.0.0.go
+  s_ac1bc2962a5794::t_ee5c3661b46170 1-2359
+perf-cleaner/vendor/golang.org/x/text/cases/tables13.0.0.go
+  s_ac1bc2962a5794::t_c82b91e4b167f3 1-2399
+perf-cleaner/vendor/golang.org/x/text/cases/tables15.0.0.go
+  s_ac1bc2962a5794::t_fcc1bf6d61f6cd 1-2527
+perf-cleaner/vendor/golang.org/x/text/cases/tables9.0.0.go
+  s_ac1bc2962a5794::t_68fe6954957599 1-2215
+perf-cleaner/vendor/golang.org/x/text/cases/trieval.go
+  s_ac1bc2962a5794::t_3594d41d97f036 1-217
+perf-cleaner/vendor/golang.org/x/text/internal/internal.go
+  s_ac1bc2962a5794::t_eecd330bde3dea 1-49
+perf-cleaner/vendor/golang.org/x/text/internal/language/common.go
+  s_ac1bc2962a5794::t_dddb3cb3212188 1-16
+perf-cleaner/vendor/golang.org/x/text/internal/language/compact.go
+  s_ac1bc2962a5794::t_78ac22c9b33dd1 1-29
+perf-cleaner/vendor/golang.org/x/text/internal/language/compact/compact.go
+  s_ac1bc2962a5794::t_cf5b57e4f507be 1-61
+perf-cleaner/vendor/golang.org/x/text/internal/language/compact/language.go
+  s_ac1bc2962a5794::t_d1e13bd45328c7 1-260
+perf-cleaner/vendor/golang.org/x/text/internal/language/compact/parents.go
+  s_ac1bc2962a5794::t_4b8d9a1d9c6a25 1-120
+perf-cleaner/vendor/golang.org/x/text/internal/language/compact/tables.go
+  s_ac1bc2962a5794::t_ca0011dd56fc12 1-1015
+perf-cleaner/vendor/golang.org/x/text/internal/language/compact/tags.go
+  s_ac1bc2962a5794::t_c85a9a2f89204b 1-91
+perf-cleaner/vendor/golang.org/x/text/internal/language/compose.go
+  s_ac1bc2962a5794::t_9d9103868e363d 1-167
+perf-cleaner/vendor/golang.org/x/text/internal/language/coverage.go
+  s_ac1bc2962a5794::t_37352fe70eed56 1-28
+perf-cleaner/vendor/golang.org/x/text/internal/language/language.go
+  s_ac1bc2962a5794::t_8fe8a5c0f729a9 1-627
+perf-cleaner/vendor/golang.org/x/text/internal/language/lookup.go
+  s_ac1bc2962a5794::t_4993cd4e4c30a9 1-412
+perf-cleaner/vendor/golang.org/x/text/internal/language/match.go
+  s_ac1bc2962a5794::t_613b8496d79ea7 1-226
+perf-cleaner/vendor/golang.org/x/text/internal/language/parse.go
+  s_ac1bc2962a5794::t_fde691906f2b72 1-608
+perf-cleaner/vendor/golang.org/x/text/internal/language/tables.go
+  s_ac1bc2962a5794::t_11103337154aa2 1-3494
+perf-cleaner/vendor/golang.org/x/text/internal/language/tags.go
+  s_ac1bc2962a5794::t_0a7e1bba1a1591 1-48
+perf-cleaner/vendor/golang.org/x/text/internal/match.go
+  s_ac1bc2962a5794::t_f16cbdf93110af 1-67
+perf-cleaner/vendor/golang.org/x/text/internal/tag/tag.go
+  s_ac1bc2962a5794::t_e1653ec81e0073 1-100
+perf-cleaner/vendor/golang.org/x/text/language/coverage.go
+  s_ac1bc2962a5794::t_2cdeed3c3a383a 1-187
+perf-cleaner/vendor/golang.org/x/text/language/doc.go
+  s_ac1bc2962a5794::t_9dc96f21c4eb15 1-98
+perf-cleaner/vendor/golang.org/x/text/language/language.go
+  s_ac1bc2962a5794::t_a9b84e384ae971 1-605
+perf-cleaner/vendor/golang.org/x/text/language/match.go
+  s_ac1bc2962a5794::t_58e67f7bcd75db 1-735
+perf-cleaner/vendor/golang.org/x/text/language/parse.go
+  s_ac1bc2962a5794::t_9da80bfa13f502 1-256
+perf-cleaner/vendor/golang.org/x/text/language/tables.go
+  s_ac1bc2962a5794::t_a510d2d5391c05 1-298
+perf-cleaner/vendor/golang.org/x/text/language/tags.go
+  s_ac1bc2962a5794::t_e9d8bb861f4cc4 1-145
+perf-cleaner/vendor/golang.org/x/text/runes/cond.go
+  s_ac1bc2962a5794::t_f4dfe7c3f930a4 1-187
+perf-cleaner/vendor/golang.org/x/text/runes/runes.go
+  s_ac1bc2962a5794::t_cfff51d10acaa3 1-355
+perf-cleaner/vendor/golang.org/x/text/secure/bidirule/bidirule.go
+  s_ac1bc2962a5794::t_dc7c69865d095e 1-336
+perf-cleaner/vendor/golang.org/x/text/secure/bidirule/bidirule10.0.0.go
+  s_ac1bc2962a5794::t_63119d4a15b5ff 1-11
+perf-cleaner/vendor/golang.org/x/text/secure/bidirule/bidirule9.0.0.go
+  s_ac1bc2962a5794::t_60b3498483acee 1-14
+perf-cleaner/vendor/golang.org/x/text/secure/precis/class.go
+  s_ac1bc2962a5794::t_009baf0294c157 1-36
+perf-cleaner/vendor/golang.org/x/text/secure/precis/context.go
+  s_ac1bc2962a5794::t_4e775abf10000c 1-139
+perf-cleaner/vendor/golang.org/x/text/secure/precis/doc.go
+  s_ac1bc2962a5794::t_bc565fd96a1875 1-14
+perf-cleaner/vendor/golang.org/x/text/secure/precis/nickname.go
+  s_ac1bc2962a5794::t_0c151383b7d9e1 1-72
+perf-cleaner/vendor/golang.org/x/text/secure/precis/options.go
+  s_ac1bc2962a5794::t_0af4ab7c4883c8 1-157
+perf-cleaner/vendor/golang.org/x/text/secure/precis/profile.go
+  s_ac1bc2962a5794::t_001ebd1d6361a9 1-412
+perf-cleaner/vendor/golang.org/x/text/secure/precis/profiles.go
+  s_ac1bc2962a5794::t_01e20169ea5377 1-78
+perf-cleaner/vendor/golang.org/x/text/secure/precis/tables10.0.0.go
+  s_ac1bc2962a5794::t_d79f45d82563dd 1-3889
+perf-cleaner/vendor/golang.org/x/text/secure/precis/tables11.0.0.go
+  s_ac1bc2962a5794::t_839e79a182a89f 1-4016
+perf-cleaner/vendor/golang.org/x/text/secure/precis/tables12.0.0.go
+  s_ac1bc2962a5794::t_89a7a29f08075e 1-4118
+perf-cleaner/vendor/golang.org/x/text/secure/precis/tables13.0.0.go
+  s_ac1bc2962a5794::t_39cd19f314f087 1-4152
+perf-cleaner/vendor/golang.org/x/text/secure/precis/tables15.0.0.go
+  s_ac1bc2962a5794::t_3afdb7f26e58d1 1-4315
+perf-cleaner/vendor/golang.org/x/text/secure/precis/tables9.0.0.go
+  s_ac1bc2962a5794::t_49018d713b7474 1-3790
+perf-cleaner/vendor/golang.org/x/text/secure/precis/transformer.go
+  s_ac1bc2962a5794::t_ed181164652432 1-32
+perf-cleaner/vendor/golang.org/x/text/secure/precis/trieval.go
+  s_ac1bc2962a5794::t_41db6a7dc59b22 1-64
+perf-cleaner/vendor/golang.org/x/text/transform/transform.go
+  s_ac1bc2962a5794::t_6356d50d24443a 1-709
+perf-cleaner/vendor/golang.org/x/text/unicode/bidi/bidi.go
+  s_ac1bc2962a5794::t_80d0b932c246cb 1-359
+perf-cleaner/vendor/golang.org/x/text/unicode/bidi/bracket.go
+  s_ac1bc2962a5794::t_7d95e2fc40df69 1-335
+perf-cleaner/vendor/golang.org/x/text/unicode/bidi/core.go
+  s_ac1bc2962a5794::t_9b7546f85c58f8 1-1071
+perf-cleaner/vendor/golang.org/x/text/unicode/bidi/prop.go
+  s_ac1bc2962a5794::t_bb68788218d1f8 1-206
+perf-cleaner/vendor/golang.org/x/text/unicode/bidi/tables10.0.0.go
+  s_ac1bc2962a5794::t_4410d8069a71a6 1-1815
+perf-cleaner/vendor/golang.org/x/text/unicode/bidi/tables11.0.0.go
+  s_ac1bc2962a5794::t_683e932ff9b1b1 1-1887
+perf-cleaner/vendor/golang.org/x/text/unicode/bidi/tables12.0.0.go
+  s_ac1bc2962a5794::t_2ff2545cd61dc5 1-1923
+perf-cleaner/vendor/golang.org/x/text/unicode/bidi/tables13.0.0.go
+  s_ac1bc2962a5794::t_2e1a10dc03e61e 1-1955
+perf-cleaner/vendor/golang.org/x/text/unicode/bidi/tables15.0.0.go
+  s_ac1bc2962a5794::t_fb521885def18d 1-2042
+perf-cleaner/vendor/golang.org/x/text/unicode/bidi/tables9.0.0.go
+  s_ac1bc2962a5794::t_637b08dc380ba0 1-1781
+perf-cleaner/vendor/golang.org/x/text/unicode/bidi/trieval.go
+  s_ac1bc2962a5794::t_57372149ae2651 1-48
+perf-cleaner/vendor/golang.org/x/text/unicode/norm/composition.go
+  s_ac1bc2962a5794::t_785e07484254d2 1-512
+perf-cleaner/vendor/golang.org/x/text/unicode/norm/forminfo.go
+  s_ac1bc2962a5794::t_b4444cf16a9a22 1-279
+perf-cleaner/vendor/golang.org/x/text/unicode/norm/input.go
+  s_ac1bc2962a5794::t_53f66bfcca924d 1-109
+perf-cleaner/vendor/golang.org/x/text/unicode/norm/iter.go
+  s_ac1bc2962a5794::t_eadf3d9a99cc5f 1-458
+perf-cleaner/vendor/golang.org/x/text/unicode/norm/normalize.go
+  s_ac1bc2962a5794::t_4cb3ecc02b2671 1-610
+perf-cleaner/vendor/golang.org/x/text/unicode/norm/readwriter.go
+  s_ac1bc2962a5794::t_58fc2a6d26f2c6 1-125
+perf-cleaner/vendor/golang.org/x/text/unicode/norm/tables10.0.0.go
+  s_ac1bc2962a5794::t_968a6c75701df1 1-7657
+perf-cleaner/vendor/golang.org/x/text/unicode/norm/tables11.0.0.go
+  s_ac1bc2962a5794::t_4451ca311788b7 1-7693
+perf-cleaner/vendor/golang.org/x/text/unicode/norm/tables12.0.0.go
+  s_ac1bc2962a5794::t_c840590a038e8c 1-7710
+perf-cleaner/vendor/golang.org/x/text/unicode/norm/tables13.0.0.go
+  s_ac1bc2962a5794::t_ae7617807e1eef 1-7760
+perf-cleaner/vendor/golang.org/x/text/unicode/norm/tables15.0.0.go
+  s_ac1bc2962a5794::t_6a7073b8b0ba69 1-7907
+perf-cleaner/vendor/golang.org/x/text/unicode/norm/tables9.0.0.go
+  s_ac1bc2962a5794::t_78f0cd9698039a 1-7637
+perf-cleaner/vendor/golang.org/x/text/unicode/norm/transform.go
+  s_ac1bc2962a5794::t_7846a3a2d73d07 1-88
+perf-cleaner/vendor/golang.org/x/text/unicode/norm/trie.go
+  s_ac1bc2962a5794::t_0625f8dc6b5e0b 1-54
+perf-cleaner/vendor/golang.org/x/text/width/kind_string.go
+  s_ac1bc2962a5794::t_757fbc75a6809a 1-28
+perf-cleaner/vendor/golang.org/x/text/width/tables10.0.0.go
+  s_ac1bc2962a5794::t_9caf60a31b790c 1-1328
+perf-cleaner/vendor/golang.org/x/text/width/tables11.0.0.go
+  s_ac1bc2962a5794::t_1883980a95f2f8 1-1340
+perf-cleaner/vendor/golang.org/x/text/width/tables12.0.0.go
+  s_ac1bc2962a5794::t_8f8ebaa9a58cfe 1-1360
+perf-cleaner/vendor/golang.org/x/text/width/tables13.0.0.go
+  s_ac1bc2962a5794::t_411f0ffa446339 1-1361
+perf-cleaner/vendor/golang.org/x/text/width/tables15.0.0.go
+  s_ac1bc2962a5794::t_eff93df2b74373 1-1367
+perf-cleaner/vendor/golang.org/x/text/width/tables9.0.0.go
+  s_ac1bc2962a5794::t_54b248c8b58d03 1-1296
+perf-cleaner/vendor/golang.org/x/text/width/transform.go
+  s_ac1bc2962a5794::t_d5460ab333623d 1-239
+perf-cleaner/vendor/golang.org/x/text/width/trieval.go
+  s_ac1bc2962a5794::t_9301fdbd1fcb55 1-30
+perf-cleaner/vendor/golang.org/x/text/width/width.go
+  s_ac1bc2962a5794::t_bada010152d080 1-206
+perf-cleaner/vendor/modules.txt
+  s_ac1bc2962a5794::t_7736ab114c5d5f 1-159
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.20",
+  "base_commit_sha": "f847b555cacb3aa1c65dbaf45de9855883f25fcb",
+  "prompts": {},
+  "sessions": {
+    "s_ac1bc2962a5794": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "1d211965-5d05-4a2a-a7b0-bb185f179e10",
+        "model": "claude-opus-5"
+      },
+      "human_author": "muluo <mengchao1027@gmail.com>"
+    }
+  }
+}
