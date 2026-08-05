@@ -138,6 +138,28 @@ docker buildx build --platform linux/arm64 \
 ok "镜像已推送 $IMAGE_URI"
 
 blue "5 · 部署清洗服务（ECS + 目标组 + 监听规则）"
+
+# The same connection string has to serve two drivers. node-postgres accepts
+# `sslmode=no-verify`, which is its own extension; pgx follows libpq strictly
+# and refuses to parse it, so a container handed that value dies on startup
+# with "sslmode is invalid" and crash-loops. `require` is the standard
+# spelling of exactly what no-verify means: encrypt, don't verify the cert.
+#
+# Normalising here rather than changing the shared secret: the secret is also
+# read by the collector Lambda, whose Node driver would start verifying the
+# RDS certificate under `require` and break.
+CLEANER_DB_URL=$(printf '%s' "$DATABASE_URL" | sed -E 's#sslmode=no-verify#sslmode=require#')
+
+# Anything else non-standard stops the deploy here. Finding out from a
+# crash-looping task ten minutes into a rollout is how this check was earned.
+BAD_SSLMODE=$(printf '%s' "$CLEANER_DB_URL" | grep -oE 'sslmode=[^&]+' \
+  | grep -vE '^sslmode=(disable|allow|prefer|require|verify-ca|verify-full)$' || true)
+if [ -n "$BAD_SSLMODE" ]; then
+  echo "  DATABASE_URL 里的 ${BAD_SSLMODE} 不是 libpq 标准值，pgx 无法解析。"
+  echo "  可用值: disable / allow / prefer / require / verify-ca / verify-full"
+  exit 1
+fi
+
 aws cloudformation deploy \
   --template-file "$ROOT/perf-cleaner/template.yaml" \
   --stack-name "$CLEANER_STACK" \
@@ -145,7 +167,7 @@ aws cloudformation deploy \
   --no-fail-on-empty-changeset \
   --parameter-overrides \
     "ImageUri=$IMAGE_URI" \
-    "DatabaseUrl=$DATABASE_URL" \
+    "DatabaseUrl=$CLEANER_DB_URL" \
     "ClusterName=$CLUSTER" \
     "VpcId=$VPC_ID" \
     "SubnetIds=$SUBNETS" \
@@ -155,12 +177,21 @@ aws cloudformation deploy \
     "HostName=$HOST_NAME" \
     "RawLogGroupName=${RAW_LOG_GROUP:-/perf/raw}" \
     "AllowedOrigins=${DASHBOARD_ORIGINS:-}" \
-  | tail -5
+  > /tmp/perf-cfn-deploy.log 2>&1 || { tail -20 /tmp/perf-cfn-deploy.log; exit 1; }
+tail -3 /tmp/perf-cfn-deploy.log
 
-# A stack update that only changes the image leaves the task definition
-# revision in place, so the running task has to be told to pick it up.
-aws ecs update-service --cluster "$CLUSTER" --service zuoye-perf-cleaner-service \
-  --force-new-deployment >/dev/null
+# Only force a rollout when the stack itself did not change. If ImageUri
+# moved, CloudFormation already registered a new task definition and rolled
+# the service — forcing another one just doubles the wait for nothing. The
+# force is still needed when the tag is unchanged (e.g. :latest re-pushed),
+# because then the task definition is byte-identical and ECS sees no reason
+# to restart anything.
+if grep -q "No changes to deploy" /tmp/perf-cfn-deploy.log; then
+  aws ecs update-service --cluster "$CLUSTER" --service zuoye-perf-cleaner-service \
+    --force-new-deployment >/dev/null
+  echo "  栈无变更，已强制拉取同 tag 的新镜像"
+fi
+rm -f /tmp/perf-cfn-deploy.log
 echo "  等待服务稳定..."
 aws ecs wait services-stable --cluster "$CLUSTER" --services zuoye-perf-cleaner-service
 ok "清洗服务已上线"

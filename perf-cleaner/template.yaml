@@ -192,6 +192,18 @@ Resources:
       DesiredCount: !Ref DesiredCount
       TaskDefinition: !Ref TaskDefinition
       HealthCheckGracePeriodSeconds: 30
+      DeploymentConfiguration:
+        # Without the circuit breaker, a task that dies on startup is retried
+        # forever: ECS keeps launching replacements and CloudFormation sits
+        # waiting for a service that will never stabilise. With it, ECS gives
+        # up after a few failures and puts the previous task definition back.
+        DeploymentCircuitBreaker:
+          Enable: true
+          Rollback: true
+        # 100% minimum is what kept the last bad rollout invisible to users:
+        # the new task never became healthy, so the old one was never stopped.
+        MinimumHealthyPercent: 100
+        MaximumPercent: 200
       NetworkConfiguration:
         AwsvpcConfiguration:
           Subnets: !Ref SubnetIds
