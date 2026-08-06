@@ -129,7 +129,12 @@ Resources:
             # Logs Insights。查询 ID 不是资源，GetQueryResults 与 StopQuery
             # 不支持资源级授权，只能写 *；它们仅能读回本账号已发起的查询
             - Effect: Allow
-              Action: logs:StartQuery
+              Action:
+                - logs:StartQuery
+                # list_log_groups 与 search_logs（不指定日志组时）要先枚举
+                # 有哪些组可查。少了它，两个工具在最小权限的函数角色下会
+                # 失败，而在本地宽权限凭证下却跑得通——这个差异掩盖过一次。
+                - logs:DescribeLogGroups
               Resource: !Sub arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:*
             - Effect: Allow
               Action:
@@ -230,7 +235,12 @@ Resources:
               Resource: "*"
 
             - Effect: Allow
-              Action: logs:StartQuery
+              Action:
+                - logs:StartQuery
+                # list_log_groups 与 search_logs（不指定日志组时）要先枚举
+                # 有哪些组可查。少了它，两个工具在最小权限的函数角色下会
+                # 失败，而在本地宽权限凭证下却跑得通——这个差异掩盖过一次。
+                - logs:DescribeLogGroups
               Resource: !Sub arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:*
             - Effect: Allow
               Action:
