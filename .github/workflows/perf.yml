@@ -141,7 +141,10 @@ jobs:
       - name: Deploy the whole chain
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
-          SDK_ALLOWED_ORIGINS: https://zuoye-frontend.pages.dev
+          # Every site that legitimately reports, so none of them logs a CORS
+          # error on each flush. This list does not gate writes — see the
+          # comment in perf-ingest/src/cors.ts.
+          SDK_ALLOWED_ORIGINS: https://zuoye-frontend.pages.dev,https://zuoye-perf-dashboard.pages.dev
           DASHBOARD_ORIGINS: https://zuoye-perf-dashboard.pages.dev
           IMAGE_TAG: ${{ github.sha }}
           # RDS is not publicly accessible and a GitHub runner has no route

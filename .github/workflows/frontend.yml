@@ -29,6 +29,11 @@ jobs:
           node-version: 22
           cache: npm
           cache-dependency-path: frontend/package-lock.json
+      # The frontend installs perf-sdk with file:, and npm links that
+      # directory without building it — dist/ has to exist first.
+      - name: Build the perf SDK
+        working-directory: perf-sdk
+        run: npm ci && npm run build
       - run: npm ci
       - run: npm run typecheck
       - run: npm test
@@ -56,6 +61,9 @@ jobs:
           node-version: 22
           cache: npm
           cache-dependency-path: frontend/package-lock.json
+      - name: Build the perf SDK
+        working-directory: perf-sdk
+        run: npm ci && npm run build
       - run: npm ci
         working-directory: frontend
 
@@ -80,6 +88,10 @@ jobs:
         working-directory: frontend
         env:
           VITE_GO_API_URL: ${{ steps.apis.outputs.go_url }}
+          # Empty disables the SDK entirely (and tree-shakes it out). A PR
+          # preview lives for hours and would otherwise mix its numbers into
+          # the production site's percentiles under the same site name.
+          VITE_INGEST_URL: ""
 
       - name: Publish the preview to Cloudflare Pages
         uses: cloudflare/wrangler-action@v3
