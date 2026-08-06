@@ -1,0 +1,43 @@
+aiops-mcp/tests/searchLogs.test.ts
+  s_ac1bc2962a5794::t_7e1eb64d5272d3 1-138
+aiops-mcp/src/ecsDiscovery.ts
+  s_ac1bc2962a5794::t_9b7bd6a06c1dcc 8-26,41-44,49-52
+aiops-mcp/src/register/readOnly.ts
+  s_ac1bc2962a5794::t_538d5900ccb06d 161-212
+  s_ac1bc2962a5794::t_c95e4752eee063 12,14
+aiops-mcp/src/redact.ts
+  s_ac1bc2962a5794::t_27ba4118069522 46-52
+aiops-mcp/src/tools/insights.ts
+  s_ac1bc2962a5794::t_b2f1256481b550 1-86
+aiops-mcp/src/tools/searchLogs.ts
+  s_ac1bc2962a5794::t_db862952e96d7a 1-105
+aiops-mcp/src/tools/tailLogs.ts
+  s_ac1bc2962a5794::t_21cd9b5d6969cf 3,26,30-36,44-45,65-77,80-84
+  s_ac1bc2962a5794::t_59bcac2f8db28d 85
+aiops-mcp/tests/httpLambda.test.ts
+  s_ac1bc2962a5794::t_ec87ce71488de5 96
+aiops-mcp/src/tools/logGroups.ts
+  s_ac1bc2962a5794::t_b248fa8c783aed 1-65
+aiops-mcp/tests/redact.test.ts
+  s_ac1bc2962a5794::t_8f7f4008c6f6b1 46-58
+aiops-mcp/tests/ecsDiscovery.test.ts
+  s_ac1bc2962a5794::t_e44815550c9185 1-47
+aiops-mcp/tests/serverMode.test.ts
+  s_ac1bc2962a5794::t_ec87ce71488de5 23,26,35,54-56,63
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.21",
+  "base_commit_sha": "a1e0cff80cdf341f98f341621486b5e545a30f12",
+  "prompts": {},
+  "sessions": {
+    "s_ac1bc2962a5794": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "1d211965-5d05-4a2a-a7b0-bb185f179e10",
+        "model": "claude-opus-5"
+      },
+      "human_author": "muluo <mengchao1027@gmail.com>"
+    }
+  }
+}
