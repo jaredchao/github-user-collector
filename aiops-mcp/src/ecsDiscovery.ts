@@ -5,6 +5,25 @@ import {
   ListServicesCommand,
 } from "@aws-sdk/client-ecs";
 
+const serviceNameOf = (arn: string): string => arn.split("/").pop() ?? "";
+
+/**
+ * 从集群里挑出 Go 服务。
+ *
+ * 集群是共享的——性能日志清洗服务也跑在同一个 zuoye-cluster 里。
+ * ListServices 的返回顺序没有任何保证，取第一个会随机指向别的服务，
+ * 于是诊断 go-service 时读到的是另一个服务的日志。这种错不会抛异常，
+ * 只会让结论悄悄变错，比直接失败危险得多。
+ *
+ * 匹配不到就返回 undefined，让调用方以"发现失败"收场，而不是猜一个。
+ */
+export const pickGoService = (
+  serviceArns: readonly string[],
+  wanted: string,
+): string | undefined =>
+  serviceArns.find((arn) => serviceNameOf(arn) === wanted) ??
+  serviceArns.find((arn) => serviceNameOf(arn).includes(wanted));
+
 /**
  * 从 ECS 任务定义里发现 Go 服务的日志组。
  *
@@ -19,11 +38,18 @@ export const discoverGoServiceLogGroup = async (
   region: string,
 ): Promise<string> => {
   const cluster = process.env.AIOPS_ECS_CLUSTER ?? "zuoye-cluster";
+  // 与 metricQueries.ts 的 ecsSpecs 用同一个环境变量和默认值，两边指的
+  // 必须是同一个服务，否则日志和指标会来自不同的东西。
+  const wanted =
+    process.env.AIOPS_ECS_SERVICE_NAME ?? "zuoye-go-service-service";
   const client = new ECSClient({ region });
 
   const serviceArn =
     process.env.AIOPS_ECS_SERVICE ??
-    (await client.send(new ListServicesCommand({ cluster }))).serviceArns?.[0];
+    pickGoService(
+      (await client.send(new ListServicesCommand({ cluster }))).serviceArns ?? [],
+      wanted,
+    );
   if (!serviceArn) return "";
 
   const described = await client.send(

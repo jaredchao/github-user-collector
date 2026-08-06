@@ -43,7 +43,13 @@ const RULES: readonly Rule[] = [
     pattern: /([?&](?:token|key|signature|sig|password|secret|credential)=)[^&\s"']+/gi,
     replace: "$1[REDACTED]",
   },
-  { pattern: /\b[\w.+-]+@[\w-]+\.[\w.-]{2,}\b/g, replace: "[REDACTED_EMAIL]" },
+  // 邮箱。顶级域名必须是字母，否则 perf-sdk@1.0.0 这类 name@version 会被
+  // 当成邮箱抹掉——而 SDK 版本正是排查"哪个客户端版本出的问题"的关键线索。
+  // 过度脱敏不比泄露安全，它只是把代价从隐私换成了诊断能力。
+  {
+    pattern: /\b[\w.+-]+@(?:[\w-]+\.)+[a-zA-Z]{2,}\b/g,
+    replace: "[REDACTED_EMAIL]",
+  },
   // AWS 账号 ID。放在最后：ARN 里的账号段也由这条规则抹掉，而 ARN 的其余
   // 部分（服务、区域、资源名）对诊断有用且不敏感，故保留。
   { pattern: /\b\d{12}\b/g, replace: "[REDACTED_ACCOUNT]" },

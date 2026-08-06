@@ -20,10 +20,10 @@ const WRITE_TOOLS = [
 ];
 
 describe("createServer", () => {
-  it("full 模式装配全部 14 个工具", () => {
+  it("full 模式装配全部 16 个工具", () => {
     const names = toolNamesOf(createServer("full"));
 
-    expect(names).toHaveLength(14);
+    expect(names).toHaveLength(16);
     for (const tool of WRITE_TOOLS) {
       expect(names, `full 模式应当有 ${tool}`).toContain(tool);
     }
@@ -32,7 +32,7 @@ describe("createServer", () => {
   it("read-only 模式一个写工具都不能有——这是公网端点的安全前提", () => {
     const names = toolNamesOf(createServer("read-only"));
 
-    expect(names).toHaveLength(9);
+    expect(names).toHaveLength(11);
     for (const tool of WRITE_TOOLS) {
       expect(names, `read-only 模式绝不能暴露 ${tool}`).not.toContain(tool);
     }
@@ -51,12 +51,15 @@ describe("createServer", () => {
       "get_metrics",
       "check_ready",
       "list_restore_points",
+      // 通用日志查询：不受预设 target 限制，新组件不用改代码就能被查到
+      "list_log_groups",
+      "search_logs",
     ]) {
       expect(names, `read-only 模式应当保留 ${tool}`).toContain(tool);
     }
   });
 
   it("默认是 full——本地用得最多，不该每次都传参", () => {
-    expect(toolNamesOf(createServer())).toHaveLength(14);
+    expect(toolNamesOf(createServer())).toHaveLength(16);
   });
 });

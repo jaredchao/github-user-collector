@@ -93,7 +93,7 @@ describe("httpLambda handler", () => {
 
     expect(response.statusCode).toBe(200);
     const tools = JSON.parse(response.body).result.tools as unknown[];
-    expect(tools).toHaveLength(9);
+    expect(tools).toHaveLength(11);
   });
 
   it("公网端点一个写工具都不暴露", async () => {

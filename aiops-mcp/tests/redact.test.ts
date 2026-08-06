@@ -43,6 +43,19 @@ describe("redact", () => {
     expect(result).toContain("page=2");
   });
 
+  // 版本号长得像邮箱，但抹掉它就看不出是哪个客户端版本在出问题——
+  // 过度脱敏不比泄露安全，只是把代价从隐私换成了诊断能力。
+  it("不把 name@version 当成邮箱", () => {
+    for (const sample of [
+      '{"sdk":"perf-sdk@1.0.0"}',
+      "@zuoye/perf-sdk@1.0.0",
+      "node@22.11.0",
+      "react@18.3.1",
+    ]) {
+      expect(redact(sample), sample).toBe(sample);
+    }
+  });
+
   it("抹掉邮箱", () => {
     expect(redact("user oncall@example.com failed")).not.toContain("oncall@example.com");
   });

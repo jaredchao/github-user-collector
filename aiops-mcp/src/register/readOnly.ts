@@ -9,7 +9,9 @@ import { diagnose } from "../tools/diagnose.js";
 import { queueDepth } from "../tools/dlqDepth.js";
 import { listAlarms } from "../tools/listAlarms.js";
 import { getMetrics } from "../tools/metrics.js";
+import { listLogGroups } from "../tools/logGroups.js";
 import { listRestorePoints } from "../tools/restoreTool.js";
+import { searchLogs } from "../tools/searchLogs.js";
 import { tailLogs } from "../tools/tailLogs.js";
 import { readOnly } from "./shared.js";
 
@@ -151,6 +153,58 @@ export const registerReadOnlyTools = (server: McpServer): void => {
     async ({ target, minutes, pattern, limit }) =>
       guard(async () => {
         const result = await tailLogs(target, minutes, pattern, limit);
+        return ok(result.summary, result);
+      }),
+  );
+
+  server.registerTool(
+    "list_log_groups",
+    {
+      title: "列出账号里的日志组",
+      description:
+        "返回全部日志组及其保留期与占用大小。tail_logs 只覆盖三个核心组件，" +
+        "这里能看到系统里实际存在的所有日志来源——包括后来长出来的新组件。" +
+        "配合 search_logs 用：先看有什么，再决定查哪个。",
+      inputSchema: {
+        prefix: z
+          .string()
+          .optional()
+          .describe("按前缀过滤，例如 /perf 或 /aws/lambda/zuoye-collector"),
+      },
+      annotations: readOnly,
+    },
+    async ({ prefix }) =>
+      guard(async () => {
+        const result = await listLogGroups(prefix);
+        return ok(result.summary, result);
+      }),
+  );
+
+  server.registerTool(
+    "search_logs",
+    {
+      title: "跨任意日志组查日志",
+      description:
+        "在指定日志组（留空则全部）里查最近的日志，返回结果标明每条来自哪个组。" +
+        "tail_logs 的通用版：不受预设 target 限制，能查到账号里任何日志。" +
+        "pattern 留空时不过滤，用来确认某个组件到底有没有在写日志。查询需要几秒。",
+      inputSchema: {
+        logGroups: z
+          .array(z.string())
+          .optional()
+          .describe("要查的日志组名，留空表示查全部（先用 list_log_groups 看有哪些）"),
+        pattern: z
+          .string()
+          .optional()
+          .describe("正则模式，留空则不过滤、返回窗口内最近的记录"),
+        minutes: z.number().int().min(1).max(1440).default(30).describe("回溯多少分钟"),
+        limit: z.number().int().min(1).max(100).default(20).describe("最多返回几条"),
+      },
+      annotations: readOnly,
+    },
+    async ({ logGroups, pattern, minutes, limit }) =>
+      guard(async () => {
+        const result = await searchLogs({ logGroups, pattern, minutes, limit });
         return ok(result.summary, result);
       }),
   );
